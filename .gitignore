@@ -1,0 +1,24 @@
+# IDE NetBeans
+nbproject/private/
+build/
+dist/
+nbbuild/
+.nb-gradle/
+
+# Archivos compilados Java
+*.class
+
+# Bases de datos y archivos generados automáticamente por la app
+sportactivity.db
+avatars/
+
+# Archivos de Sistema (Mac y Windows)
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+$RECYCLE.BIN/
+
+# Otros
+*.log
