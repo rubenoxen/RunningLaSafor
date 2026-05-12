@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="200.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="runninglasafor.controllers.ElevationProfileController">
+   <children>
+      <LineChart fx:id="elevationChart" createSymbols="false" legendVisible="false" animated="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <xAxis>
+          <NumberAxis fx:id="xAxis" label="Distancia (km)" side="BOTTOM" autoRanging="true"/>
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="yAxis" label="Altitud (m)" side="LEFT" autoRanging="true"/>
+        </yAxis>
+      </LineChart>
+   </children>
+</AnchorPane>
