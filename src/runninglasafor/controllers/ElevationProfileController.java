@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.input.MouseEvent;
 
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.GeoUtils;
@@ -27,10 +28,11 @@ public class ElevationProfileController {
     @FXML
     private NumberAxis xAxis;
     
+    //mateo tiene q gastar este metodo al cargar un GPX para refrescar la grafica
     public void loadProfileData(Activity activity){
         elevationChart.getData().clear();
         
-        if(activity == null || activity.getTrackPoints().isEmpty()){
+        if (activity == null || activity.getTrackPoints().isEmpty()){
             return;
         }
         
@@ -38,17 +40,25 @@ public class ElevationProfileController {
         List<TrackPoint> trackPoints = activity.getTrackPoints();
         
         double accumlatedDistance = 0.0;
-        TrackPoint prevPoint = trackPoints.get(0);
+        TrackPoint prev = trackPoints.get(0);
         
         for(TrackPoint point : trackPoints) {
-            accumlatedDistance += GeoUtils.distance(prevPoint, point);
+            accumlatedDistance += GeoUtils.distance(prev, point);
             
             series.getData().add(new XYChart.Data<>(accumlatedDistance / 1000.0, point.getElevation()));
             
-            prevPoint = point;
+            prev = point;
         }
         
         elevationChart.getData().add(series);
+        setupHoverInteractivity(trackPoints);
+    }
+    
+    private void setupHoverInteractivity(List<TrackPoint> points) {
+        elevationChart.setOnMouseMoved((MouseEvent e) -> {
+            //ahora cuando lo haga mateo lo meto
+            //le paso la coordenada y el lo pone en el mapa
+        });
     }
     
 }
