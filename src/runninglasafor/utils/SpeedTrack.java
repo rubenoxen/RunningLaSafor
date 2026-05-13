@@ -17,7 +17,7 @@ import javafx.scene.shape.Line;
  * @author rubenpuigmur
  */
 public class SpeedTrack {
-    //mateo, no uses una Polyline, tienes q hacerlo asi
+    //pablo, no uses una Polyline, tienes q hacerlo asi
     //Group ruta = SpeedTrack.createColoredTrack(actividad.getTrackPoints(), tuProyeccion);
     // mapPane.getChildren().add(ruta);
     public static Group createColoredTrack(List<TrackPoint> track, MapProjection proj) {
