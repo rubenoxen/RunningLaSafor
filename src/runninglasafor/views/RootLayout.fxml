@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane fx:id="rootPane" prefHeight="600.0" prefWidth="900.0"
+            stylesheets="@../../resources/estilos.css"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="runninglasafor.controllers.RootLayoutController">
+
+    <bottom>
+        <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Running la Safor" />
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </BorderPane.margin>
+        </HBox>
+    </bottom>
+</BorderPane>
