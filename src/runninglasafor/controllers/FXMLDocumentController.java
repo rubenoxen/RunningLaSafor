@@ -99,6 +99,7 @@ public class FXMLDocumentController implements Initializable {
     // =========================================================
 
     /** Group que se escala para aplicar el zoom. */
+    @FXML
     private Group zoomGroup;
 
     /**
@@ -107,6 +108,7 @@ public class FXMLDocumentController implements Initializable {
      * (textos, círculos, etc.). Sus dimensiones coinciden con las de
      * la imagen cargada.
      */
+    @FXML
     private Pane mapPane;
 
     
@@ -155,6 +157,8 @@ public class FXMLDocumentController implements Initializable {
     private Label mousePosition;
     @FXML
     private SplitPane splitPane;
+    @FXML
+    private Group contentGroup;
  
 
     // =========================================================
