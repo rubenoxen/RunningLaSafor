@@ -19,7 +19,7 @@ import upv.ipc.sportlib.User;
 
 public class RegisterController implements Initializable {
 
-    private static final int MIN_AGE = 16;
+    private static final int MIN_AGE = 12;
 
     @FXML
     private TextField nickField;
@@ -119,7 +119,7 @@ public class RegisterController implements Initializable {
             return "Las contrasenas no coinciden.";
         }
         if (!User.isOlderThan(birth, MIN_AGE)) {
-            return "Debes tener al menos " + MIN_AGE + " anos.";
+            return "Debes tener mas de " + MIN_AGE + " anos.";
         }
         return null;
     }
