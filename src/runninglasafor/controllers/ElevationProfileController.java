@@ -42,16 +42,41 @@ public class ElevationProfileController {
         double accumlatedDistance = 0.0;
         TrackPoint prev = trackPoints.get(0);
         
+        double maxEle = Double.MIN_VALUE;
+        double minEle = Double.MAX_VALUE;
+        double distAtMax = 0;
+        double distAtMin = 0;
+        
         for(TrackPoint point : trackPoints) {
             accumlatedDistance += GeoUtils.distance(prev, point);
+            double distKm = accumlatedDistance / 1000.0;
+            double ele = point.getElevation();
+                      
+            series.getData().add(new XYChart.Data<>(distKm, ele));
             
-            series.getData().add(new XYChart.Data<>(accumlatedDistance / 1000.0, point.getElevation()));
+            if(ele > maxEle){ maxEle = ele; distAtMax = distKm;}
+            if(ele < minEle){ minEle = ele; distAtMin = distKm;}
             
             prev = point;
         }
         
-        elevationChart.getData().add(series);
+        XYChart.Series<Number, Number> maxSeries = new XYChart.Series<>();
+        maxSeries.getData().add(new XYChart.Data<>(distAtMax, maxEle));
+        
+        XYChart.Series<Number, Number> minSeries = new XYChart.Series<>();
+        minSeries.getData().add(new XYChart.Data<>(distAtMin, minEle));
+        
+        elevationChart.setCreateSymbols(true);
+        elevationChart.getData().addAll(series, maxSeries, minSeries);
+        
         setupHoverInteractivity(trackPoints);
+        
+        for (XYChart.Data<Number, Number> data : series.getData()) {
+            data.getNode().setVisible(false);
+        }
+        
+        maxSeries.getNode().setStyle("-fx-stroke: transparent;");
+        minSeries.getNode().setStyle("-fx-stroke: transparent;");
     }
     
     private void setupHoverInteractivity(List<TrackPoint> points) {
