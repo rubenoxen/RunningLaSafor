@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="runninglasafor.controllers.MapViewController">
+   <top>
+      <HBox alignment="CENTER_RIGHT" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Zoom:" />
+            <Button mnemonicParsing="false" onAction="#zoomOut" text="-" />
+            <Slider fx:id="zoomSlider" max="1.5" min="0.5" value="1.0" />
+            <Button mnemonicParsing="false" onAction="#zoomIn" text="+" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="15.0" top="5.0" />
+         </padding>
+      </HBox>
+   </top>
+   <center>
+      <ScrollPane fx:id="mapScrollPane" pannable="true" BorderPane.alignment="CENTER">
+         <content>
+            <Group fx:id="zoomGroup">
+               <children>
+                  <Group fx:id="zoomGroup">
+                     <children>
+                        <Pane fx:id="mapPane">
+                           <children>
+                              <ImageView fx:id="mapImageView" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </Group>
+               </children>
+            </Group>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>
