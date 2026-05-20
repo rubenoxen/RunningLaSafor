@@ -56,7 +56,6 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import mapademo.Poi;
 
 // IMPORTANTE: Asegúrate de que estas rutas son correctas en tu proyecto
 import runninglasafor.utils.SpeedTrack;
