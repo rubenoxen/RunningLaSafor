@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="14.0" xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="runninglasafor.controllers.AccumulatedController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <children>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <children>
+                <Label text="%acc.title" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label text="%acc.period" />
+                <ComboBox fx:id="periodCombo" prefWidth="180.0" />
+            </children>
+        </HBox>
+
+        <GridPane hgap="14.0" vgap="14.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="33.0" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="33.0" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="34.0" />
+            </columnConstraints>
+            <children>
+                <VBox styleClass="stat-card" spacing="4.0"
+                      GridPane.rowIndex="0" GridPane.columnIndex="0">
+                    <padding>
+                        <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
+                    </padding>
+                    <children>
+                        <Label text="%acc.activities" style="-fx-text-fill: #777;" />
+                        <Label fx:id="lblCount" text="0"
+                               style="-fx-font-size: 24; -fx-font-weight: bold;" />
+                    </children>
+                </VBox>
+
+                <VBox styleClass="stat-card" spacing="4.0"
+                      GridPane.rowIndex="0" GridPane.columnIndex="1">
+                    <padding>
+                        <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
+                    </padding>
+                    <children>
+                        <Label text="%acc.distance" style="-fx-text-fill: #777;" />
+                        <Label fx:id="lblDistance" text="0,00 km"
+                               style="-fx-font-size: 24; -fx-font-weight: bold;" />
+                    </children>
+                </VBox>
+
+                <VBox styleClass="stat-card" spacing="4.0"
+                      GridPane.rowIndex="0" GridPane.columnIndex="2">
+                    <padding>
+                        <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
+                    </padding>
+                    <children>
+                        <Label text="%acc.time" style="-fx-text-fill: #777;" />
+                        <Label fx:id="lblTime" text="0h 00min"
+                               style="-fx-font-size: 24; -fx-font-weight: bold;" />
+                    </children>
+                </VBox>
+
+                <VBox styleClass="stat-card" spacing="4.0"
+                      GridPane.rowIndex="1" GridPane.columnIndex="0">
+                    <padding>
+                        <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
+                    </padding>
+                    <children>
+                        <Label text="%acc.gain" style="-fx-text-fill: #777;" />
+                        <Label fx:id="lblGain" text="0 m"
+                               style="-fx-font-size: 24; -fx-font-weight: bold;" />
+                    </children>
+                </VBox>
+
+                <VBox styleClass="stat-card" spacing="4.0"
+                      GridPane.rowIndex="1" GridPane.columnIndex="1">
+                    <padding>
+                        <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
+                    </padding>
+                    <children>
+                        <Label text="%acc.loss" style="-fx-text-fill: #777;" />
+                        <Label fx:id="lblLoss" text="0 m"
+                               style="-fx-font-size: 24; -fx-font-weight: bold;" />
+                    </children>
+                </VBox>
+
+                <VBox styleClass="stat-card" spacing="4.0"
+                      GridPane.rowIndex="1" GridPane.columnIndex="2">
+                    <padding>
+                        <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
+                    </padding>
+                    <children>
+                        <Label text="%acc.speed" style="-fx-text-fill: #777;" />
+                        <Label fx:id="lblSpeed" text="0,00 km/h"
+                               style="-fx-font-size: 24; -fx-font-weight: bold;" />
+                    </children>
+                </VBox>
+            </children>
+        </GridPane>
+
+        <Label fx:id="statusLabel" style="-fx-text-fill: #777;" />
+    </children>
+</VBox>
