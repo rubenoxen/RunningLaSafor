@@ -51,7 +51,20 @@ public class RootLayoutController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.bundle = rb;
+        refreshChromeTheme();
         restoreView();
+    }
+
+    public void refreshChromeTheme() {
+        if (rootPane == null) return;
+        boolean light = MainApp.isLightTheme();
+        if (light) {
+            if (!rootPane.getStyleClass().contains("theme-light")) {
+                rootPane.getStyleClass().add("theme-light");
+            }
+        } else {
+            rootPane.getStyleClass().remove("theme-light");
+        }
     }
 
     private void restoreView() {
@@ -249,8 +262,10 @@ public class RootLayoutController implements Initializable {
 
     private void placeholderCenter(String text) {
         Label placeholder = new Label(text);
-        placeholder.setStyle("-fx-font-size: 16; -fx-text-fill: #555;");
+        placeholder.getStyleClass().add("auth-subtitle");
+        placeholder.setStyle("-fx-font-size: 16px;");
         StackPane wrapper = new StackPane(placeholder);
+        wrapper.getStyleClass().add("auth-root");
         rootPane.setCenter(wrapper);
     }
 
@@ -269,6 +284,9 @@ public class RootLayoutController implements Initializable {
         if (footerLabel != null && footerLabel.getParent() != null) {
             footerLabel.getParent().setVisible(visible);
             footerLabel.getParent().setManaged(visible);
+        }
+        if (visible) {
+            refreshChromeTheme();
         }
     }
 
