@@ -55,6 +55,7 @@ public class AnnotationRenderer {
                 textOnly.setFill(color);
                 textOnly.setFont(Font.font("System", FontWeight.BOLD, 14));
                 group.getChildren().add(textOnly);
+                break;
                 
             case LINE:
                 if (geoPoints.size() >= 2) {
