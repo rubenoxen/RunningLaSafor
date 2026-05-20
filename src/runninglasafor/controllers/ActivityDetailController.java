@@ -35,7 +35,7 @@ public class ActivityDetailController implements Initializable {
     @FXML private Slider zoomSlider;
 
     private Activity currentActivity;
-    private RootLayoutController root;
+    private RootLayoutController root;   
 
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
