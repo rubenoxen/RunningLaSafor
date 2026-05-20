@@ -19,10 +19,19 @@ public class MainApp extends Application {
 
     private static Locale currentLocale = new Locale("es");
     private static View currentView = View.LOGIN;
+    private static boolean lightTheme = false;
     private static Stage primaryStage;
 
     public static Locale getCurrentLocale() {
         return currentLocale;
+    }
+
+    public static boolean isLightTheme() {
+        return lightTheme;
+    }
+
+    public static void toggleTheme() {
+        lightTheme = !lightTheme;
     }
 
     public static View getCurrentView() {

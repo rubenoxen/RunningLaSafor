@@ -82,6 +82,7 @@ public class RootLayoutController implements Initializable {
     public void showLogin() {
         MainApp.setCurrentView(View.LOGIN);
         setSessionMenusEnabled(false);
+        setChromeVisible(false);
         updateFooter();
         LoginController c = loadCenter("/runninglasafor/views/Login.fxml");
         if (c != null) c.setRoot(this);
@@ -90,6 +91,7 @@ public class RootLayoutController implements Initializable {
     public void showRegister() {
         MainApp.setCurrentView(View.REGISTER);
         setSessionMenusEnabled(false);
+        setChromeVisible(false);
         updateFooter();
         RegisterController c = loadCenter("/runninglasafor/views/Register.fxml");
         if (c != null) c.setRoot(this);
@@ -102,6 +104,7 @@ public class RootLayoutController implements Initializable {
     public void showActivities() {
         MainApp.setCurrentView(View.ACTIVITIES);
         setSessionMenusEnabled(true);
+        setChromeVisible(true);
         updateFooter();
         ActivitiesListController c = loadCenter("/runninglasafor/views/ActivitiesList.fxml");
         if (c != null) c.setRoot(this);
@@ -110,6 +113,7 @@ public class RootLayoutController implements Initializable {
     public void showAccumulated() {
         MainApp.setCurrentView(View.ACCUMULATED);
         setSessionMenusEnabled(true);
+        setChromeVisible(true);
         updateFooter();
         AccumulatedController c = loadCenter("/runninglasafor/views/Accumulated.fxml");
         if (c != null) c.setRoot(this);
@@ -118,6 +122,7 @@ public class RootLayoutController implements Initializable {
     public void showProfile() {
         MainApp.setCurrentView(View.PROFILE);
         setSessionMenusEnabled(true);
+        setChromeVisible(true);
         updateFooter();
         placeholderCenter(bundle.getString("placeholder.profile"));
     }
@@ -125,6 +130,7 @@ public class RootLayoutController implements Initializable {
     public void showHistory() {
         MainApp.setCurrentView(View.HISTORY);
         setSessionMenusEnabled(true);
+        setChromeVisible(true);
         updateFooter();
         placeholderCenter(bundle.getString("placeholder.history"));
     }
@@ -253,6 +259,17 @@ public class RootLayoutController implements Initializable {
         if (miLogout != null) miLogout.setDisable(!enabled);
         if (menuActivities != null) menuActivities.setDisable(!enabled);
         if (menuProfile != null) menuProfile.setDisable(!enabled);
+    }
+
+    private void setChromeVisible(boolean visible) {
+        if (menuBar != null) {
+            menuBar.setVisible(visible);
+            menuBar.setManaged(visible);
+        }
+        if (footerLabel != null && footerLabel.getParent() != null) {
+            footerLabel.getParent().setVisible(visible);
+            footerLabel.getParent().setManaged(visible);
+        }
     }
 
     private void updateFooter() {

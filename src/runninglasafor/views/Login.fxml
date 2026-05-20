@@ -2,47 +2,97 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane xmlns="http://javafx.com/javafx/23.0.1"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="runninglasafor.controllers.LoginController">
+<HBox fx:id="authRoot" styleClass="auth-root" prefHeight="540.0" prefWidth="900.0"
+      xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="runninglasafor.controllers.LoginController">
     <children>
-        <ImageView fitHeight="520.0" preserveRatio="true" opacity="0.35" blendMode="MULTIPLY" mouseTransparent="true">
-            <image>
-                <Image url="@../../resources/running_bg.png" />
-            </image>
-            <effect>
-                <GaussianBlur radius="4.0" />
-            </effect>
-        </ImageView>
-        <VBox alignment="CENTER" spacing="12.0" maxWidth="320.0">
+        <VBox styleClass="auth-form-panel" prefWidth="440.0" minWidth="360.0" spacing="22.0" alignment="TOP_LEFT">
             <padding>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                <Insets top="40.0" right="48.0" bottom="32.0" left="48.0" />
             </padding>
             <children>
-                <Label text="%login.title" style="-fx-font-size: 22; -fx-font-weight: bold;" />
-                <Label text="%login.subtitle" style="-fx-text-fill: #777;" />
-                <TextField fx:id="userField" promptText="%login.userPrompt" />
-                <PasswordField fx:id="passField" promptText="%login.passwordPrompt" onAction="#onLogin" />
-                <Label fx:id="errorLabel" style="-fx-text-fill: #c0392b;" wrapText="true" />
-                <Button text="%login.button" onAction="#onLogin" maxWidth="Infinity" defaultButton="true" />
-                <HBox alignment="CENTER" spacing="4.0">
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
                     <children>
-                        <Label text="%login.noAccount" />
-                        <Hyperlink text="%login.register" onAction="#onRegister" />
+                        <ImageView fx:id="brandLogo" styleClass="brand-logo" fitHeight="46.0" preserveRatio="true">
+                            <image>
+                                <Image url="@../../resources/logo_brand.png" />
+                            </image>
+                        </ImageView>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button fx:id="themeButton" styleClass="theme-toggle" onAction="#onToggleTheme">
+                            <graphic>
+                                <Region fx:id="themeIcon" styleClass="theme-icon" />
+                            </graphic>
+                        </Button>
+                        <ComboBox fx:id="languageBox" styleClass="lang-combo" />
+                    </children>
+                </HBox>
+
+                <VBox spacing="6.0">
+                    <children>
+                        <Label styleClass="auth-title" text="%login.title" wrapText="true" />
+                        <Label styleClass="auth-subtitle" text="%login.subtitle" wrapText="true" />
+                    </children>
+                </VBox>
+
+                <VBox spacing="14.0">
+                    <children>
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label styleClass="form-label" text="%login.userPrompt" />
+                                <TextField fx:id="userField" styleClass="form-input" promptText="%login.userPrompt" />
+                            </children>
+                        </VBox>
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label styleClass="form-label" text="%login.passwordPrompt" />
+                                <PasswordField fx:id="passField" styleClass="form-input" promptText="%login.passwordPrompt" onAction="#onLogin" />
+                            </children>
+                        </VBox>
+                        <Label fx:id="errorLabel" styleClass="error-label" wrapText="true" />
+                        <Button styleClass="primary-button" text="%login.button" onAction="#onLogin" maxWidth="Infinity" defaultButton="true" />
+                    </children>
+                </VBox>
+
+                <HBox alignment="CENTER" spacing="2.0">
+                    <children>
+                        <Label styleClass="auth-footer-label" text="%login.noAccount" />
+                        <Hyperlink styleClass="auth-link" text="%login.register" onAction="#onRegister" />
                     </children>
                 </HBox>
             </children>
         </VBox>
+
+        <VBox styleClass="auth-image-panel" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="10.0">
+            <padding>
+                <Insets top="32.0" right="40.0" bottom="32.0" left="40.0" />
+            </padding>
+            <children>
+                <ImageView fx:id="bgImage" fitHeight="300.0" preserveRatio="true" opacity="0.65" blendMode="MULTIPLY">
+                    <image>
+                        <Image url="@../../resources/running_bg.png" />
+                    </image>
+                </ImageView>
+                <VBox alignment="CENTER" spacing="-4.0">
+                    <children>
+                        <Label styleClass="image-tagline-1" text="Corre hoy," />
+                        <Label styleClass="image-tagline-2" text="mejora mañana." />
+                    </children>
+                </VBox>
+                <Label styleClass="image-tagline-sub" text="Cada kilometro cuenta." />
+            </children>
+        </VBox>
     </children>
-</StackPane>
+</HBox>

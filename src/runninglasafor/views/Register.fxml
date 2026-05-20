@@ -2,85 +2,135 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane xmlns="http://javafx.com/javafx/23.0.1"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="runninglasafor.controllers.RegisterController">
+<HBox fx:id="authRoot" styleClass="auth-root" prefHeight="540.0" prefWidth="900.0"
+      xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="runninglasafor.controllers.RegisterController">
     <children>
-        <ImageView fitHeight="520.0" preserveRatio="true" opacity="0.35" blendMode="MULTIPLY" mouseTransparent="true">
-            <image>
-                <Image url="@../../resources/running_bg.png" />
-            </image>
-            <effect>
-                <GaussianBlur radius="4.0" />
-            </effect>
-        </ImageView>
-        <VBox alignment="CENTER" spacing="12.0" maxWidth="420.0">
+        <VBox styleClass="auth-form-panel" prefWidth="500.0" minWidth="420.0" spacing="14.0" alignment="TOP_LEFT">
             <padding>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                <Insets top="28.0" right="44.0" bottom="24.0" left="44.0" />
             </padding>
             <children>
-                <Label text="%register.title" style="-fx-font-size: 22; -fx-font-weight: bold;" />
-                <Label text="%register.subtitle" style="-fx-text-fill: #777;" />
-
-                <GridPane hgap="10.0" vgap="8.0">
-                    <columnConstraints>
-                        <javafx.scene.layout.ColumnConstraints minWidth="110.0" />
-                        <javafx.scene.layout.ColumnConstraints hgrow="ALWAYS" />
-                    </columnConstraints>
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
                     <children>
-                        <Label text="%register.user" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                        <TextField fx:id="nickField" promptText="%register.userPrompt"
-                                   GridPane.rowIndex="0" GridPane.columnIndex="1" />
-
-                        <Label text="%register.email" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                        <TextField fx:id="emailField" promptText="%register.emailPrompt"
-                                   GridPane.rowIndex="1" GridPane.columnIndex="1" />
-
-                        <Label text="%register.password" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-                        <PasswordField fx:id="passField" promptText="%register.passwordPrompt"
-                                       GridPane.rowIndex="2" GridPane.columnIndex="1" />
-
-                        <Label text="%register.confirm" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-                        <PasswordField fx:id="confirmField" promptText="%register.confirmPrompt"
-                                       GridPane.rowIndex="3" GridPane.columnIndex="1" />
-
-                        <Label text="%register.birth" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-                        <DatePicker fx:id="birthPicker" maxWidth="Infinity"
-                                    GridPane.rowIndex="4" GridPane.columnIndex="1" />
-
-                        <Label text="%register.avatar" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-                        <HBox spacing="6.0" GridPane.rowIndex="5" GridPane.columnIndex="1">
-                            <children>
-                                <TextField fx:id="avatarField" promptText="%register.avatarPrompt"
-                                           HBox.hgrow="ALWAYS" />
-                                <Button text="%register.browse" onAction="#onBrowseAvatar" />
-                            </children>
-                        </HBox>
+                        <ImageView fx:id="brandLogo" styleClass="brand-logo" fitHeight="46.0" preserveRatio="true">
+                            <image>
+                                <Image url="@../../resources/logo_brand.png" />
+                            </image>
+                        </ImageView>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button fx:id="themeButton" styleClass="theme-toggle" onAction="#onToggleTheme">
+                            <graphic>
+                                <Region fx:id="themeIcon" styleClass="theme-icon" />
+                            </graphic>
+                        </Button>
+                        <ComboBox fx:id="languageBox" styleClass="lang-combo" />
                     </children>
-                </GridPane>
+                </HBox>
 
-                <Label fx:id="errorLabel" style="-fx-text-fill: #c0392b;" wrapText="true" />
-
-                <HBox alignment="CENTER" spacing="10.0">
+                <VBox spacing="4.0">
                     <children>
-                        <Button text="%register.create" onAction="#onCreate" defaultButton="true" />
-                        <Hyperlink text="%register.back" onAction="#onBack" />
+                        <Label styleClass="auth-title" text="%register.title" wrapText="true" />
+                        <Label styleClass="auth-subtitle" text="%register.subtitle" wrapText="true" />
+                    </children>
+                </VBox>
+
+                <VBox spacing="3.0">
+                    <children>
+                        <Label styleClass="form-label" text="%register.user" />
+                        <TextField fx:id="nickField" styleClass="form-input" promptText="%register.userPrompt" />
+                    </children>
+                </VBox>
+
+                <VBox spacing="3.0">
+                    <children>
+                        <Label styleClass="form-label" text="%register.email" />
+                        <TextField fx:id="emailField" styleClass="form-input" promptText="%register.emailPrompt" />
+                    </children>
+                </VBox>
+
+                <HBox spacing="12.0">
+                    <children>
+                        <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label styleClass="form-label" text="%register.password" />
+                                <PasswordField fx:id="passField" styleClass="form-input" promptText="%register.passwordPrompt" />
+                            </children>
+                        </VBox>
+                        <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label styleClass="form-label" text="%register.confirm" />
+                                <PasswordField fx:id="confirmField" styleClass="form-input" promptText="%register.confirmPrompt" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <HBox spacing="12.0">
+                    <children>
+                        <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label styleClass="form-label" text="%register.birth" />
+                                <DatePicker fx:id="birthPicker" styleClass="form-input" maxWidth="Infinity" />
+                            </children>
+                        </VBox>
+                        <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label styleClass="form-label" text="%register.avatar" />
+                                <HBox spacing="6.0">
+                                    <children>
+                                        <TextField fx:id="avatarField" styleClass="form-input" promptText="%register.avatarPrompt" HBox.hgrow="ALWAYS" />
+                                        <Button styleClass="secondary-button" text="%register.browse" onAction="#onBrowseAvatar" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <Label fx:id="errorLabel" styleClass="error-label" wrapText="true" />
+
+                <Button styleClass="primary-button" text="%register.create" onAction="#onCreate" maxWidth="Infinity" defaultButton="true" />
+
+                <HBox alignment="CENTER" spacing="2.0">
+                    <children>
+                        <Hyperlink styleClass="auth-link" text="%register.back" onAction="#onBack" />
                     </children>
                 </HBox>
             </children>
         </VBox>
+
+        <VBox styleClass="auth-image-panel" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="10.0">
+            <padding>
+                <Insets top="32.0" right="32.0" bottom="32.0" left="32.0" />
+            </padding>
+            <children>
+                <ImageView fx:id="bgImage" fitHeight="260.0" preserveRatio="true" opacity="0.65" blendMode="MULTIPLY">
+                    <image>
+                        <Image url="@../../resources/running_bg.png" />
+                    </image>
+                </ImageView>
+                <VBox alignment="CENTER" spacing="-4.0">
+                    <children>
+                        <Label styleClass="image-tagline-1" text="Cada paso" />
+                        <Label styleClass="image-tagline-2" text="te acerca." />
+                    </children>
+                </VBox>
+                <Label styleClass="image-tagline-sub" text="Empieza tu viaje hoy." />
+            </children>
+        </VBox>
     </children>
-</StackPane>
+</HBox>

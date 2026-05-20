@@ -4,17 +4,25 @@ import java.io.File;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import runninglasafor.MainApp;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 
@@ -22,6 +30,8 @@ public class RegisterController implements Initializable {
 
     private static final int MIN_AGE = 12;
 
+    @FXML
+    private HBox authRoot;
     @FXML
     private TextField nickField;
     @FXML
@@ -36,6 +46,12 @@ public class RegisterController implements Initializable {
     private TextField avatarField;
     @FXML
     private Label errorLabel;
+    @FXML
+    private ComboBox<String> languageBox;
+    @FXML
+    private Region themeIcon;
+    @FXML
+    private ImageView bgImage;
 
     private RootLayoutController root;
     private ResourceBundle bundle;
@@ -44,6 +60,47 @@ public class RegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         this.bundle = rb;
         errorLabel.setText("");
+        setupLanguageBox();
+        applyTheme();
+    }
+
+    private void setupLanguageBox() {
+        if (languageBox == null) return;
+        languageBox.getItems().setAll("ES", "EN", "FR", "DE", "ZH");
+        String current = MainApp.getCurrentLocale().getLanguage().toUpperCase();
+        languageBox.setValue(current);
+        languageBox.setOnAction(e -> {
+            String sel = languageBox.getValue();
+            if (sel == null) return;
+            MainApp.changeLocale(new Locale(sel.toLowerCase()));
+        });
+    }
+
+    private void applyTheme() {
+        boolean light = MainApp.isLightTheme();
+        if (authRoot != null) {
+            if (light && !authRoot.getStyleClass().contains("theme-light")) {
+                authRoot.getStyleClass().add("theme-light");
+            } else if (!light) {
+                authRoot.getStyleClass().remove("theme-light");
+            }
+        }
+        if (themeIcon != null) {
+            themeIcon.getStyleClass().removeAll("theme-moon", "theme-sun");
+            themeIcon.getStyleClass().add(light ? "theme-sun" : "theme-moon");
+        }
+        if (bgImage != null) {
+            String path = light ? "/resources/running_bg_light.png" : "/resources/running_bg.png";
+            bgImage.setImage(new Image(getClass().getResource(path).toExternalForm()));
+            bgImage.setBlendMode(light ? BlendMode.SRC_OVER : BlendMode.MULTIPLY);
+            bgImage.setOpacity(light ? 0.9 : 0.65);
+        }
+    }
+
+    @FXML
+    private void onToggleTheme(ActionEvent event) {
+        MainApp.toggleTheme();
+        applyTheme();
     }
 
     public void setRoot(RootLayoutController root) {
