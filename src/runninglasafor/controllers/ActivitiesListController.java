@@ -82,15 +82,14 @@ public class ActivitiesListController implements Initializable {
         }
     }
 
-    @FXML
+        @FXML
     private void onView(ActionEvent event) {
         Activity a = activitiesList.getSelectionModel().getSelectedItem();
         if (a == null) return;
-        Alert info = new Alert(Alert.AlertType.INFORMATION);
-        info.setTitle(bundle.getString("activities.detail.title"));
-        info.setHeaderText(displayName(a));
-        info.setContentText(detalleTexto(a));
-        info.showAndWait();
+                
+        if (root != null) {
+            root.showActivityDetail(a);
+        }
     }
 
     @FXML

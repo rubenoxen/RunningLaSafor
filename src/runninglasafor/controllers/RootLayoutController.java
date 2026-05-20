@@ -118,6 +118,19 @@ public class RootLayoutController implements Initializable {
         AccumulatedController c = loadCenter("/runninglasafor/views/Accumulated.fxml");
         if (c != null) c.setRoot(this);
     }
+    
+    public void showActivityDetail(upv.ipc.sportlib.Activity activity) {
+        MainApp.setCurrentView(MainApp.View.ACTIVITIES); 
+        setSessionMenusEnabled(true);
+        setChromeVisible(true);
+        updateFooter();
+        
+        ActivityDetailController c = loadCenter("/runninglasafor/views/ActivityDetail.fxml");
+        if (c != null) {
+            c.setRoot(this);
+            c.setActivity(activity); 
+        }
+    }
 
     public void showProfile() {
         MainApp.setCurrentView(View.PROFILE);

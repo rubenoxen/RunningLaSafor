@@ -43,8 +43,7 @@ public class MapViewController implements Initializable {
 
     public void loadActivity(Activity activity) {
         if (activity == null) return;
-        
-        // 1. Cargar el mapa sugerido por la actividad
+                
         MapRegion region = activity.getSuggestedMap();
         loadMapRegion(region);
         
@@ -67,4 +66,24 @@ public class MapViewController implements Initializable {
             mapPane.setPrefSize(img.getWidth(), img.getHeight());
         }
     }
+    
+    public void loadActivityWithMap(Activity activity, MapRegion region) {
+        if (activity == null || region == null) return;
+                
+        loadMapRegion(region);
+                
+        if (mapPane.getChildren().size() > 1) {
+            mapPane.getChildren().remove(1, mapPane.getChildren().size());
+        }
+        
+        if (mapPane.getPrefWidth() > 0) {
+            MapProjection proj = new MapProjection(region, mapPane.getPrefWidth(), mapPane.getPrefHeight());
+            Group route = SpeedTrack.createColoredTrack(activity.getTrackPoints(), proj);
+                        
+            ZoomUtils.applyZoomCorrection(route, zoomSlider.valueProperty(), 4.0);
+            
+            mapPane.getChildren().add(route);
+        }
+    }
+           
 }

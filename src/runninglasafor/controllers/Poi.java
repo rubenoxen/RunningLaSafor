@@ -1,4 +1,4 @@
-package mapademo;
+package runninglasafor.controllers;
 import javafx.geometry.Point2D;
 
 /*

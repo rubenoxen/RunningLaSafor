@@ -30,15 +30,11 @@
          <content>
             <Group fx:id="zoomGroup">
                <children>
-                  <Group fx:id="zoomGroup">
+                  <Pane fx:id="mapPane">
                      <children>
-                        <Pane fx:id="mapPane">
-                           <children>
-                              <ImageView fx:id="mapImageView" pickOnBounds="true" preserveRatio="true" />
-                           </children>
-                        </Pane>
+                        <ImageView fx:id="mapImageView" pickOnBounds="true" preserveRatio="true" />
                      </children>
-                  </Group>
+                  </Pane>
                </children>
             </Group>
          </content>
