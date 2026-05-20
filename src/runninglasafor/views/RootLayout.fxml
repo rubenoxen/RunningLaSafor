@@ -2,6 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
@@ -11,10 +16,55 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="runninglasafor.controllers.RootLayoutController">
 
+    <top>
+        <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu text="%menu.file">
+                    <items>
+                        <MenuItem fx:id="miImport" text="%menu.file.import" onAction="#onImportGpx">
+                            <accelerator>
+                                <KeyCodeCombination alt="UP" code="I" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                            </accelerator>
+                        </MenuItem>
+                        <SeparatorMenuItem />
+                        <MenuItem fx:id="miLogout" text="%menu.file.logout" onAction="#onLogout" />
+                        <MenuItem text="%menu.file.exit" onAction="#onExit" />
+                    </items>
+                </Menu>
+                <Menu fx:id="menuActivities" text="%menu.activities">
+                    <items>
+                        <MenuItem text="%menu.activities.list" onAction="#onShowActivities" />
+                        <MenuItem text="%menu.activities.accumulated" onAction="#onShowAccumulated" />
+                    </items>
+                </Menu>
+                <Menu fx:id="menuProfile" text="%menu.profile">
+                    <items>
+                        <MenuItem text="%menu.profile.edit" onAction="#onShowProfile" />
+                        <MenuItem text="%menu.profile.history" onAction="#onShowHistory" />
+                    </items>
+                </Menu>
+                <Menu text="%menu.language">
+                    <items>
+                        <MenuItem text="%menu.language.spanish" onAction="#onIdiomaEs" />
+                        <MenuItem text="%menu.language.english" onAction="#onIdiomaEn" />
+                        <MenuItem text="%menu.language.french" onAction="#onIdiomaFr" />
+                        <MenuItem text="%menu.language.german" onAction="#onIdiomaDe" />
+                        <MenuItem text="%menu.language.chinese" onAction="#onIdiomaZh" />
+                    </items>
+                </Menu>
+                <Menu text="%menu.help">
+                    <items>
+                        <MenuItem text="%menu.help.about" onAction="#onAbout" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+
     <bottom>
         <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
             <children>
-                <Label text="Running la Safor" />
+                <Label fx:id="footerLabel" text="%app.footer" />
             </children>
             <BorderPane.margin>
                 <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />

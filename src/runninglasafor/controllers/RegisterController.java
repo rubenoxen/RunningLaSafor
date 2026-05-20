@@ -2,6 +2,7 @@ package runninglasafor.controllers;
 
 import java.io.File;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -37,9 +38,11 @@ public class RegisterController implements Initializable {
     private Label errorLabel;
 
     private RootLayoutController root;
+    private ResourceBundle bundle;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.bundle = rb;
         errorLabel.setText("");
     }
 
@@ -50,9 +53,9 @@ public class RegisterController implements Initializable {
     @FXML
     private void onBrowseAvatar(ActionEvent event) {
         FileChooser fc = new FileChooser();
-        fc.setTitle("Selecciona una imagen de avatar");
-        fc.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Imagenes", "*.png", "*.jpg", "*.jpeg"));
+        fc.setTitle(bundle.getString("register.dialog.title"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(
+                bundle.getString("register.dialog.images"), "*.png", "*.jpg", "*.jpeg"));
         Stage stage = (Stage) nickField.getScene().getWindow();
         File file = fc.showOpenDialog(stage);
         if (file != null) {
@@ -79,13 +82,13 @@ public class RegisterController implements Initializable {
         boolean ok = SportActivityApp.getInstance()
                 .registerUser(nick, email, pass, birth, avatarPath);
         if (!ok) {
-            errorLabel.setText("El usuario o el email ya estan en uso.");
+            errorLabel.setText(bundle.getString("register.errorTaken"));
             return;
         }
 
         Alert info = new Alert(Alert.AlertType.INFORMATION);
-        info.setHeaderText("Cuenta creada");
-        info.setContentText("Ya puedes iniciar sesion con tus datos.");
+        info.setHeaderText(bundle.getString("register.ok.header"));
+        info.setContentText(bundle.getString("register.ok.content"));
         info.showAndWait();
 
         if (root != null) {
@@ -104,22 +107,23 @@ public class RegisterController implements Initializable {
                             String confirm, LocalDate birth) {
         if (nick.isEmpty() || email.isEmpty() || pass.isEmpty()
                 || confirm.isEmpty() || birth == null) {
-            return "Rellena todos los campos obligatorios.";
+            return bundle.getString("register.errorFill");
         }
         if (!User.checkNickName(nick)) {
-            return "El nombre de usuario no es valido.";
+            return bundle.getString("register.errorNick");
         }
         if (!User.checkEmail(email)) {
-            return "El email no tiene un formato valido.";
+            return bundle.getString("register.errorEmail");
         }
         if (!User.checkPassword(pass)) {
-            return "La contrasena no cumple los requisitos.";
+            return bundle.getString("register.errorPassword");
         }
         if (!pass.equals(confirm)) {
-            return "Las contrasenas no coinciden.";
+            return bundle.getString("register.errorConfirm");
         }
         if (!User.isOlderThan(birth, MIN_AGE)) {
-            return "Debes tener mas de " + MIN_AGE + " anos.";
+            return MessageFormat.format(
+                    bundle.getString("register.errorAge"), MIN_AGE);
         }
         return null;
     }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="runninglasafor.controllers.ActivitiesListController">
+    <padding>
+        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+    </padding>
+    <children>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <children>
+                <Label text="%activities.title" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="%activities.refresh" onAction="#onRefresh" />
+            </children>
+        </HBox>
+
+        <ListView fx:id="activitiesList" VBox.vgrow="ALWAYS" />
+
+        <HBox spacing="8.0" alignment="CENTER_LEFT">
+            <children>
+                <Button text="%activities.import" onAction="#onImport" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="viewButton" text="%activities.view" onAction="#onView" disable="true" />
+                <Button fx:id="renameButton" text="%activities.rename" onAction="#onRename" disable="true" />
+                <Button fx:id="deleteButton" text="%activities.delete" onAction="#onDelete" disable="true" />
+            </children>
+        </HBox>
+
+        <Label fx:id="statusLabel" style="-fx-text-fill: #777;" />
+    </children>
+</VBox>
