@@ -20,9 +20,11 @@ public class LoginController implements Initializable {
     private Label errorLabel;
 
     private RootLayoutController root;
+    private ResourceBundle bundle;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.bundle = rb;
         errorLabel.setText("");
     }
 
@@ -36,13 +38,13 @@ public class LoginController implements Initializable {
         String pass = passField.getText() == null ? "" : passField.getText();
 
         if (user.isEmpty() || pass.isEmpty()) {
-            errorLabel.setText("Introduce usuario y contrasena.");
+            errorLabel.setText(bundle.getString("login.errorEmpty"));
             return;
         }
 
         boolean ok = SportActivityApp.getInstance().login(user, pass);
         if (!ok) {
-            errorLabel.setText("Usuario o contrasena incorrectos.");
+            errorLabel.setText(bundle.getString("login.errorInvalid"));
             passField.clear();
             return;
         }
