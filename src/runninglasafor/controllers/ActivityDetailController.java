@@ -147,9 +147,9 @@ public class ActivityDetailController implements Initializable {
             currentActivity.getAveragePace()));
     }
     
-    private String formatDuration(javafx.util.Duration d) {
+    private String formatDuration(java.time.Duration d) {
         if (d == null) return "--";
-        long totalSecs = (long) d.toSeconds();
+        long totalSecs = d.getSeconds();
         long h = totalSecs / 3600;
         long m = (totalSecs % 3600) / 60;
         long s = totalSecs % 60;

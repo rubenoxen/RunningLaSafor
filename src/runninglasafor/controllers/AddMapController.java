@@ -7,8 +7,10 @@ package runninglasafor.controllers;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -124,5 +126,29 @@ public class AddMapController implements Initializable {
 
     private static String trim(String s) {
         return s == null ? "" : s.trim();
+    }
+    
+    public static Optional<MapRegion> showDialog(javafx.stage.Window owner) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                AddMapController.class.getResource("/runninglasafor/views/AddMap.fxml"));
+            javafx.scene.Parent view = loader.load();
+            AddMapController ctrl = loader.getController();
+
+            javafx.stage.Stage stage = new javafx.stage.Stage();
+            stage.initOwner(owner);
+            stage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            stage.setTitle("Añadir mapa al sistema");
+            stage.setScene(new javafx.scene.Scene(view));
+            stage.showAndWait();
+
+            if (ctrl.isAccepted()) {
+                return Optional.of(ctrl.getCreatedMapRegion());
+            }
+            return Optional.empty();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 }
