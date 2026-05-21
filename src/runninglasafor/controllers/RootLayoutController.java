@@ -158,7 +158,8 @@ public class RootLayoutController implements Initializable {
         setSessionMenusEnabled(true);
         setChromeVisible(true);
         updateFooter();
-        placeholderCenter(bundle.getString("placeholder.history"));
+        SessionHistoryController c = loadCenter("/runninglasafor/views/SessionHistory.fxml");
+        if (c != null) c.setRoot(this);
     }
 
     @FXML

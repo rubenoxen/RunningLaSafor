@@ -2,92 +2,161 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
+<ScrollPane styleClass="auth-scroll"
+            hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED"
+            fitToWidth="true" fitToHeight="true"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="runninglasafor.controllers.SessionHistoryController">
+    <content>
+        <HBox fx:id="authRoot" styleClass="auth-root"
+              prefHeight="540.0" prefWidth="900.0">
+            <children>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="15.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="runninglasafor.controllers.SessionHistoryController">
-   <children>
-      <Label text="\%history.title">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-         <children>
-            <TextField promptText="Buscar Actividad" />
-         </children>
-      </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-border-radius: 5; -fx-background-color: #f4f4f4;">
-         <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Label text="Distancia Total" />
-                  <Label fx:id="lblTotalDistancia" text="0.00 km">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Label text="Tiempo Total" />
-                  <Label fx:id="lblTotalTiempo" text="00h 00m">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Label text="Ascenso Total" />
-                  <Label fx:id="lblTotalAscenso" text="0 m">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Label text="Descenso Total" />
-                  <Label fx:id="lblTotalDescenso" text="0 m">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-         </children>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-         <padding>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-         </padding>
-      </HBox>
-      <TableView fx:id="tableActivities" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-        <columns>
-          <TableColumn fx:id="colDate" prefWidth="75.0" text="\%history.col.date" />
-          <TableColumn fx:id="colName" prefWidth="75.0" text="\%history.col.name" />
-            <TableColumn fx:id="colDistance" prefWidth="75.0" text="\%history.col.distance" />
-            <TableColumn fx:id="colDuration" prefWidth="75.0" text="\%history.col.duration" />
-        </columns>
-      </TableView>
-      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#handleViewDetail" text="Ver detalle" />
-         </children>
-      </HBox>
-   </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-</VBox>
+                <!-- ═══ Panel izquierdo: tabla ═══ -->
+                <VBox styleClass="auth-form-panel" HBox.hgrow="ALWAYS"
+                      minWidth="420.0" spacing="14.0" alignment="TOP_LEFT">
+                    <padding>
+                        <Insets top="32.0" right="40.0" bottom="28.0" left="40.0"/>
+                    </padding>
+                    <children>
+
+                        <!-- Logo + tema + idioma -->
+                        <HBox spacing="10.0" alignment="CENTER_LEFT">
+                            <children>
+                                <ImageView fx:id="brandLogo" styleClass="brand-logo"
+                                           fitHeight="42.0" preserveRatio="true">
+                                    <image><Image url="@../../resources/logo_brand.png"/></image>
+                                </ImageView>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button fx:id="themeButton" styleClass="theme-toggle"
+                                        onAction="#onToggleTheme">
+                                    <graphic>
+                                        <Region fx:id="themeIcon" styleClass="theme-icon"/>
+                                    </graphic>
+                                </Button>
+                                <ComboBox fx:id="languageBox" styleClass="lang-combo"/>
+                            </children>
+                        </HBox>
+
+                        <!-- Título -->
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label styleClass="auth-title"
+                                       text="%history.title" wrapText="true"/>
+                                <Label styleClass="auth-subtitle"
+                                       text="%history.subtitle" wrapText="true"/>
+                            </children>
+                        </VBox>
+
+                        <!-- Tabla de sesiones -->
+                        <TableView fx:id="sessionTable"
+                                   styleClass="session-table"
+                                   prefHeight="300.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colStartTime"
+                                             text="%history.col.startTime" prefWidth="130"/>
+                                <TableColumn fx:id="colEndTime"
+                                             text="%history.col.endTime" prefWidth="130"/>
+                                <TableColumn fx:id="colDuration"
+                                             text="%history.col.duration" prefWidth="110"/>
+                                <TableColumn fx:id="colImported"
+                                             text="%history.col.imported" prefWidth="80"/>
+                                <TableColumn fx:id="colViewed"
+                                             text="%history.col.viewed" prefWidth="80"/>
+                                <TableColumn fx:id="colAnnotations"
+                                             text="%history.col.annotations" prefWidth="90"/>
+                            </columns>
+                        </TableView>
+
+                        <Label fx:id="statusLabel" styleClass="status-label" wrapText="true"/>
+                    </children>
+                </VBox>
+
+                <!-- ═══ Panel derecho: totales + imagen ═══ -->
+                <VBox styleClass="auth-image-panel" prefWidth="320.0" minWidth="240.0"
+                      alignment="TOP_LEFT" spacing="14.0">
+                    <padding>
+                        <Insets top="32.0" right="24.0" bottom="32.0" left="24.0"/>
+                    </padding>
+                    <children>
+
+                        <VBox alignment="TOP_LEFT" spacing="4.0">
+                            <children>
+                                <Label styleClass="image-panel-title"
+                                       text="%history.totals" wrapText="true"/>
+                                <Label styleClass="image-panel-sub"
+                                       text="%history.tagline.sub" wrapText="true"/>
+                            </children>
+                        </VBox>
+
+                        <!-- Tarjetas de totales -->
+                        <VBox spacing="8.0">
+                            <children>
+                                <VBox styleClass="stat-card" spacing="2.0">
+                                    <padding><Insets top="10" right="14" bottom="10" left="14"/></padding>
+                                    <children>
+                                        <Label styleClass="stat-card-label" text="%history.totalSessions"/>
+                                        <Label fx:id="lblTotalSessions" styleClass="stat-card-value" text="0"/>
+                                    </children>
+                                </VBox>
+                                <VBox styleClass="stat-card" spacing="2.0">
+                                    <padding><Insets top="10" right="14" bottom="10" left="14"/></padding>
+                                    <children>
+                                        <Label styleClass="stat-card-label" text="%history.totalDuration"/>
+                                        <Label fx:id="lblTotalDuration" styleClass="stat-card-value" text="0h 00min"/>
+                                    </children>
+                                </VBox>
+                                <VBox styleClass="stat-card" spacing="2.0">
+                                    <padding><Insets top="10" right="14" bottom="10" left="14"/></padding>
+                                    <children>
+                                        <Label styleClass="stat-card-label" text="%history.totalImported"/>
+                                        <Label fx:id="lblTotalImported" styleClass="stat-card-value" text="0"/>
+                                    </children>
+                                </VBox>
+                                <VBox styleClass="stat-card" spacing="2.0">
+                                    <padding><Insets top="10" right="14" bottom="10" left="14"/></padding>
+                                    <children>
+                                        <Label styleClass="stat-card-label" text="%history.totalViewed"/>
+                                        <Label fx:id="lblTotalViewed" styleClass="stat-card-value" text="0"/>
+                                    </children>
+                                </VBox>
+                                <VBox styleClass="stat-card" spacing="2.0">
+                                    <padding><Insets top="10" right="14" bottom="10" left="14"/></padding>
+                                    <children>
+                                        <Label styleClass="stat-card-label" text="%history.totalAnnotations"/>
+                                        <Label fx:id="lblTotalAnnotations" styleClass="stat-card-value" text="0"/>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Imagen decorativa -->
+                        <ImageView fx:id="bgImage" fitHeight="120.0"
+                                   preserveRatio="true" opacity="0.65"
+                                   blendMode="MULTIPLY">
+                            <image><Image url="@../../resources/running_bg.png"/></image>
+                        </ImageView>
+                        <VBox alignment="CENTER" spacing="-4.0">
+                            <children>
+                                <Label styleClass="image-tagline-1" text="%history.tagline1"/>
+                                <Label styleClass="image-tagline-2" text="%history.tagline2"/>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </content>
+</ScrollPane>

@@ -5,113 +5,202 @@
 package runninglasafor.controllers;
 
 import java.net.URL;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import runninglasafor.MainApp;
+import upv.ipc.sportlib.Session;
 import upv.ipc.sportlib.SportActivityApp;
-/**
- * FXML Controller class
- *
- * @author mateo
- */
+import upv.ipc.sportlib.User;
+
 public class SessionHistoryController implements Initializable {
 
-    @FXML private TableView<SportActivityApp> tableActivities;
-    @FXML private TableColumn<SportActivityApp, String> colDate;
-    @FXML private TableColumn<SportActivityApp, String> colName;
-    @FXML private TableColumn<SportActivityApp, String> colDistance;
-    @FXML private TableColumn<SportActivityApp, String> colDuration;
+    private static final DateTimeFormatter DATE_FMT =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-    private MainApp mainApp;
+    @FXML private HBox authRoot;
+    @FXML private TableView<Session> sessionTable;
+    @FXML private TableColumn<Session, String> colStartTime;
+    @FXML private TableColumn<Session, String> colEndTime;
+    @FXML private TableColumn<Session, String> colDuration;
+    @FXML private TableColumn<Session, Number> colImported;
+    @FXML private TableColumn<Session, Number> colViewed;
+    @FXML private TableColumn<Session, Number> colAnnotations;
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML private Label lblTotalSessions;
+    @FXML private Label lblTotalDuration;
+    @FXML private Label lblTotalImported;
+    @FXML private Label lblTotalViewed;
+    @FXML private Label lblTotalAnnotations;
+    @FXML private Label statusLabel;
+
+    @FXML private ComboBox<String> languageBox;
+    @FXML private Region themeIcon;
+    @FXML private ImageView bgImage;
+
+    private RootLayoutController root;
+    private ResourceBundle bundle;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        colDate.setCellValueFactory(cellData -> {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-            return new SimpleStringProperty(cellData.getValue().getTimestamp().format(formatter));
+        this.bundle = rb;
+        setupTableColumns();
+        setupLanguageBox();
+        applyTheme();
+        refresh();
+    }
+
+    private void setupTableColumns() {
+        colStartTime.setCellValueFactory(cellData ->
+                new SimpleStringProperty(
+                        formatDateTime(cellData.getValue().getStartTime())));
+        colEndTime.setCellValueFactory(cellData ->
+                new SimpleStringProperty(
+                        formatDateTime(cellData.getValue().getEndTime())));
+        colDuration.setCellValueFactory(cellData ->
+                new SimpleStringProperty(
+                        formatDuration(cellData.getValue().getDuration())));
+        colImported.setCellValueFactory(cellData ->
+                new SimpleIntegerProperty(
+                        cellData.getValue().getImportedActivities()));
+        colViewed.setCellValueFactory(cellData ->
+                new SimpleIntegerProperty(
+                        cellData.getValue().getViewedActivities()));
+        colAnnotations.setCellValueFactory(cellData ->
+                new SimpleIntegerProperty(
+                        cellData.getValue().getAnnotationsCreated()));
+    }
+
+    private void setupLanguageBox() {
+        if (languageBox == null) return;
+        languageBox.getItems().setAll("ES", "EN", "FR", "DE", "ZH");
+        String current = MainApp.getCurrentLocale().getLanguage().toUpperCase();
+        languageBox.setValue(current);
+        languageBox.setOnAction(e -> {
+            String sel = languageBox.getValue();
+            if (sel == null) return;
+            MainApp.changeLocale(new Locale(sel.toLowerCase()));
         });
-        
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        
-        colDistance.setCellValueFactory(cellData -> {
-            double km = cellData.getValue().getDistance() / 1000.0;
-            return new SimpleStringProperty(String.format("%.2f km", km));
-        });
-        
-        colDuration.setCellValueFactory(cellData -> {
-            long seconds = cellData.getValue().getDuration().getSeconds();
-            long h = seconds / 3600;
-            long m = (seconds % 3600) / 60;
-            long s = seconds % 60;
-            return new SimpleStringProperty(String.format("%02d:%02d:%02d", h, m, s));
-        });
-        
-        public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-        
-        // Si esto da error en rojo, mira el paso 2 abajo
-        if (mainApp != null && mainApp.getLib() != null) {
-            tableActivities.setItems(FXCollections.observableArrayList(
-                mainApp.getLib().getUserActivities(mainApp.getLoggedUser())
-            ));
+    }
+
+    private void applyTheme() {
+        boolean light = MainApp.isLightTheme();
+        if (authRoot != null) {
+            if (light && !authRoot.getStyleClass().contains("theme-light")) {
+                authRoot.getStyleClass().add("theme-light");
+            } else if (!light) {
+                authRoot.getStyleClass().remove("theme-light");
+            }
+        }
+        if (themeIcon != null) {
+            themeIcon.getStyleClass().removeAll("theme-moon", "theme-sun");
+            themeIcon.getStyleClass().add(light ? "theme-sun" : "theme-moon");
+        }
+        if (bgImage != null) {
+            String path = light
+                    ? "/resources/running_bg_light.png"
+                    : "/resources/running_bg.png";
+            bgImage.setImage(new Image(getClass().getResource(path).toExternalForm()));
+            bgImage.setBlendMode(light ? BlendMode.SRC_OVER : BlendMode.MULTIPLY);
+            bgImage.setOpacity(light ? 0.9 : 0.65);
         }
     }
-    }    
 
     @FXML
-    private void handleViewDetail(ActionEvent event) {
-        
-        SportActivityApp selected = tableActivities.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-           
-            mainApp.showActivityDetail(selected);
-        } else {
-           Alert alert = new Alert(AlertType.WARNING);
-           alert.setTitle("Ninguna actividad seleccionada");
-           alert.setHeaderText(null); // Lo ponemos a null para que el diseño quede más limpio
-           alert.setContentText("Por favor, selecciona una actividad de la tabla para poder ver sus detalles en el mapa.");
-            
-            
-           alert.showAndWait();
+    private void onToggleTheme(ActionEvent event) {
+        MainApp.toggleTheme();
+        applyTheme();
+        if (root != null) root.refreshChromeTheme();
+    }
+
+    public void setRoot(RootLayoutController root) {
+        this.root = root;
+    }
+
+    private void refresh() {
+        User user = SportActivityApp.getInstance().getCurrentUser();
+        if (user == null) {
+            if (statusLabel != null)
+                statusLabel.setText(bundle.getString("history.noSession"));
+            return;
+        }
+
+        List<Session> sessions =
+                SportActivityApp.getInstance().getSessionsByUser(user);
+        ObservableList<Session> items = FXCollections.observableArrayList(
+                sessions == null ? List.of() : sessions);
+        sessionTable.setItems(items);
+
+        /* --- Totales acumulados --- */
+        long totalSeconds = 0;
+        int totalImported = 0;
+        int totalViewed = 0;
+        int totalAnnotations = 0;
+
+        for (Session s : items) {
+            Duration d = s.getDuration();
+            if (d != null) totalSeconds += d.getSeconds();
+            totalImported  += s.getImportedActivities();
+            totalViewed    += s.getViewedActivities();
+            totalAnnotations += s.getAnnotationsCreated();
+        }
+
+        lblTotalSessions.setText(String.valueOf(items.size()));
+        lblTotalDuration.setText(formatHoursMinutes(totalSeconds));
+        lblTotalImported.setText(String.valueOf(totalImported));
+        lblTotalViewed.setText(String.valueOf(totalViewed));
+        lblTotalAnnotations.setText(String.valueOf(totalAnnotations));
+
+        if (statusLabel != null) {
+            if (items.isEmpty()) {
+                statusLabel.setText(bundle.getString("history.empty"));
+            } else {
+                statusLabel.setText(java.text.MessageFormat.format(
+                        bundle.getString("history.count"), items.size()));
+            }
         }
     }
-    
-    private void calcularAcumulados(List<SportActivityApp> actividades) {
-    double distanciaTotalMetros = 0;
-    long segundosTotales = 0;
-    double ascensoTotal = 0;
-    double descensoTotal = 0;
 
-    for (SportActivityApp actividad : actividades) {
-        distanciaTotalMetros += actividad.getTotalDistance(); 
-        segundosTotales += actividad.getDuration().getSeconds(); 
-        ascensoTotal += actividad.getElevationGain(); 
-        descensoTotal += actividad.getElevationLoss(); 
+    // ─── Formateo ────────────────────────────────────────────
+
+    private static String formatDateTime(LocalDateTime dt) {
+        return dt == null ? "-" : DATE_FMT.format(dt);
     }
 
-   
-    lblTotalDistancia.setText(String.format("%.2f km", distanciaTotalMetros / 1000.0));
-    lblTotalAscenso.setText(String.format("%.0f m", ascensoTotal));
-    lblTotalDescenso.setText(String.format("%.0f m", descensoTotal));
-    
-    
-    long h = segundosTotales / 3600;
-    long m = (segundosTotales % 3600) / 60;
-    lblTotalTiempo.setText(String.format("%d h %d min", h, m));
-}
-    
+    private static String formatDuration(Duration d) {
+        if (d == null) return "-";
+        long total = d.getSeconds();
+        long h = total / 3600;
+        long m = (total % 3600) / 60;
+        long s = total % 60;
+        return h > 0
+                ? String.format("%dh %02dmin %02ds", h, m, s)
+                : String.format("%dmin %02ds", m, s);
+    }
+
+    private static String formatHoursMinutes(long totalSeconds) {
+        if (totalSeconds <= 0) return "0h 00min";
+        long h = totalSeconds / 3600;
+        long m = (totalSeconds % 3600) / 60;
+        return String.format("%dh %02dmin", h, m);
+    }
 }
