@@ -17,12 +17,12 @@
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
    <children>
-      <Label text="Añadir mapa al sistema">
+      <Label text="%addmap.title">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label text="Introduce los datos del mapa y su bounding box." textFill="#777777" wrapText="true" />
+      <Label text="%addmap.subtitle" textFill="#777777" wrapText="true" />
       <GridPane hgap="10.0" vgap="10.0">
         <columnConstraints>
           <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="130.0" prefWidth="100.0" />
@@ -37,30 +37,30 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Nombre del mapa *" />
-            <TextField fx:id="nameField" promptText="Ej: calderona" GridPane.columnIndex="1" />
-            <Label text="Imagen *" GridPane.rowIndex="1" />
+            <Label text="%addmap.name" />
+            <TextField fx:id="nameField" promptText="%addmap.namePrompt" GridPane.columnIndex="1" />
+            <Label text="%addmap.image" GridPane.rowIndex="1" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <TextField fx:id="imagePathField" promptText="Ruta de la imagen" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="browseButton" mnemonicParsing="false" onAction="#onBrowse" text="Examinar..." />
+                  <TextField fx:id="imagePathField" promptText="%addmap.imagePrompt" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="browseButton" mnemonicParsing="false" onAction="#onBrowse" text="%addmap.browse" />
                </children>
             </HBox>
-            <Label text="Latitud mínima *" GridPane.rowIndex="2" />
-            <TextField fx:id="latMinField" promptText="Ej: 39.600" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Latitud máxima *" GridPane.rowIndex="3" />
-            <TextField fx:id="latMaxField" promptText="Ej: 39.750" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Longitud mínima *" GridPane.rowIndex="4" />
-            <TextField fx:id="lonMinField" promptText="Ej: -0.550" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="lonMaxField" promptText="Ej: -0.300" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label text="Longitud máxima *" GridPane.rowIndex="5" />
+            <Label text="%addmap.latMin" GridPane.rowIndex="2" />
+            <TextField fx:id="latMinField" promptText="%addmap.latMinPrompt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="%addmap.latMax" GridPane.rowIndex="3" />
+            <TextField fx:id="latMaxField" promptText="%addmap.latMaxPrompt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="%addmap.lonMin" GridPane.rowIndex="4" />
+            <TextField fx:id="lonMinField" promptText="%addmap.lonMinPrompt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="lonMaxField" promptText="%addmap.lonMaxPrompt" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="%addmap.lonMax" GridPane.rowIndex="5" />
          </children>
       </GridPane>
       <Label fx:id="errorLabel" textFill="#c0392b" wrapText="true" />
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Button fx:id="acceptButton" defaultButton="true" mnemonicParsing="false" onAction="#onAccept" text="Añadir mapa" />
-            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#onCancel" text="Cancelar" />
+            <Button fx:id="acceptButton" defaultButton="true" mnemonicParsing="false" onAction="#onAccept" text="%addmap.accept" />
+            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#onCancel" text="%addmap.cancel" />
          </children>
       </HBox>
    </children>

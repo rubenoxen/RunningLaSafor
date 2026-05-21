@@ -27,6 +27,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import runninglasafor.MainApp;
 import runninglasafor.utils.AnnotationRenderer;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.MapProjection;
@@ -62,7 +63,8 @@ public class MapViewController implements Initializable {
             if (currentProj == null || currentActivity == null) return;
             
             ContextMenu menu = new ContextMenu();
-            MenuItem miAnadir = new MenuItem("Añadir Anotación");
+            ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
+            MenuItem miAnadir = new MenuItem(bundle.getString("annotation.add"));
             menu.getItems().add(miAnadir);
             
             miAnadir.setOnAction(ev -> {                
@@ -86,7 +88,8 @@ public class MapViewController implements Initializable {
             Stage stage = new Stage();
             stage.initOwner(mapPane.getScene().getWindow());
             stage.initModality(Modality.WINDOW_MODAL);
-            stage.setTitle("Nueva Anotación");
+            ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
+            stage.setTitle(bundle.getString("annotation.title"));
             stage.setScene(new Scene(view));
             stage.showAndWait(); 
 

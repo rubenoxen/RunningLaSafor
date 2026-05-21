@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import runninglasafor.MainApp;
 import upv.ipc.sportlib.MapRegion;
 import upv.ipc.sportlib.SportActivityApp;
 
@@ -54,9 +55,10 @@ public class AddMapController implements Initializable {
     @FXML
     private void onBrowse() {
         FileChooser fc = new FileChooser();
-        fc.setTitle("Selecciona la imagen del mapa");
+        ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
+        fc.setTitle(bundle.getString("addmap.filechooser"));
         fc.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.bmp")
+            new FileChooser.ExtensionFilter(bundle.getString("addmap.filechooser"), "*.png", "*.jpg", "*.jpeg", "*.bmp")
         );
         Stage stage = (Stage) browseButton.getScene().getWindow();
         File file = fc.showOpenDialog(stage);
@@ -73,18 +75,19 @@ public class AddMapController implements Initializable {
     
     @FXML
     private void onAccept() {
+                ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
         
         String name = trim(nameField.getText());
         String imagePath = trim(imagePathField.getText());
         
         if (name.isEmpty()) {
-            errorLabel.setText("Introduce un nombre para el mapa.");
+            errorLabel.setText(bundle.getString("addmap.errorName"));
             return;
         }
         
         File imageFile = new File(imagePath);
         if (imagePath.isEmpty() || !imageFile.exists()) {
-            errorLabel.setText("Selecciona una imagen válida.");
+            errorLabel.setText(bundle.getString("addmap.errorImage"));
             return;
         }
         
@@ -95,16 +98,16 @@ public class AddMapController implements Initializable {
             lonMin = Double.parseDouble(trim(lonMinField.getText()));
             lonMax = Double.parseDouble(trim(lonMaxField.getText()));
         } catch (NumberFormatException e) {
-            errorLabel.setText("Las coordenadas deben ser números decimales (usa punto).");
+            errorLabel.setText(bundle.getString("addmap.errorCoords"));
             return;
         }
         
         if (latMin >= latMax) {
-            errorLabel.setText("Latitud mínima debe ser menor que la máxima.");
+            errorLabel.setText(bundle.getString("addmap.errorLatRange"));
             return;
         }
         if (lonMin >= lonMax) {
-            errorLabel.setText("Longitud mínima debe ser menor que la máxima.");
+            errorLabel.setText(bundle.getString("addmap.errorLonRange"));
             return;
         }
 
@@ -112,7 +115,7 @@ public class AddMapController implements Initializable {
                 .addMapRegion(name, imageFile, latMin, latMax, lonMin, lonMax);
 
         if (createdRegion == null) {
-            errorLabel.setText("No se ha podido registrar el mapa. Revisa los datos.");
+            errorLabel.setText(bundle.getString("addmap.errorGeneric"));
             return;
         }
 
@@ -138,7 +141,8 @@ public class AddMapController implements Initializable {
             javafx.stage.Stage stage = new javafx.stage.Stage();
             stage.initOwner(owner);
             stage.initModality(javafx.stage.Modality.WINDOW_MODAL);
-            stage.setTitle("Añadir mapa al sistema");
+            ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
+            stage.setTitle(bundle.getString("addmap.title"));
             stage.setScene(new javafx.scene.Scene(view));
             stage.showAndWait();
 

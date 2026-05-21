@@ -8,10 +8,10 @@
    <children>
       <LineChart fx:id="elevationChart" createSymbols="false" legendVisible="false" animated="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <xAxis>
-          <NumberAxis fx:id="xAxis" label="Distancia (km)" side="BOTTOM" autoRanging="true"/>
+          <NumberAxis fx:id="xAxis" label="%elevation.distance" side="BOTTOM" autoRanging="true"/>
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="yAxis" label="Altitud (m)" side="LEFT" autoRanging="true"/>
+          <NumberAxis fx:id="yAxis" label="%elevation.altitude" side="LEFT" autoRanging="true"/>
         </yAxis>
       </LineChart>
    </children>

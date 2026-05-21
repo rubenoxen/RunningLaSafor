@@ -125,11 +125,11 @@
                 </ImageView>
                 <VBox alignment="CENTER" spacing="-4.0">
                     <children>
-                        <Label styleClass="image-tagline-1" text="Cada paso" />
-                        <Label styleClass="image-tagline-2" text="te acerca." />
+                        <Label styleClass="image-tagline-1" text="%register.tagline1" />
+                        <Label styleClass="image-tagline-2" text="%register.tagline2" />
                     </children>
                 </VBox>
-                <Label styleClass="image-tagline-sub" text="Empieza tu viaje hoy." />
+                <Label styleClass="image-tagline-sub" text="%register.tagline.sub" />
             </children>
         </VBox>
     </children>

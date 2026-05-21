@@ -11,7 +11,7 @@
 
 <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="runninglasafor.controllers.AnnotationController">
    <children>
-      <Label text="Nueva Anotación">
+      <Label text="%annotation.title">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin></Label>
@@ -19,7 +19,7 @@
          <VBox.margin>
             <Insets bottom="10.0" top="10.0" />
          </VBox.margin></ComboBox>
-      <TextField fx:id="textField" promptText="Descripción...">
+      <TextField fx:id="textField" promptText="%annotation.prompt">
          <VBox.margin>
             <Insets bottom="10.0" top="10.0" />
          </VBox.margin></TextField>
@@ -29,11 +29,11 @@
          </VBox.margin></ColorPicker>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="bAccept" mnemonicParsing="false" text="Aceptar">
+            <Button fx:id="bAccept" mnemonicParsing="false" text="%annotation.accept">
                <HBox.margin>
                   <Insets bottom="10.0" right="10.0" top="10.0" />
                </HBox.margin></Button>
-            <Button fx:id="bCancel" mnemonicParsing="false" text="Cancelar">
+            <Button fx:id="bCancel" mnemonicParsing="false" text="%annotation.cancel">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" top="10.0" />
                </HBox.margin></Button>

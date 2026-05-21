@@ -19,9 +19,9 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
          <children>
-            <Label text="Mapa:" />
+            <Label text="%detail.map" />
             <ComboBox fx:id="mapSelector" prefWidth="200.0" />
-            <Button fx:id="addMapButton" mnemonicParsing="false" onAction="#onAddMap" text="Añadir mapa" />
+            <Button fx:id="addMapButton" mnemonicParsing="false" onAction="#onAddMap" text="%detail.addMap" />
             <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
@@ -45,7 +45,7 @@
                            <children>
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Label text="Distancia" textFill="#777777">
+                                    <Label text="%detail.distance" textFill="#777777">
                                        <font>
                                           <Font size="10.0" />
                                        </font>
@@ -59,7 +59,7 @@
                               </VBox>
                               <VBox layoutX="399.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Label text="Duración" textFill="#777777">
+                                    <Label text="%detail.duration" textFill="#777777">
                                        <font>
                                           <Font size="10.0" />
                                        </font>
@@ -73,7 +73,7 @@
                               </VBox>
                               <VBox layoutX="459.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Label text="Vel. media" textFill="#777777">
+                                    <Label text="%detail.speed" textFill="#777777">
                                        <font>
                                           <Font size="10.0" />
                                        </font>
@@ -87,7 +87,7 @@
                               </VBox>
                               <VBox layoutX="519.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Label text="Desnivel" textFill="#777777">
+                                    <Label text="%detail.elevation" textFill="#777777">
                                        <font>
                                           <Font size="10.0" />
                                        </font>
@@ -101,7 +101,7 @@
                               </VBox>
                               <VBox layoutX="579.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Label text="Ritmo" textFill="#777777">
+                                    <Label text="%detail.pace" textFill="#777777">
                                        <font>
                                           <Font size="10.0" />
                                        </font>
@@ -128,9 +128,9 @@
             <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
          </padding>
          <children>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBack" text="← Volver" />
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBack" text="%detail.back" />
             <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Label fx:id="activityNameLabel" text="Actividad">
+            <Label fx:id="activityNameLabel" text="%detail.activity">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>

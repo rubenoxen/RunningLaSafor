@@ -87,11 +87,11 @@
                 </ImageView>
                 <VBox alignment="CENTER" spacing="-4.0">
                     <children>
-                        <Label styleClass="image-tagline-1" text="Corre hoy," />
-                        <Label styleClass="image-tagline-2" text="mejora mañana." />
+                        <Label styleClass="image-tagline-1" text="%login.tagline1" />
+                        <Label styleClass="image-tagline-2" text="%login.tagline2" />
                     </children>
                 </VBox>
-                <Label styleClass="image-tagline-sub" text="Cada kilometro cuenta." />
+                <Label styleClass="image-tagline-sub" text="%login.tagline.sub" />
             </children>
         </VBox>
     </children>
