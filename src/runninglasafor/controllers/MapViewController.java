@@ -186,4 +186,11 @@ public class MapViewController implements Initializable {
         
         mapPane.getChildren().add(highlightMarker);
     }
+    
+    public void clearHighlight() {
+        if (highlightMarker != null) {
+            mapPane.getChildren().remove(highlightMarker);
+            highlightMarker = null;
+        }
+    }
 }

@@ -28,6 +28,8 @@ public class ElevationProfileController {
     @FXML
     private NumberAxis xAxis;
     
+    private MapViewController mapViewController;
+    
     //mateo tiene q gastar este metodo al cargar un GPX para refrescar la grafica
     public void loadProfileData(Activity activity){
         elevationChart.getData().clear();
@@ -79,11 +81,40 @@ public class ElevationProfileController {
         minSeries.getNode().setStyle("-fx-stroke: transparent;");
     }
     
-    private void setupHoverInteractivity(List<TrackPoint> points) {
-        elevationChart.setOnMouseMoved((MouseEvent e) -> {
-            //ahora cuando lo haga mateo lo meto
-            //le paso la coordenada y el lo pone en el mapa
-        });
+    public void setMapViewController(MapViewController mvc) {
+        this.mapViewController = mvc;
     }
     
+    private void setupHoverInteractivity(List<TrackPoint> points) {
+        elevationChart.setOnMouseMoved((MouseEvent e) -> {
+            if (points == null || points.isEmpty() || mapViewController == null) return;
+        
+        double mouseXScene = e.getSceneX();
+        double mouseXLocal = xAxis.sceneToLocal(mouseXScene, 0).getX();
+        double distKm = xAxis.getValueForDisplay(mouseXLocal).doubleValue();
+        
+        double accumDist = 0.0;
+        TrackPoint closest = points.get(0);
+        double minDiff = Double.MAX_VALUE;
+        TrackPoint prev = points.get(0);
+        for (TrackPoint tp : points) {
+            accumDist += GeoUtils.distance(prev, tp);
+            double diff = Math.abs(accumDist / 1000.0 - distKm);
+            if (diff < minDiff) {
+                minDiff = diff;
+                closest = tp;
+            }
+            prev = tp;
+        }
+        
+        mapViewController.highlightPoint(closest);
+        });
+        
+        elevationChart.setOnMouseExited((MouseEvent e) -> {
+            if (mapViewController != null) {
+                mapViewController.clearHighlight();
+            }
+        });
+    }
+       
 }

@@ -47,6 +47,7 @@ public class ActivityDetailController implements Initializable {
     }
 
     public void setActivity(Activity activity) {
+        elevationProfileController.setMapViewController(mapViewController);
         this.currentActivity = activity;
         if (activity == null) return;
         
