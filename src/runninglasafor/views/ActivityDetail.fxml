@@ -113,6 +113,26 @@
                                     </Label>
                                  </children>
                               </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                  <children>
+                                     <Label text="%detail.minElev" textFill="#777777">
+                                        <font><Font size="10.0"/></font>
+                                     </Label>
+                                     <Label fx:id="minElevLabel" text="-- m">
+                                        <font><Font name="System Bold" size="13.0"/></font>
+                                     </Label>
+                                  </children>
+                               </VBox>
+                               <VBox prefHeight="200.0" prefWidth="100.0">
+                                  <children>
+                                     <Label text="%detail.maxElev" textFill="#777777">
+                                        <font><Font size="10.0"/></font>
+                                     </Label>
+                                     <Label fx:id="maxElevLabel" text="-- m">
+                                        <font><Font name="System Bold" size="13.0"/></font>
+                                     </Label>
+                                  </children>
+                               </VBox>
                            </children>
                         </HBox>
                      </children>

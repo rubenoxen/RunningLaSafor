@@ -33,6 +33,7 @@
                 <Menu fx:id="menuActivities" text="%menu.activities">
                     <items>
                         <MenuItem text="%menu.activities.list" onAction="#onShowActivities" />
+                        <MenuItem text="%menu.activities.accumulated" onAction="#onShowAccumulated" />
                     </items>
                 </Menu>
                 <Menu fx:id="menuProfile" text="%menu.profile">

@@ -28,7 +28,10 @@ public class ActivityDetailController implements Initializable {
     @FXML private Label paceLabel;
     @FXML private ComboBox<MapRegion> mapSelector;
     @FXML private Button addMapButton;
-    @FXML private Button backButton;    
+    @FXML private Button backButton;  
+    
+    @FXML private Label minElevLabel;
+    @FXML private Label maxElevLabel;
 
     private Activity currentActivity;
     private RootLayoutController root;  
@@ -88,6 +91,8 @@ public class ActivityDetailController implements Initializable {
         speedLabel.setText(String.format("%.1f km/h", currentActivity.getAverageSpeed()));
         elevationLabel.setText(String.format("+%.0f / -%.0f m", currentActivity.getElevationGain(), currentActivity.getElevationLoss()));
         paceLabel.setText(String.format("%.2f min/km", currentActivity.getAveragePace()));
+        minElevLabel.setText(String.format("%.0f m", currentActivity.getMinElevation()));
+        maxElevLabel.setText(String.format("%.0f m", currentActivity.getMaxElevation()));
     }
 
     private String formatDuration(java.time.Duration d) {
