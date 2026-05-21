@@ -9,8 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.MapRegion;
@@ -29,21 +28,16 @@ public class ActivityDetailController implements Initializable {
     @FXML private Label paceLabel;
     @FXML private ComboBox<MapRegion> mapSelector;
     @FXML private Button addMapButton;
-    @FXML private Button backButton;
-    @FXML private Button zoomInButton;
-    @FXML private Button zoomOutButton;
-    @FXML private Slider zoomSlider;
+    @FXML private Button backButton;    
 
     private Activity currentActivity;
-    private RootLayoutController root;   
+    private RootLayoutController root;  
+    
+    @FXML
+    private HBox statsBox;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
-        if (zoomSlider != null) {
-            zoomSlider.setMin(0.5);
-            zoomSlider.setMax(1.5);
-            zoomSlider.setValue(1.0);
-        }
     }
 
     public void setActivity(Activity activity) {
@@ -104,26 +98,12 @@ public class ActivityDetailController implements Initializable {
     
     public void setRoot(RootLayoutController root) { this.root = root; }
     
-       @FXML
+    @FXML
     private void onBack() {
         if (root != null) {
             root.showActivities();
         }
-    }
-    
-    @FXML
-    private void onZoomIn() {
-        if (zoomSlider != null) {
-            zoomSlider.setValue(zoomSlider.getValue() + 0.1);
-        }
-    }
-    
-    @FXML
-    private void onZoomOut() {
-        if (zoomSlider != null) {
-            zoomSlider.setValue(zoomSlider.getValue() - 0.1);
-        }
-    }
+    }    
     
     @FXML
     private void onAddMap() {
