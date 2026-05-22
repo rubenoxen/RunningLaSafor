@@ -20,7 +20,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import runninglasafor.MainApp;
@@ -273,15 +272,6 @@ public class RootLayoutController implements Initializable {
 
     public ResourceBundle getBundle() {
         return bundle;
-    }
-
-    private void placeholderCenter(String text) {
-        Label placeholder = new Label(text);
-        placeholder.getStyleClass().add("auth-subtitle");
-        placeholder.setStyle("-fx-font-size: 16px;");
-        StackPane wrapper = new StackPane(placeholder);
-        wrapper.getStyleClass().add("auth-root");
-        rootPane.setCenter(wrapper);
     }
 
     private void setSessionMenusEnabled(boolean enabled) {
