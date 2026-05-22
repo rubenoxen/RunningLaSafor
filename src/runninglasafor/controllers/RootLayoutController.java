@@ -150,7 +150,8 @@ public class RootLayoutController implements Initializable {
         setSessionMenusEnabled(true);
         setChromeVisible(true);
         updateFooter();
-        placeholderCenter(bundle.getString("placeholder.profile"));
+        ProfileController c = loadCenter("/runninglasafor/views/Profile.fxml");
+        if (c != null) c.setRoot(this);
     }
 
     public void showHistory() {

@@ -83,6 +83,15 @@ public class ActivitiesListController implements Initializable {
         this.bundle = rb;
         activitiesList.setItems(items);
         activitiesList.setCellFactory(lv -> new ActivityCell(bundle));
+        
+        activitiesList.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                Activity a = activitiesList.getSelectionModel().getSelectedItem();
+                if (a != null && root != null) {
+                    root.showActivityDetail(a);
+                }
+            }
+        });
 
         ChangeListener<Activity> selListener = (obs, oldV, newV) -> {
             optionsButton.setDisable(newV == null);

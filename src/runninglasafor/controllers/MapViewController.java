@@ -35,6 +35,7 @@ import upv.ipc.sportlib.MapRegion;
 import runninglasafor.utils.SpeedTrack;
 import runninglasafor.utils.ZoomUtils;
 import upv.ipc.sportlib.Annotation;
+import upv.ipc.sportlib.AnnotationType;
 import upv.ipc.sportlib.GeoPoint;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.TrackPoint;
@@ -50,10 +51,15 @@ public class MapViewController implements Initializable {
     private MapProjection currentProj;
     private Activity currentActivity;
     private Circle highlightMarker; 
+    
+    private AnnotationType pendingAnnotationType;
+    private GeoPoint pendingFirstPoint;
+    private boolean awaitingSecondClick = false;
+    private Circle tempFirstMarker;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         zoomSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             zoomGroup.setScaleX(newVal.doubleValue());
             zoomGroup.setScaleY(newVal.doubleValue());
@@ -61,41 +67,113 @@ public class MapViewController implements Initializable {
         
         mapPane.setOnContextMenuRequested(e -> {
             if (currentProj == null || currentActivity == null) return;
-            
-            ContextMenu menu = new ContextMenu();
-            ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
-            MenuItem miAnadir = new MenuItem(bundle.getString("annotation.add"));
-            menu.getItems().add(miAnadir);
-            
-            miAnadir.setOnAction(ev -> {                
-                GeoPoint geo = currentProj.unproject(e.getX(), e.getY());                
-                crearAnotacion(List.of(geo));
-            });
 
+            ContextMenu menu = new ContextMenu();
+            ResourceBundle bundle = ResourceBundle.getBundle(
+                    "runninglasafor.resources.messages", MainApp.getCurrentLocale());
+
+            GeoPoint geo = currentProj.unproject(e.getX(), e.getY());
+
+            MenuItem miPoint = new MenuItem(bundle.getString("annotation.addPoint"));
+            MenuItem miText  = new MenuItem(bundle.getString("annotation.addText"));
+            MenuItem miLine  = new MenuItem(bundle.getString("annotation.addLine"));
+            MenuItem miCircle = new MenuItem(bundle.getString("annotation.addCircle"));
+
+            miPoint.setOnAction(ev -> crearAnotacion(List.of(geo), AnnotationType.POINT));
+            miText.setOnAction(ev  -> crearAnotacion(List.of(geo), AnnotationType.TEXT));
+            miLine.setOnAction(ev  -> iniciarSegundoPunto(geo, AnnotationType.LINE));
+            miCircle.setOnAction(ev -> iniciarSegundoPunto(geo, AnnotationType.CIRCLE));
+
+            menu.getItems().addAll(miPoint, miText, miLine, miCircle);
             menu.show(mapPane, e.getScreenX(), e.getScreenY());
         });
+        
+        mapPane.setOnMouseClicked(e -> {
+            if (!awaitingSecondClick) return;
+            if (e.getButton() != javafx.scene.input.MouseButton.PRIMARY) return;
+            if (currentProj == null || currentActivity == null) return;
+
+            GeoPoint secondPoint = currentProj.unproject(e.getX(), e.getY());
+            completarAnotacionDosPuntos(secondPoint);
+        });
+        
+        mapPane.setOnKeyPressed(ke -> {
+            if (awaitingSecondClick
+                    && ke.getCode() == javafx.scene.input.KeyCode.ESCAPE) {
+                awaitingSecondClick = false;
+                mapPane.setCursor(javafx.scene.Cursor.DEFAULT);
+                if (tempFirstMarker != null) {
+                    mapPane.getChildren().remove(tempFirstMarker);
+                    tempFirstMarker = null;
+                }
+                pendingFirstPoint = null;
+                pendingAnnotationType = null;
+            }
+        });
+        
+        mapPane.setFocusTraversable(true);
     }
 
     @FXML private void zoomIn() { zoomSlider.setValue(zoomSlider.getValue() + 0.1); }
     @FXML private void zoomOut() { zoomSlider.setValue(zoomSlider.getValue() - 0.1); }
     
-        private void crearAnotacion(List<GeoPoint> puntos) {
+    private void iniciarSegundoPunto(GeoPoint firstPoint, AnnotationType type) {
+        this.pendingFirstPoint = firstPoint;
+        this.pendingAnnotationType = type;
+        this.awaitingSecondClick = true;
+        
+        mapPane.setCursor(javafx.scene.Cursor.CROSSHAIR);
+        
+        Point2D p1 = currentProj.project(firstPoint);
+        tempFirstMarker = new Circle(p1.getX(), p1.getY(), 6, Color.ORANGE);
+        tempFirstMarker.setStroke(Color.WHITE);
+        tempFirstMarker.setStrokeWidth(1.5);
+        tempFirstMarker.setOpacity(0.85);
+        mapPane.getChildren().add(tempFirstMarker);
+    }
+
+    private void completarAnotacionDosPuntos(GeoPoint secondPoint) {        
+        mapPane.setCursor(javafx.scene.Cursor.DEFAULT);
+        awaitingSecondClick = false;
+       
+        if (tempFirstMarker != null) {
+            mapPane.getChildren().remove(tempFirstMarker);
+            tempFirstMarker = null;
+        }
+        
+        List<GeoPoint> puntos = List.of(pendingFirstPoint, secondPoint);
+        crearAnotacion(puntos, pendingAnnotationType);
+
+        pendingFirstPoint = null;
+        pendingAnnotationType = null;
+    }
+
+    private void crearAnotacion(List<GeoPoint> puntos, AnnotationType tipoForzado) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/runninglasafor/views/Annotation.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/runninglasafor/views/Annotation.fxml"));
             Parent view = loader.load();
             AnnotationController ctrl = loader.getController();
+            
+            ctrl.setPreselectedType(tipoForzado);
 
             Stage stage = new Stage();
             stage.initOwner(mapPane.getScene().getWindow());
             stage.initModality(Modality.WINDOW_MODAL);
-            ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
+            ResourceBundle bundle = ResourceBundle.getBundle(
+                    "runninglasafor.resources.messages", MainApp.getCurrentLocale());
             stage.setTitle(bundle.getString("annotation.title"));
-            stage.setScene(new Scene(view));
-            stage.showAndWait(); 
+            Scene scene = new Scene(view);
+            scene.getStylesheets().add(
+                getClass().getResource("/resources/estilos.css").toExternalForm());
+            stage.setScene(scene);
+            stage.showAndWait();
 
-            if (ctrl.isAccepted()) {                
-                Annotation ann = new Annotation(ctrl.getSelecType(), ctrl.getEnteredText(), ctrl.getHexColor(), 2.0, puntos);                
-                SportActivityApp.getInstance().addAnnotation(currentActivity, ann);                
+            if (ctrl.isAccepted()) {
+                Annotation ann = new Annotation(
+                        ctrl.getSelecType(), ctrl.getEnteredText(),
+                        ctrl.getHexColor(), 2.0, puntos);
+                SportActivityApp.getInstance().addAnnotation(currentActivity, ann);
                 loadActivityWithMap(currentActivity, currentProj.getRegion());
             }
         } catch (IOException ex) {
@@ -158,9 +236,11 @@ public class MapViewController implements Initializable {
             startCircle.setCenterY(startPix.getY());
             startCircle.setStroke(Color.BLACK);
             startCircle.setStrokeWidth(1.5);
+            startCircle.radiusProperty().bind(javafx.beans.binding.Bindings.divide(6.0, zoomSlider.valueProperty()));
+            startCircle.strokeWidthProperty().bind(javafx.beans.binding.Bindings.divide(1.5, zoomSlider.valueProperty()));
             mapPane.getChildren().add(startCircle);
         }
-        
+
         if (endTP != null) {
             Point2D endPix = currentProj.project(endTP);
             Circle endCircle = new Circle(6, Color.RED);
@@ -168,17 +248,19 @@ public class MapViewController implements Initializable {
             endCircle.setCenterY(endPix.getY());
             endCircle.setStroke(Color.BLACK);
             endCircle.setStrokeWidth(1.5);
+            endCircle.radiusProperty().bind(javafx.beans.binding.Bindings.divide(6.0, zoomSlider.valueProperty()));
+            endCircle.strokeWidthProperty().bind(javafx.beans.binding.Bindings.divide(1.5, zoomSlider.valueProperty()));
             mapPane.getChildren().add(endCircle);
         }
     }
     
     public void highlightPoint(TrackPoint tp) {
         if (currentProj == null || tp == null) return;
-                
+
         if (highlightMarker != null) {
             mapPane.getChildren().remove(highlightMarker);
         }
-        
+
         Point2D pix = currentProj.project(tp);
         highlightMarker = new Circle(8, Color.YELLOW);
         highlightMarker.setCenterX(pix.getX());
@@ -186,7 +268,11 @@ public class MapViewController implements Initializable {
         highlightMarker.setStroke(Color.BLACK);
         highlightMarker.setStrokeWidth(2.0);
         highlightMarker.setOpacity(0.8);
-        
+        highlightMarker.radiusProperty().bind(
+                javafx.beans.binding.Bindings.divide(8.0, zoomSlider.valueProperty()));
+        highlightMarker.strokeWidthProperty().bind(
+                javafx.beans.binding.Bindings.divide(2.0, zoomSlider.valueProperty()));
+
         mapPane.getChildren().add(highlightMarker);
     }
     

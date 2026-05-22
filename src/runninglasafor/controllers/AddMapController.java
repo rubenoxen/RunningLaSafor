@@ -143,7 +143,10 @@ public class AddMapController implements Initializable {
             stage.initModality(javafx.stage.Modality.WINDOW_MODAL);
             ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
             stage.setTitle(bundle.getString("addmap.title"));
-            stage.setScene(new javafx.scene.Scene(view));
+            javafx.scene.Scene scene = new javafx.scene.Scene(view);
+            scene.getStylesheets().add(
+                AddMapController.class.getResource("/resources/estilos.css").toExternalForm());
+            stage.setScene(scene);
             stage.showAndWait();
 
             if (ctrl.isAccepted()) {
