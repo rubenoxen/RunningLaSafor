@@ -44,35 +44,21 @@ public class ActivitiesListController implements Initializable {
 
     private enum Period { ALL, MONTH, YEAR }
 
-    @FXML
-    private HBox authRoot;
-    @FXML
-    private ListView<Activity> activitiesList;
-    @FXML
-    private MenuButton optionsButton;
-    @FXML
-    private Label statusLabel;
-    @FXML
-    private ComboBox<String> languageBox;
-    @FXML
-    private Region themeIcon;
-    @FXML
-    private ImageView bgImage;
+    @FXML private HBox authRoot;
+    @FXML private ListView<Activity> activitiesList;
+    @FXML private MenuButton optionsButton;
+    @FXML private Label statusLabel;
+    @FXML private ComboBox<String> languageBox;
+    @FXML private Region themeIcon;
+    @FXML private ImageView bgImage;
 
-    @FXML
-    private ComboBox<Period> periodCombo;
-    @FXML
-    private Label lblCount;
-    @FXML
-    private Label lblDistance;
-    @FXML
-    private Label lblTime;
-    @FXML
-    private Label lblSpeed;
-    @FXML
-    private Label lblGain;
-    @FXML
-    private Label lblLoss;
+    @FXML private ComboBox<Period> periodCombo;
+    @FXML private Label lblCount;
+    @FXML private Label lblDistance;
+    @FXML private Label lblTime;
+    @FXML private Label lblSpeed;
+    @FXML private Label lblGain;
+    @FXML private Label lblLoss;
 
     private final ObservableList<Activity> items = FXCollections.observableArrayList();
     private RootLayoutController root;
@@ -82,6 +68,7 @@ public class ActivitiesListController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         this.bundle = rb;
         activitiesList.setItems(items);
+        // definimos una factoria de celdas para personalizar el renderizado de la lista
         activitiesList.setCellFactory(lv -> new ActivityCell(bundle));
         
         activitiesList.setOnMouseClicked(e -> {
@@ -93,6 +80,7 @@ public class ActivitiesListController implements Initializable {
             }
         });
 
+        // habilitamos opciones solo cuando hay un elemento seleccionado en la lista
         ChangeListener<Activity> selListener = (obs, oldV, newV) -> {
             optionsButton.setDisable(newV == null);
         };
@@ -157,6 +145,7 @@ public class ActivitiesListController implements Initializable {
         if (bgImage != null) {
             String path = light ? "/resources/running_bg_light.png" : "/resources/running_bg.png";
             bgImage.setImage(new Image(getClass().getResource(path).toExternalForm()));
+            // hecho por ia: fusion con multiply 
             bgImage.setBlendMode(light ? BlendMode.SRC_OVER : BlendMode.MULTIPLY);
             bgImage.setOpacity(light ? 0.9 : 0.65);
         }
@@ -187,7 +176,7 @@ public class ActivitiesListController implements Initializable {
         }
     }
 
-        @FXML
+    @FXML
     private void onView(ActionEvent event) {
         Activity a = activitiesList.getSelectionModel().getSelectedItem();
         if (a == null) return;
@@ -322,22 +311,6 @@ public class ActivitiesListController implements Initializable {
         statusLabel.getStyleClass().add(error ? "error-label" : "status-label");
     }
 
-    private String detalleTexto(Activity a) {
-        String dist = String.format(Locale.ROOT, "%.2f km", a.getTotalDistance() / 1000.0);
-        String speed = String.format(Locale.ROOT, "%.2f km/h", a.getAverageSpeed());
-        String gain = String.format(Locale.ROOT, "%.0f m", a.getElevationGain());
-        String loss = String.format(Locale.ROOT, "%.0f m", a.getElevationLoss());
-        return MessageFormat.format(
-                bundle.getString("activities.detail.text"),
-                formatDate(a.getStartTime()),
-                formatDuration(a.getDuration()),
-                dist,
-                speed,
-                formatPace(a.getAveragePace()),
-                gain,
-                loss);
-    }
-
     private static String formatDate(LocalDateTime dt) {
         return dt == null ? "-" : DATE_FMT.format(dt);
     }
@@ -363,16 +336,7 @@ public class ActivitiesListController implements Initializable {
         return String.format("%dh %02dmin", h, m);
     }
 
-    private static String formatPace(double minPerKm) {
-        if (Double.isNaN(minPerKm) || Double.isInfinite(minPerKm) || minPerKm <= 0) {
-            return "-";
-        }
-        int min = (int) Math.floor(minPerKm);
-        int sec = (int) Math.round((minPerKm - min) * 60.0);
-        if (sec == 60) { min++; sec = 0; }
-        return String.format("%d:%02d", min, sec);
-    }
-
+    // clase interna para el renderizado custom de la lista
     private static final class ActivityCell extends ListCell<Activity> {
         private final ResourceBundle bundle;
         private final Label title = new Label();

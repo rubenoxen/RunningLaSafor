@@ -32,7 +32,7 @@
                     <children>
                         <ImageView fx:id="brandLogo" styleClass="brand-logo" fitHeight="42.0" preserveRatio="true">
                             <image>
-                                <Image url="@../../resources/logo_brand.png" />
+                                <Image url="@../resources/logo_brand.png" />
                             </image>
                         </ImageView>
                         <Region HBox.hgrow="ALWAYS" />
@@ -44,23 +44,19 @@
                         <ComboBox fx:id="languageBox" styleClass="lang-combo" />
                     </children>
                 </HBox>
-
                 <VBox spacing="4.0">
                     <children>
                         <Label styleClass="auth-title" text="%activities.title" wrapText="true" />
                         <Label styleClass="auth-subtitle" text="%activities.subtitle" wrapText="true" />
                     </children>
                 </VBox>
-
                 <HBox alignment="CENTER_RIGHT" spacing="8.0">
                     <children>
                         <Region HBox.hgrow="ALWAYS" />
                         <Button styleClass="secondary-button" text="%activities.refresh" onAction="#onRefresh" />
                     </children>
                 </HBox>
-
                 <ListView fx:id="activitiesList" styleClass="activity-list" prefHeight="300.0" VBox.vgrow="ALWAYS" />
-
                 <HBox spacing="10.0" alignment="CENTER_LEFT">
                     <children>
                         <Button styleClass="primary-button" text="%activities.import" onAction="#onImport" defaultButton="true" />
@@ -74,11 +70,9 @@
                         </MenuButton>
                     </children>
                 </HBox>
-
                 <Label fx:id="statusLabel" styleClass="status-label" wrapText="true" />
             </children>
         </VBox>
-
         <VBox styleClass="auth-image-panel" prefWidth="380.0" minWidth="320.0" alignment="TOP_LEFT" spacing="14.0">
             <padding>
                 <Insets top="32.0" right="24.0" bottom="32.0" left="24.0" />
@@ -90,14 +84,12 @@
                         <Label styleClass="image-panel-sub" text="%acc.tagline.sub" wrapText="true" />
                     </children>
                 </VBox>
-
                 <HBox alignment="CENTER_LEFT" spacing="8.0">
                     <children>
                         <Label styleClass="image-panel-label" text="%acc.period" />
                         <ComboBox fx:id="periodCombo" styleClass="form-combo" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
                     </children>
                 </HBox>
-
                 <VBox spacing="8.0">
                     <children>
                         <VBox styleClass="stat-card" spacing="2.0">
