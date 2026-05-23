@@ -30,31 +30,26 @@ import upv.ipc.sportlib.User;
 
 public class RootLayoutController implements Initializable {
 
-    @FXML
-    private BorderPane rootPane;
-    @FXML
-    private MenuBar menuBar;
-    @FXML
-    private MenuItem miImport;
-    @FXML
-    private MenuItem miLogout;
-    @FXML
-    private Menu menuActivities;
-    @FXML
-    private Menu menuProfile;
-    @FXML
-    private Label footerLabel;
+    @FXML private BorderPane rootPane;
+    @FXML private MenuBar menuBar;
+    @FXML private MenuItem miImport;
+    @FXML private MenuItem miLogout;
+    @FXML private Menu menuActivities;
+    @FXML private Menu menuProfile;
+    @FXML private Label footerLabel;
 
     private ResourceBundle bundle;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // guardamos la referencia al bundle de idiomas que inyecta mainapp
         this.bundle = rb;
         refreshChromeTheme();
         restoreView();
     }
 
     public void refreshChromeTheme() {
+        // comprobacion para inyectar o quitar la clase css del tema claro
         if (rootPane == null) return;
         boolean light = MainApp.isLightTheme();
         if (light) {
@@ -67,6 +62,7 @@ public class RootLayoutController implements Initializable {
     }
 
     private void restoreView() {
+        // switch para el enrutamiento de las vistas
         View v = MainApp.getCurrentView();
         switch (v) {
             case REGISTER:
@@ -96,6 +92,7 @@ public class RootLayoutController implements Initializable {
         setSessionMenusEnabled(false);
         setChromeVisible(false);
         updateFooter();
+        // cargamos el panel central y pasamos el controlador principal
         LoginController c = loadCenter("/runninglasafor/views/Login.fxml");
         if (c != null) c.setRoot(this);
     }
@@ -217,32 +214,15 @@ public class RootLayoutController implements Initializable {
         a.showAndWait();
     }
 
-    @FXML
-    private void onIdiomaEs(ActionEvent event) {
-        MainApp.changeLocale(new Locale("es"));
-    }
-
-    @FXML
-    private void onIdiomaEn(ActionEvent event) {
-        MainApp.changeLocale(new Locale("en"));
-    }
-
-    @FXML
-    private void onIdiomaFr(ActionEvent event) {
-        MainApp.changeLocale(new Locale("fr"));
-    }
-
-    @FXML
-    private void onIdiomaDe(ActionEvent event) {
-        MainApp.changeLocale(new Locale("de"));
-    }
-
-    @FXML
-    private void onIdiomaZh(ActionEvent event) {
-        MainApp.changeLocale(new Locale("zh"));
-    }
+    // handlers simples de botones de menu para setear el locale
+    @FXML private void onIdiomaEs(ActionEvent event) { MainApp.changeLocale(new Locale("es")); }
+    @FXML private void onIdiomaEn(ActionEvent event) { MainApp.changeLocale(new Locale("en")); }
+    @FXML private void onIdiomaFr(ActionEvent event) { MainApp.changeLocale(new Locale("fr")); }
+    @FXML private void onIdiomaDe(ActionEvent event) { MainApp.changeLocale(new Locale("de")); }
+    @FXML private void onIdiomaZh(ActionEvent event) { MainApp.changeLocale(new Locale("zh")); }
 
     public boolean importGpx() {
+        // filechooser estandar para pillar ficheros locales
         FileChooser fc = new FileChooser();
         fc.setTitle(bundle.getString("import.title"));
         fc.getExtensionFilters().add(

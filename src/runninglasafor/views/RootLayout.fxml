@@ -9,59 +9,53 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane fx:id="rootPane" styleClass="app-chrome" prefHeight="600.0" prefWidth="900.0"
-            stylesheets="@../../resources/estilos.css"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="runninglasafor.controllers.RootLayoutController">
-
+<BorderPane fx:id="rootPane" prefHeight="800.0" prefWidth="900.0" styleClass="app-chrome" stylesheets="@../resources/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="runninglasafor.controllers.RootLayoutController">
     <top>
         <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
             <menus>
                 <Menu text="%menu.file">
                     <items>
-                        <MenuItem fx:id="miImport" text="%menu.file.import" onAction="#onImportGpx">
+                        <MenuItem fx:id="miImport" onAction="#onImportGpx" text="%menu.file.import">
                             <accelerator>
                                 <KeyCodeCombination alt="UP" code="I" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                             </accelerator>
                         </MenuItem>
                         <SeparatorMenuItem />
-                        <MenuItem fx:id="miLogout" text="%menu.file.logout" onAction="#onLogout" />
-                        <MenuItem text="%menu.file.exit" onAction="#onExit" />
+                        <MenuItem fx:id="miLogout" onAction="#onLogout" text="%menu.file.logout" />
+                        <MenuItem onAction="#onExit" text="%menu.file.exit" />
                     </items>
                 </Menu>
                 <Menu fx:id="menuActivities" text="%menu.activities">
                     <items>
-                        <MenuItem text="%menu.activities.list" onAction="#onShowActivities" />
-                        <MenuItem text="%menu.activities.accumulated" onAction="#onShowAccumulated" />
+                        <MenuItem onAction="#onShowActivities" text="%menu.activities.list" />
+                        <MenuItem onAction="#onShowAccumulated" text="%menu.activities.accumulated" />
                     </items>
                 </Menu>
                 <Menu fx:id="menuProfile" text="%menu.profile">
                     <items>
-                        <MenuItem text="%menu.profile.edit" onAction="#onShowProfile" />
-                        <MenuItem text="%menu.profile.history" onAction="#onShowHistory" />
+                        <MenuItem onAction="#onShowProfile" text="%menu.profile.edit" />
+                        <MenuItem onAction="#onShowHistory" text="%menu.profile.history" />
                     </items>
                 </Menu>
                 <Menu text="%menu.language">
                     <items>
-                        <MenuItem text="%menu.language.spanish" onAction="#onIdiomaEs" />
-                        <MenuItem text="%menu.language.english" onAction="#onIdiomaEn" />
-                        <MenuItem text="%menu.language.french" onAction="#onIdiomaFr" />
-                        <MenuItem text="%menu.language.german" onAction="#onIdiomaDe" />
-                        <MenuItem text="%menu.language.chinese" onAction="#onIdiomaZh" />
+                        <MenuItem onAction="#onIdiomaEs" text="%menu.language.spanish" />
+                        <MenuItem onAction="#onIdiomaEn" text="%menu.language.english" />
+                        <MenuItem onAction="#onIdiomaFr" text="%menu.language.french" />
+                        <MenuItem onAction="#onIdiomaDe" text="%menu.language.german" />
+                        <MenuItem onAction="#onIdiomaZh" text="%menu.language.chinese" />
                     </items>
                 </Menu>
                 <Menu text="%menu.help">
                     <items>
-                        <MenuItem text="%menu.help.about" onAction="#onAbout" />
+                        <MenuItem onAction="#onAbout" text="%menu.help.about" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
     </top>
-
     <bottom>
-        <HBox fx:id="footerBox" styleClass="app-footer" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
+        <HBox fx:id="footerBox" alignment="CENTER_LEFT" styleClass="app-footer" BorderPane.alignment="CENTER">
             <children>
                 <Label fx:id="footerLabel" text="%app.footer" />
             </children>
