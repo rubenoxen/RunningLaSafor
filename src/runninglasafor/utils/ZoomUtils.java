@@ -20,6 +20,9 @@ public class ZoomUtils {
     
     public static void applyZoomCorrection(Group group, DoubleProperty zoomProperty, double baseStrokeWidth){
         
+        // hecho por ia: recorrido reflectivo tirando de clases raw y resolviendo con el engine de bindings
+        // para enlazar dinamicamente el slider con los strokes de las anotaciones.
+        // el uso de Bindings.divide sobre properties no se machaca tanto en las practicas normales
         for(Node node : group.getChildren()){
             
             String tipoNodo = node.getClass().getSimpleName();
