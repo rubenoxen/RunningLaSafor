@@ -75,7 +75,7 @@ public class AddMapController implements Initializable {
     
     @FXML
     private void onAccept() {
-                ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
+        ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
         
         String name = trim(nameField.getText());
         String imagePath = trim(imagePathField.getText());
@@ -92,7 +92,7 @@ public class AddMapController implements Initializable {
         }
         
         double latMin, latMax, lonMin, lonMax;
-        try {
+        try {           
             latMin = Double.parseDouble(trim(latMinField.getText()));
             latMax = Double.parseDouble(trim(latMaxField.getText()));
             lonMin = Double.parseDouble(trim(lonMinField.getText()));
@@ -101,7 +101,7 @@ public class AddMapController implements Initializable {
             errorLabel.setText(bundle.getString("addmap.errorCoords"));
             return;
         }
-        
+                
         if (latMin >= latMax) {
             errorLabel.setText(bundle.getString("addmap.errorLatRange"));
             return;
@@ -131,6 +131,8 @@ public class AddMapController implements Initializable {
         return s == null ? "" : s.trim();
     }
     
+    // hecho por ia: metodo estatico para gestionar el flujo modal del dialogo
+    // esto abstrae la creacion del stage de la logica del controlador padre
     public static Optional<MapRegion> showDialog(javafx.stage.Window owner) {
         try {
             FXMLLoader loader = new FXMLLoader(

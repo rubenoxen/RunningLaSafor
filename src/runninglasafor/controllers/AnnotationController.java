@@ -14,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import runninglasafor.MainApp;
 import upv.ipc.sportlib.AnnotationType;
 
 /**
@@ -23,30 +24,40 @@ import upv.ipc.sportlib.AnnotationType;
  */
 public class AnnotationController implements Initializable {
 
-    @FXML
-    private ComboBox<AnnotationType> typeComboBox;
-    @FXML
-    private TextField textField;
-    @FXML
-    private ColorPicker colorPicker;
-    @FXML
-    private Button bAccept;
-    @FXML
-    private Button bCancel;
+    @FXML private ComboBox<AnnotationType> typeComboBox;
+    @FXML private TextField textField;
+    @FXML private ColorPicker colorPicker;
+    @FXML private Button bAccept;
+    @FXML private Button bCancel;
 
-    /**
-     * Initializes the controller class.
-     */
-    
     private boolean isAccepted = false;
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) {       
         typeComboBox.getItems().setAll(AnnotationType.values());
+        ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
+        
+        // converter para traducir los tipos de anotacion en el combo
+        typeComboBox.setConverter(new javafx.util.StringConverter<AnnotationType>() {
+            @Override
+            public String toString(AnnotationType t) {
+                if (t == null) return "";
+                switch (t) {
+                    case POINT: return bundle.getString("annotation.addPoint");
+                    case TEXT: return bundle.getString("annotation.addText");
+                    case LINE: return bundle.getString("annotation.addLine");
+                    case CIRCLE: return bundle.getString("annotation.addCircle");
+                    default: return t.name();
+                }
+            }
+            @Override
+            public AnnotationType fromString(String s) { return null; }
+        });
         typeComboBox.getSelectionModel().selectFirst();
         
         colorPicker.setValue(Color.RED);
         
+        // cierres con flags para saber si el usuario guardo o cancelo
         bAccept.setOnAction(e -> {
             isAccepted = true;
             ((Stage) bAccept.getScene().getWindow()).close();
@@ -54,32 +65,22 @@ public class AnnotationController implements Initializable {
         
         bCancel.setOnAction(e -> {
             isAccepted = false;
-            ((Stage) bAccept.getScene().getWindow()).close();
+            ((Stage) bCancel.getScene().getWindow()).close();
         });
-        
     } 
     
-    //integrar esto en el mapa
+    public boolean isAccepted() { return isAccepted; }
     
-    public boolean isAccepted() {
-        return isAccepted;
-    }
-    
-    public AnnotationType getSelecType() {
-        return typeComboBox.getValue();
-    }
+    public AnnotationType getSelecType() { return typeComboBox.getValue(); }
     
     public void setPreselectedType(AnnotationType type) {
-        if (type != null) {
-            typeComboBox.getSelectionModel().select(type);
-        }
+        if (type != null) typeComboBox.getSelectionModel().select(type);
     }
     
-    public String getEnteredText() {
-        return textField.getText().trim();
-    }
+    public String getEnteredText() { return textField.getText().trim(); }
     
     public String getHexColor() {
+        // conversion de color de javafx a hex para la libreria
         String c = colorPicker.getValue().toString();
         return "#" + c.substring(2, 8);
     }
