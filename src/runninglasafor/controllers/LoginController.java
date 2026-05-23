@@ -19,27 +19,20 @@ import runninglasafor.MainApp;
 import upv.ipc.sportlib.SportActivityApp;
 
 public class LoginController implements Initializable {
-
-    @FXML
-    private HBox authRoot;
-    @FXML
-    private TextField userField;
-    @FXML
-    private PasswordField passField;
-    @FXML
-    private Label errorLabel;
-    @FXML
-    private ComboBox<String> languageBox;
-    @FXML
-    private Region themeIcon;
-    @FXML
-    private ImageView bgImage;
+    
+    @FXML private HBox authRoot;
+    @FXML private TextField userField;
+    @FXML private PasswordField passField;
+    @FXML private Label errorLabel;
+    @FXML private ComboBox<String> languageBox;
+    @FXML private Region themeIcon;
+    @FXML private ImageView bgImage;
 
     private RootLayoutController root;
     private ResourceBundle bundle;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) {        
         this.bundle = rb;
         errorLabel.setText("");
         setupLanguageBox();
@@ -48,9 +41,10 @@ public class LoginController implements Initializable {
 
     private void setupLanguageBox() {
         if (languageBox == null) return;
+        // poblado manual del combobox
         languageBox.getItems().setAll("ES", "EN", "FR", "DE", "ZH");
         String current = MainApp.getCurrentLocale().getLanguage().toUpperCase();
-        languageBox.setValue(current);
+        languageBox.setValue(current);        
         languageBox.setOnAction(e -> {
             String sel = languageBox.getValue();
             if (sel == null) return;
@@ -72,8 +66,11 @@ public class LoginController implements Initializable {
             themeIcon.getStyleClass().add(light ? "theme-sun" : "theme-moon");
         }
         if (bgImage != null) {
-            String path = light ? "/resources/running_bg_light.png" : "/resources/running_bg.png";
+            String path = light
+                    ? "/runninglasafor/resources/running_bg_light.png"
+                    : "/runninglasafor/resources/running_bg.png";
             bgImage.setImage(new Image(getClass().getResource(path).toExternalForm()));
+            // hecho por ia: aplicar un blendmode para fusionar el background
             bgImage.setBlendMode(light ? BlendMode.SRC_OVER : BlendMode.MULTIPLY);
             bgImage.setOpacity(light ? 0.9 : 0.65);
         }
@@ -91,6 +88,7 @@ public class LoginController implements Initializable {
 
     @FXML
     private void onLogin(ActionEvent event) {
+        // saneamiento y extraccion de strings
         String user = userField.getText() == null ? "" : userField.getText().trim();
         String pass = passField.getText() == null ? "" : passField.getText();
 
