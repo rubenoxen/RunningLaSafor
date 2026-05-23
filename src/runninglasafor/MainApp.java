@@ -14,6 +14,7 @@ public class MainApp extends Application {
 
     private static final String BUNDLE_NAME = "runninglasafor.resources.messages";
     private static final String ROOT_FXML = "/runninglasafor/views/RootLayout.fxml";
+    private static final String CSS_PATH = "/runninglasafor/resources/estilos.css"; 
 
     public enum View { LOGIN, REGISTER, ACTIVITIES, ACCUMULATED, PROFILE, HISTORY }
 
@@ -54,7 +55,9 @@ public class MainApp extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(
                     MainApp.class.getResource(ROOT_FXML), getBundle());
-            Parent root = loader.load();
+            Parent root = loader.load();            
+            primaryStage.getScene().getStylesheets().setAll(
+                    MainApp.class.getResource(CSS_PATH).toExternalForm());
             primaryStage.getScene().setRoot(root);
             primaryStage.setTitle(getBundle().getString("app.title"));
         } catch (IOException ex) {
@@ -67,9 +70,12 @@ public class MainApp extends Application {
         primaryStage = stage;
         ResourceBundle bundle = getBundle();
         Parent root = FXMLLoader.load(getClass().getResource(ROOT_FXML), bundle);
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root);        
+        scene.getStylesheets().add(
+                getClass().getResource(CSS_PATH).toExternalForm());
         try {
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+            stage.getIcons().add(new Image(
+                    getClass().getResourceAsStream("/runninglasafor/resources/logo.png"))); 
         } catch (Exception ignored) {
         }
         stage.setTitle(bundle.getString("app.title"));

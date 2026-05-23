@@ -1,48 +1,26 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates.
- * All rights reserved. Use is subject to license terms.
- *
- * This file is available and licensed under the following license:
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *  - Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *  - Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the distribution.
- *  - Neither the name of Oracle Corporation nor the names of its
- *    contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Running La Safor — Estilo unificado
+ * Fusionado desde estilos.css + estilos1.css
  */
 
-/*******************************************************************************
- *                                                                             *
- * Embedded Styling                                                            *
- *                                                                             *
- ******************************************************************************/
+/* ============================================ */
+/*         VARIABLES ROOT Y RESETS              */
+/* ============================================ */
 
+.root {
+    -fx-base: #0A0F14;
+    -fx-background: #0A0F14;
+    -fx-control-inner-background: #0F141A;
+    -fx-text-base-color: white;
+}
 
+.label { -fx-text-fill: white; }
+.text-field, .password-field, .date-picker { -fx-text-fill: white; }
+.table-view { -fx-background-color: #0F141A; }
 
-/*******************************************************************************
- *                                                                             *
- * High Contrast Theme                                                         *
- *                                                                             *
- ******************************************************************************/
+/* ============================================ */
+/*         HIGH CONTRAST / MAP PIN              */
+/* ============================================ */
 
 .contrast {
     -app-color-hi: #5bf900;
@@ -51,12 +29,10 @@
     -fx-background-color: -app-color-lo;
 }
 
-/*-------------------------- map pin ------------------------- */
-
 .map-pin {
     -fx-shape: "M13.558,0C6.07,0,0,6.07,0,13.558s13.558,22.346,13.558,22.346s13.558-14.858,13.558-22.346S21.045,0,13.558,0z
 M13.558,20.762c-4.084,0-7.395-3.311-7.395-7.395s3.311-7.395,7.395-7.395c4.084,0,7.396,3.311,7.396,7.395
-S17.642,20.762,13.558,20.762z";    
+S17.642,20.762,13.558,20.762z";
     -fx-background-color: black, white;
     -fx-background-insets: 0, 2;
     -fx-effect: dropshadow( two-pass-box, rgba(0, 0, 0, 0.5), 10, 0.0, 0, 10 );
@@ -65,4 +41,1286 @@ S17.642,20.762,13.558,20.762z";
 }
 .map-pin .arrow-button .arrow {
     -fx-padding: 0;
+}
+
+/* ============================================ */
+/*         APP CHROME / LAYOUT                  */
+/* ============================================ */
+
+.app-chrome {
+    -fx-background-color: #0A0F14;
+}
+
+/* ============================================ */
+/*         MENU BAR & CONTEXT MENU              */
+/* ============================================ */
+
+.menu-bar {
+    -fx-background-color: #0A0F14;
+    -fx-border-color: transparent transparent #1F2937 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 2 4 2 4;
+}
+
+.menu-bar .label {
+    -fx-text-fill: #D1D5DB;
+    -fx-font-size: 12px;
+}
+
+.menu-bar .menu:hover,
+.menu-bar .menu:showing {
+    -fx-background-color: #1F2937;
+    -fx-background-radius: 4;
+}
+
+.menu-bar .menu:showing .label {
+    -fx-text-fill: white;
+}
+
+.context-menu {
+    -fx-background-color: #111827;
+    -fx-border-color: #1F2937;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 4;
+}
+
+.context-menu .menu-item {
+    -fx-background-radius: 4;
+    -fx-padding: 6 12 6 12;
+}
+
+.context-menu .menu-item .label {
+    -fx-text-fill: #D1D5DB;
+    -fx-font-size: 12px;
+}
+
+.context-menu .menu-item:hover,
+.context-menu .menu-item:focused {
+    -fx-background-color: #1F2937;
+}
+
+.context-menu .menu-item:hover .label,
+.context-menu .menu-item:focused .label {
+    -fx-text-fill: #22C55E;
+}
+
+.context-menu .menu-item:disabled .label {
+    -fx-text-fill: #4B5563;
+}
+
+.context-menu .separator-menu-item .line {
+    -fx-border-color: #1F2937;
+}
+
+/* ============================================ */
+/*         FOOTER                               */
+/* ============================================ */
+
+.app-footer {
+    -fx-background-color: #0A0F14;
+    -fx-border-color: #1F2937 transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 6 16 6 16;
+}
+
+.app-footer .label {
+    -fx-text-fill: #9CA3AF;
+    -fx-font-size: 11px;
+}
+
+/* ============================================ */
+/*         DIALOG PANES & ALERTS                */
+/* ============================================ */
+
+.dialog-pane { -fx-background-color: #0A0F14; }
+.dialog-pane .header-panel { -fx-background-color: #111827; }
+.dialog-pane .label { -fx-text-fill: white; }
+.dialog-pane .button { -fx-background-color: #22C55E; -fx-text-fill: #0A0F14; -fx-font-weight: bold; }
+.dialog-pane .button:hover { -fx-background-color: #4ADE80; }
+
+.custom-alert.dialog-pane { -fx-background-color: #0A0F14; }
+.custom-alert.dialog-pane > *.button-bar > *.container { -fx-background-color: #0A0F14; }
+.custom-alert.dialog-pane > *.label.content { -fx-text-fill: white; }
+.custom-alert.dialog-pane:header *.header-panel { -fx-background-color: #111827; }
+.custom-alert.dialog-pane:header *.header-panel *.label { -fx-text-fill: white; }
+.custom-alert .button { -fx-background-color: #22C55E; -fx-text-fill: #0A0F14; -fx-font-weight: bold; }
+.custom-alert .button:hover { -fx-background-color: #4ADE80; }
+
+/* ============================================ */
+/*         CHARTS / ELEVATION PROFILE           */
+/* ============================================ */
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-vertical-grid-lines, .chart-horizontal-grid-lines {
+    -fx-stroke: #1F2937;
+}
+
+.axis {
+    -fx-text-fill: #9CA3AF;
+    -fx-tick-label-fill: #9CA3AF;
+}
+
+.axis-label {
+    -fx-text-fill: #9CA3AF;
+}
+
+.chart-series-line {
+    -fx-stroke: #22C55E;
+    -fx-stroke-width: 2px;
+}
+
+/* Forzar color verde frente a modena.css */
+.root .chart-series-line,
+.root .chart-series-line.default-color0 {
+    -fx-stroke: #22C55E;
+    -fx-stroke-width: 2px;
+}
+
+/* ============================================ */
+/*         SLIDER / ZOOM                        */
+/* ============================================ */
+
+.slider .track { -fx-background-color: #1F2937; }
+.slider .thumb { -fx-background-color: #22C55E; }
+.slider .thumb:hover { -fx-background-color: #4ADE80; }
+
+.root .slider .thumb {
+    -fx-background-color: #22C55E;
+}
+.root .slider .thumb:hover {
+    -fx-background-color: #4ADE80;
+}
+
+/* ============================================ */
+/*         COLOR PICKER                          */
+/* ============================================ */
+
+.color-picker {
+    -fx-background-color: #111827;
+    -fx-border-color: #1F2937;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+.color-picker:focused { -fx-border-color: #22C55E; }
+.color-picker .label { -fx-text-fill: white; }
+.color-picker .arrow-button { -fx-background-color: transparent; }
+.color-picker .arrow { -fx-background-color: #9CA3AF; }
+.color-palette { -fx-background-color: #111827; }
+.color-palette .label { -fx-text-fill: white; }
+
+/* ============================================ */
+/*         GENERIC TEXT FIELD (diálogos)        */
+/* ============================================ */
+
+.text-field {
+    -fx-background-color: #111827;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #6B7280;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #1F2937;
+    -fx-border-width: 1;
+    -fx-padding: 9 14 9 14;
+    -fx-font-size: 13px;
+}
+.text-field:focused { -fx-border-color: #22C55E; }
+
+/* ============================================ */
+/*         GENERIC COMBO BOX (diálogos)         */
+/* ============================================ */
+
+.combo-box {
+    -fx-background-color: #111827;
+    -fx-background-radius: 8;
+    -fx-border-color: #1F2937;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+}
+.combo-box .list-cell { -fx-background-color: transparent; -fx-text-fill: white; }
+.combo-box .arrow-button { -fx-background-color: transparent; }
+.combo-box .arrow { -fx-background-color: #9CA3AF; }
+.combo-box-popup .list-view { -fx-background-color: #111827; -fx-border-color: #1F2937; }
+.combo-box-popup .list-cell { -fx-background-color: #111827; -fx-text-fill: white; }
+.combo-box-popup .list-cell:hover { -fx-background-color: #1F2937; -fx-text-fill: #22C55E; }
+
+/* ============================================ */
+/*         CUSTOM FORM ELEMENTS (app principal) */
+/* ============================================ */
+
+.form-label {
+    -fx-text-fill: #D1D5DB;
+    -fx-font-size: 11px;
+}
+
+.form-input {
+    -fx-background-color: #111827;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #6B7280;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #1F2937;
+    -fx-border-width: 1;
+    -fx-padding: 9 14 9 14;
+    -fx-font-size: 13px;
+    -fx-pref-height: 36px;
+    -fx-min-height: 36px;
+}
+
+.form-input:focused {
+    -fx-border-color: #22C55E;
+    -fx-border-width: 1.5;
+}
+
+.date-picker.form-input {
+    -fx-padding: 0 0 0 0;
+}
+
+.date-picker.form-input > .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #6B7280;
+    -fx-font-size: 13px;
+    -fx-padding: 9 14 9 14;
+    -fx-pref-height: 36px;
+    -fx-min-height: 36px;
+}
+
+.date-picker.form-input > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 10 0 4;
+}
+
+.date-picker.form-input > .arrow-button > .arrow {
+    -fx-background-color: #9CA3AF;
+}
+
+.form-combo {
+    -fx-background-color: #111827;
+    -fx-background-radius: 8;
+    -fx-border-color: #1F2937;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-pref-height: 36px;
+    -fx-min-height: 36px;
+}
+
+.form-combo:focused {
+    -fx-border-color: #22C55E;
+}
+
+.form-combo > .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-padding: 8 10 8 14;
+    -fx-font-size: 13px;
+}
+
+.form-combo > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 10 0 4;
+}
+
+.form-combo > .arrow-button > .arrow {
+    -fx-background-color: #9CA3AF;
+}
+
+.form-combo .combo-box-popup > .list-view {
+    -fx-background-color: #111827;
+    -fx-background-radius: 8;
+    -fx-border-color: #1F2937;
+    -fx-border-radius: 8;
+}
+
+.form-combo .combo-box-popup .list-cell {
+    -fx-background-color: #111827;
+    -fx-text-fill: white;
+    -fx-padding: 8 14 8 14;
+    -fx-font-size: 13px;
+}
+
+.form-combo .combo-box-popup .list-cell:hover,
+.form-combo .combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #1F2937;
+    -fx-text-fill: #22C55E;
+}
+
+/* ============================================ */
+/*         BUTTONS                              */
+/* ============================================ */
+
+.primary-button {
+    -fx-background-color: #22C55E;
+    -fx-text-fill: #0A0F14;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 11 24 11 24;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #4ADE80;
+}
+
+.primary-button:pressed {
+    -fx-background-color: #15803D;
+}
+
+.secondary-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #D1D5DB;
+    -fx-font-size: 12px;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #1F2937;
+    -fx-border-width: 1;
+    -fx-padding: 8 14 8 14;
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-border-color: #22C55E;
+    -fx-text-fill: #22C55E;
+}
+
+/* ============================================ */
+/*         STAT CARDS                           */
+/* ============================================ */
+
+.stat-card {
+    -fx-background-color: #111827;
+    -fx-background-radius: 10;
+    -fx-border-color: #1F2937;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+}
+
+.stat-card-label {
+    -fx-text-fill: #9CA3AF;
+    -fx-font-size: 11px;
+}
+
+.stat-card-value {
+    -fx-text-fill: white;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+.root .app-chrome .stat-card-value,
+.root .stat-card-value {
+    -fx-text-fill: #FFFFFF;
+}
+
+.root .app-chrome .stat-card-label,
+.root .stat-card-label {
+    -fx-text-fill: #9CA3AF;
+}
+
+/* ============================================ */
+/*         ACTIVITY LIST                        */
+/* ============================================ */
+
+.activity-list {
+    -fx-background-color: #0F141A;
+    -fx-control-inner-background: #0F141A;
+    -fx-background-radius: 10;
+    -fx-border-color: #1F2937;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-padding: 4;
+}
+
+.activity-list:focused {
+    -fx-background-insets: 0;
+    -fx-background-color: #0F141A;
+}
+
+.activity-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-padding: 10 14 10 14;
+    -fx-background-radius: 6;
+}
+
+.activity-list .list-cell:filled:hover {
+    -fx-background-color: #1F2937;
+}
+
+.activity-list .list-cell:filled:selected,
+.activity-list .list-cell:filled:selected:focused {
+    -fx-background-color: #166534;
+    -fx-text-fill: white;
+}
+
+.activity-list .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.activity-list .scroll-bar .thumb {
+    -fx-background-color: #1F2937;
+    -fx-background-radius: 4;
+}
+
+.activity-list .scroll-bar .thumb:hover {
+    -fx-background-color: #374151;
+}
+
+.activity-cell-title {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.activity-cell-subtitle {
+    -fx-text-fill: #9CA3AF;
+    -fx-font-size: 11px;
+}
+
+.activity-cell-stat {
+    -fx-text-fill: #22C55E;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.activity-cell-substat {
+    -fx-text-fill: #9CA3AF;
+    -fx-font-size: 11px;
+}
+
+/* ============================================ */
+/*         SESSION TABLE                        */
+/* ============================================ */
+
+.session-table {
+    -fx-background-color: #0F141A;
+    -fx-control-inner-background: #0F141A;
+    -fx-background-radius: 10;
+    -fx-border-color: #1F2937;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+}
+
+.session-table .column-header-background {
+    -fx-background-color: #111827;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.session-table .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 32;
+}
+
+.session-table .column-header .label {
+    -fx-text-fill: #9CA3AF;
+    -fx-font-size: 12px;
+}
+
+.session-table .table-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #D1D5DB;
+    -fx-padding: 8 10 8 10;
+    -fx-font-size: 12px;
+    -fx-border-color: transparent transparent #1F2937 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.session-table .table-row-cell {
+    -fx-background-color: transparent;
+}
+
+.session-table .table-row-cell:hover {
+    -fx-background-color: #1F2937;
+}
+
+.session-table .table-row-cell:selected {
+    -fx-background-color: #166534;
+}
+
+.session-table .table-row-cell:selected .table-cell {
+    -fx-text-fill: white;
+}
+
+.session-table .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.session-table .scroll-bar .thumb {
+    -fx-background-color: #1F2937;
+    -fx-background-radius: 4;
+}
+
+.session-table .scroll-bar .thumb:hover {
+    -fx-background-color: #374151;
+}
+
+.session-table .scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.session-table .scroll-bar > .increment-button,
+.session-table .scroll-bar > .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.session-table .scroll-bar > .increment-arrow,
+.session-table .scroll-bar > .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+/* ============================================ */
+/*         STATUS & OPTIONS                     */
+/* ============================================ */
+
+.status-label {
+    -fx-text-fill: #9CA3AF;
+    -fx-font-size: 11px;
+}
+
+.error-label {
+    -fx-text-fill: #EF4444;
+    -fx-font-size: 11px;
+}
+
+.options-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #D1D5DB;
+    -fx-font-size: 12px;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #1F2937;
+    -fx-border-width: 1;
+    -fx-padding: 8 14 8 14;
+    -fx-cursor: hand;
+}
+
+.options-button:hover {
+    -fx-border-color: #22C55E;
+}
+
+.options-button > .label {
+    -fx-text-fill: #D1D5DB;
+}
+
+.options-button:hover > .label {
+    -fx-text-fill: #22C55E;
+}
+
+.options-button > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 4 0 10;
+}
+
+.options-button > .arrow-button > .arrow {
+    -fx-background-color: #9CA3AF;
+}
+
+.options-button:hover > .arrow-button > .arrow {
+    -fx-background-color: #22C55E;
+}
+
+.options-button:disabled {
+    -fx-opacity: 0.45;
+}
+
+/* ============================================ */
+/*         AUTH PAGES (login/registro)          */
+/* ============================================ */
+
+.auth-root {
+    -fx-background-color: #000000;
+}
+
+.auth-form-panel {
+    -fx-background-color: #0A0F14;
+}
+
+.auth-image-panel {
+    -fx-background-color: linear-gradient(to bottom right, #14532D 0%, #15803D 60%, #166534 100%);
+}
+
+.brand-logo {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 6, 0.0, 0, 1);
+}
+
+.auth-title {
+    -fx-text-fill: white;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.auth-subtitle {
+    -fx-text-fill: #9CA3AF;
+    -fx-font-size: 12px;
+}
+
+.auth-footer-label {
+    -fx-text-fill: #9CA3AF;
+    -fx-font-size: 12px;
+}
+
+.auth-link {
+    -fx-text-fill: #22C55E;
+    -fx-font-size: 12px;
+    -fx-border-color: transparent;
+    -fx-padding: 0 0 0 4;
+}
+
+.auth-link:hover {
+    -fx-underline: true;
+}
+
+.auth-link:focused {
+    -fx-border-color: transparent;
+}
+
+/* ============================================ */
+/*         IMAGE PANEL                          */
+/* ============================================ */
+
+.image-panel-title {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.image-panel-sub {
+    -fx-text-fill: rgba(255, 255, 255, 0.75);
+    -fx-font-size: 11px;
+}
+
+.image-panel-label {
+    -fx-text-fill: rgba(255, 255, 255, 0.85);
+    -fx-font-size: 12px;
+}
+
+.image-tagline-1 {
+    -fx-text-fill: white;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.image-tagline-2 {
+    -fx-text-fill: #4ADE80;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.image-tagline-sub {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-opacity: 0.85;
+}
+
+/* ============================================ */
+/*         LANGUAGE COMBO                       */
+/* ============================================ */
+
+.lang-combo {
+    -fx-background-color: #111827;
+    -fx-background-radius: 8;
+    -fx-border-color: #1F2937;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-pref-width: 78;
+    -fx-min-width: 70;
+}
+
+.lang-combo > .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-padding: 4 6 4 10;
+    -fx-font-size: 11px;
+}
+
+.lang-combo > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 8 0 4;
+}
+
+.lang-combo > .arrow-button > .arrow {
+    -fx-background-color: #9CA3AF;
+}
+
+.lang-combo .combo-box-popup > .list-view {
+    -fx-background-color: #111827;
+    -fx-background-radius: 8;
+    -fx-border-color: #1F2937;
+    -fx-border-radius: 8;
+}
+
+.lang-combo .combo-box-popup .list-cell {
+    -fx-background-color: #111827;
+    -fx-text-fill: white;
+    -fx-padding: 6 10 6 10;
+    -fx-font-size: 11px;
+}
+
+.lang-combo .combo-box-popup .list-cell:hover,
+.lang-combo .combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #1F2937;
+    -fx-text-fill: #22C55E;
+}
+
+/* ============================================ */
+/*         THEME TOGGLE                         */
+/* ============================================ */
+
+.theme-toggle {
+    -fx-background-color: #111827;
+    -fx-border-color: #1F2937;
+    -fx-border-width: 1;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+    -fx-min-width: 32;
+    -fx-min-height: 32;
+    -fx-max-width: 32;
+    -fx-max-height: 32;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.theme-toggle:hover {
+    -fx-border-color: #22C55E;
+}
+
+.theme-icon {
+    -fx-min-width: 14;
+    -fx-min-height: 14;
+    -fx-max-width: 14;
+    -fx-max-height: 14;
+    -fx-background-color: #D1D5DB;
+}
+
+.theme-icon.theme-moon {
+    -fx-shape: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z";
+}
+
+.theme-icon.theme-sun {
+    -fx-shape: "M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42";
+}
+
+/* ============================================ */
+/*         AUTH SCROLL                          */
+/* ============================================ */
+
+.auth-scroll {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.auth-scroll:focused {
+    -fx-background-insets: 0;
+}
+
+.auth-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.auth-scroll > .corner {
+    -fx-background-color: #000000;
+}
+
+.auth-scroll > .scroll-bar:horizontal,
+.auth-scroll > .scroll-bar:vertical {
+    -fx-background-color: #000000;
+    -fx-padding: 2;
+}
+
+.auth-scroll .scroll-bar > .thumb {
+    -fx-background-color: #1F2937;
+    -fx-background-radius: 4;
+}
+
+.auth-scroll .scroll-bar > .thumb:hover {
+    -fx-background-color: #374151;
+}
+
+.auth-scroll .scroll-bar > .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.auth-scroll .scroll-bar > .increment-button,
+.auth-scroll .scroll-bar > .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.auth-scroll .scroll-bar > .increment-arrow,
+.auth-scroll .scroll-bar > .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+/* ============================================ */
+/*         MAP SCROLL                           */
+/* ============================================ */
+
+.scroll-pane.map-scroll {
+    -fx-background-color: #0A0F14;
+}
+
+.scroll-pane.map-scroll > .viewport {
+    -fx-background-color: #0A0F14;
+}
+
+
+/* ╔════════════════════════════════════════════╗ */
+/* ║         MODO CLARO (.theme-light)          ║ */
+/* ╚════════════════════════════════════════════╝ */
+
+/* --- Root --- */
+.theme-light {
+    -fx-base: #FFFFFF;
+    -fx-background: #FFFFFF;
+    -fx-control-inner-background: #FFFFFF;
+    -fx-text-base-color: #111827;
+}
+
+.theme-light .label { -fx-text-fill: #111827; }
+
+/* --- App chrome claro --- */
+.theme-light.app-chrome,
+.theme-light .app-chrome,
+.root.theme-light .app-chrome {
+    -fx-background-color: #FFFFFF !important;
+}
+
+.root.theme-light #detailRoot {
+    -fx-background-color: #FFFFFF !important;
+}
+
+/* --- Diálogos claro --- */
+.theme-light .dialog-pane { -fx-background-color: #FFFFFF; }
+.theme-light .dialog-pane .header-panel { -fx-background-color: #F3F4F6; }
+.theme-light .dialog-pane .label { -fx-text-fill: #111827; }
+.theme-light .dialog-pane .button { -fx-background-color: #E5E7EB; -fx-text-fill: #111827; }
+
+/* --- Custom Alert claro --- */
+.theme-light .custom-alert.dialog-pane { -fx-background-color: #FFFFFF; }
+.theme-light .custom-alert.dialog-pane > *.button-bar > *.container { -fx-background-color: #FFFFFF; }
+.theme-light .custom-alert.dialog-pane > *.label.content { -fx-text-fill: #111827; }
+.theme-light .custom-alert.dialog-pane:header *.header-panel { -fx-background-color: #F3F4F6; }
+.theme-light .custom-alert.dialog-pane:header *.header-panel *.label { -fx-text-fill: #111827; }
+.theme-light .custom-alert .button { -fx-background-color: #E5E7EB; -fx-text-fill: #111827; }
+
+/* --- LineChart claro --- */
+.theme-light .chart-plot-background { -fx-background-color: #F9FAFB; }
+.theme-light .chart-vertical-grid-lines,
+.theme-light .chart-horizontal-grid-lines { -fx-stroke: #E5E7EB; }
+.theme-light .axis { -fx-tick-label-fill: #6B7280; -fx-text-fill: #6B7280; }
+.theme-light .axis-label { -fx-text-fill: #6B7280; }
+.theme-light .chart-series-line { -fx-stroke: #15803D; -fx-stroke-width: 2px; }
+
+/* --- Slider claro --- */
+.theme-light .slider .track { -fx-background-color: #D1D5DB; }
+.theme-light .slider .thumb { -fx-background-color: #15803D; }
+.theme-light .slider .thumb:hover { -fx-background-color: #22C55E; }
+
+/* --- ColorPicker claro --- */
+.theme-light .color-picker {
+    -fx-background-color: #F3F4F6;
+    -fx-border-color: #E5E7EB;
+}
+.theme-light .color-picker .label { -fx-text-fill: #111827; }
+.theme-light .color-picker .arrow { -fx-background-color: #374151; }
+.theme-light .color-palette { -fx-background-color: #FFFFFF; }
+.theme-light .color-palette .label { -fx-text-fill: #111827; }
+
+/* --- TextField claro --- */
+.theme-light .text-field {
+    -fx-background-color: #F3F4F6;
+    -fx-text-fill: #111827;
+    -fx-prompt-text-fill: #9CA3AF;
+    -fx-border-color: #E5E7EB;
+}
+.theme-light .text-field:focused { -fx-border-color: #15803D; }
+
+/* --- ComboBox claro --- */
+.theme-light .combo-box {
+    -fx-background-color: #F3F4F6;
+    -fx-border-color: #E5E7EB;
+}
+.theme-light .combo-box .list-cell { -fx-text-fill: #111827; }
+.theme-light .combo-box .arrow { -fx-background-color: #374151; }
+.theme-light .combo-box-popup .list-view { -fx-background-color: #FFFFFF; -fx-border-color: #E5E7EB; }
+.theme-light .combo-box-popup .list-cell { -fx-background-color: #FFFFFF; -fx-text-fill: #111827; }
+.theme-light .combo-box-popup .list-cell:hover { -fx-background-color: #F3F4F6; -fx-text-fill: #15803D; }
+
+/* --- Auth root claro --- */
+.theme-light .auth-root {
+    -fx-background-color: #FFFFFF;
+}
+
+.theme-light .auth-form-panel {
+    -fx-background-color: #FFFFFF;
+}
+
+/* --- Auth titles claro --- */
+.theme-light .auth-title {
+    -fx-text-fill: #111827;
+}
+
+.theme-light .auth-subtitle {
+    -fx-text-fill: #6B7280;
+}
+
+/* --- Form elements claro --- */
+.theme-light .form-label {
+    -fx-text-fill: #374151;
+}
+
+.theme-light .form-input {
+    -fx-background-color: #F3F4F6;
+    -fx-text-fill: #111827;
+    -fx-prompt-text-fill: #9CA3AF;
+    -fx-border-color: #E5E7EB;
+}
+
+.theme-light .form-input:focused {
+    -fx-border-color: #15803D;
+}
+
+.theme-light .date-picker.form-input > .text-field {
+    -fx-text-fill: #111827;
+    -fx-prompt-text-fill: #9CA3AF;
+}
+
+.theme-light .date-picker.form-input > .arrow-button > .arrow {
+    -fx-background-color: #374151;
+}
+
+/* --- Form combo claro --- */
+.theme-light .form-combo {
+    -fx-background-color: #F3F4F6;
+    -fx-border-color: #E5E7EB;
+}
+
+.theme-light .form-combo:focused {
+    -fx-border-color: #15803D;
+}
+
+.theme-light .form-combo > .list-cell {
+    -fx-text-fill: #111827;
+}
+
+.theme-light .form-combo > .arrow-button > .arrow {
+    -fx-background-color: #374151;
+}
+
+.theme-light .form-combo .combo-box-popup > .list-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E5E7EB;
+}
+
+.theme-light .form-combo .combo-box-popup .list-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #111827;
+}
+
+.theme-light .form-combo .combo-box-popup .list-cell:hover,
+.theme-light .form-combo .combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #F3F4F6;
+    -fx-text-fill: #15803D;
+}
+
+/* --- Secondary button claro --- */
+.theme-light .secondary-button {
+    -fx-text-fill: #374151;
+    -fx-border-color: #E5E7EB;
+}
+
+/* --- Auth footer claro --- */
+.theme-light .auth-footer-label {
+    -fx-text-fill: #6B7280;
+}
+
+/* --- Lang combo claro --- */
+.theme-light .lang-combo {
+    -fx-background-color: #F3F4F6;
+    -fx-border-color: #E5E7EB;
+}
+
+.theme-light .lang-combo > .list-cell {
+    -fx-text-fill: #111827;
+}
+
+.theme-light .lang-combo > .arrow-button > .arrow {
+    -fx-background-color: #374151;
+}
+
+.theme-light .lang-combo .combo-box-popup > .list-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E5E7EB;
+}
+
+.theme-light .lang-combo .combo-box-popup .list-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #111827;
+}
+
+.theme-light .lang-combo .combo-box-popup .list-cell:hover,
+.theme-light .lang-combo .combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #F3F4F6;
+    -fx-text-fill: #15803D;
+}
+
+/* --- Theme toggle claro --- */
+.theme-light .theme-toggle {
+    -fx-background-color: #F3F4F6;
+    -fx-border-color: #E5E7EB;
+}
+
+.theme-light .theme-toggle:hover {
+    -fx-border-color: #15803D;
+}
+
+.theme-light .theme-icon {
+    -fx-background-color: #374151;
+}
+
+/* --- Menu bar claro --- */
+.theme-light .menu-bar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent transparent #E5E7EB transparent;
+}
+
+.theme-light .menu-bar .label {
+    -fx-text-fill: #374151;
+}
+
+.theme-light .menu-bar .menu:hover,
+.theme-light .menu-bar .menu:showing {
+    -fx-background-color: #F3F4F6;
+}
+
+.theme-light .menu-bar .menu:showing .label {
+    -fx-text-fill: #111827;
+}
+
+/* --- Context menu claro --- */
+.theme-light .context-menu {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E5E7EB;
+}
+
+.theme-light .context-menu .menu-item .label {
+    -fx-text-fill: #374151;
+}
+
+.theme-light .context-menu .menu-item:hover,
+.theme-light .context-menu .menu-item:focused {
+    -fx-background-color: #F3F4F6;
+}
+
+.theme-light .context-menu .menu-item:hover .label,
+.theme-light .context-menu .menu-item:focused .label {
+    -fx-text-fill: #15803D;
+}
+
+.theme-light .context-menu .menu-item:disabled .label {
+    -fx-text-fill: #9CA3AF;
+}
+
+.theme-light .context-menu .separator-menu-item .line {
+    -fx-border-color: #E5E7EB;
+}
+
+/* --- Footer claro --- */
+.theme-light .app-footer {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E5E7EB transparent transparent transparent;
+}
+
+.theme-light .app-footer .label {
+    -fx-text-fill: #6B7280;
+}
+
+/* --- Stat cards claro --- */
+.theme-light .stat-card {
+    -fx-background-color: #F9FAFB;
+    -fx-border-color: #E5E7EB;
+}
+
+.theme-light .stat-card-label {
+    -fx-text-fill: #6B7280;
+}
+
+.theme-light .stat-card-value {
+    -fx-text-fill: #111827;
+}
+
+.theme-light .app-chrome .stat-card-value,
+.theme-light .stat-card-value {
+    -fx-text-fill: #111827;
+}
+
+.theme-light .app-chrome .stat-card-label,
+.theme-light .stat-card-label {
+    -fx-text-fill: #6B7280;
+}
+
+/* --- Activity list claro --- */
+.theme-light .activity-list {
+    -fx-background-color: #FFFFFF;
+    -fx-control-inner-background: #FFFFFF;
+    -fx-border-color: #E5E7EB;
+}
+
+.theme-light .activity-list:focused {
+    -fx-background-color: #FFFFFF;
+}
+
+.theme-light .activity-list .list-cell {
+    -fx-text-fill: #111827;
+}
+
+.theme-light .activity-list .list-cell:filled:hover {
+    -fx-background-color: #F3F4F6;
+}
+
+.theme-light .activity-list .list-cell:filled:selected,
+.theme-light .activity-list .list-cell:filled:selected:focused {
+    -fx-background-color: #DCFCE7;
+    -fx-text-fill: #14532D;
+}
+
+.theme-light .activity-list .scroll-bar .thumb {
+    -fx-background-color: #E5E7EB;
+}
+
+.theme-light .activity-list .scroll-bar .thumb:hover {
+    -fx-background-color: #D1D5DB;
+}
+
+.theme-light .activity-cell-title {
+    -fx-text-fill: #111827;
+}
+
+.theme-light .activity-cell-subtitle {
+    -fx-text-fill: #6B7280;
+}
+
+.theme-light .activity-cell-stat {
+    -fx-text-fill: #15803D;
+}
+
+.theme-light .activity-cell-substat {
+    -fx-text-fill: #6B7280;
+}
+
+/* --- Session table claro --- */
+.theme-light .session-table {
+    -fx-background-color: #FFFFFF;
+    -fx-control-inner-background: #FFFFFF;
+    -fx-border-color: #E5E7EB;
+}
+
+.theme-light .session-table .column-header-background {
+    -fx-background-color: #F9FAFB;
+}
+
+.theme-light .session-table .column-header .label {
+    -fx-text-fill: #6B7280;
+}
+
+.theme-light .session-table .table-cell {
+    -fx-text-fill: #374151;
+    -fx-border-color: transparent transparent #E5E7EB transparent;
+}
+
+.theme-light .session-table .table-row-cell:hover {
+    -fx-background-color: #F3F4F6;
+}
+
+.theme-light .session-table .table-row-cell:selected {
+    -fx-background-color: #DCFCE7;
+}
+
+.theme-light .session-table .table-row-cell:selected .table-cell {
+    -fx-text-fill: #14532D;
+}
+
+.theme-light .session-table .scroll-bar .thumb {
+    -fx-background-color: #E5E7EB;
+}
+
+.theme-light .session-table .scroll-bar .thumb:hover {
+    -fx-background-color: #D1D5DB;
+}
+
+/* --- Status & options claro --- */
+.theme-light .status-label {
+    -fx-text-fill: #6B7280;
+}
+
+.theme-light .options-button {
+    -fx-text-fill: #374151;
+    -fx-border-color: #E5E7EB;
+}
+
+.theme-light .options-button:hover {
+    -fx-border-color: #15803D;
+}
+
+.theme-light .options-button > .label {
+    -fx-text-fill: #374151;
+}
+
+.theme-light .options-button:hover > .label {
+    -fx-text-fill: #15803D;
+}
+
+.theme-light .options-button > .arrow-button > .arrow {
+    -fx-background-color: #374151;
+}
+
+.theme-light .options-button:hover > .arrow-button > .arrow {
+    -fx-background-color: #15803D;
+}
+
+/* --- Auth scroll claro --- */
+.theme-light .auth-scroll > .corner {
+    -fx-background-color: #FFFFFF;
+}
+
+.theme-light .auth-scroll > .scroll-bar:horizontal,
+.theme-light .auth-scroll > .scroll-bar:vertical {
+    -fx-background-color: #FFFFFF;
+}
+
+.theme-light .auth-scroll .scroll-bar > .thumb {
+    -fx-background-color: #E5E7EB;
+}
+
+.theme-light .auth-scroll .scroll-bar > .thumb:hover {
+    -fx-background-color: #D1D5DB;
+}
+
+/* --- Map scroll claro --- */
+.theme-light .scroll-pane.map-scroll {
+    -fx-background-color: #F9FAFB;
+}
+
+.theme-light .scroll-pane.map-scroll > .viewport {
+    -fx-background-color: #F9FAFB;
+}
+
+/* Activity name label en detalle */
+.activity-name-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.theme-light .activity-name-label {
+    -fx-text-fill: #111827;
 }
