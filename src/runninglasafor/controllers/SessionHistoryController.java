@@ -34,6 +34,7 @@ import upv.ipc.sportlib.User;
 
 public class SessionHistoryController implements Initializable {
 
+    // parseador estandar localdatetime
     private static final DateTimeFormatter DATE_FMT =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
@@ -117,9 +118,10 @@ public class SessionHistoryController implements Initializable {
         }
         if (bgImage != null) {
             String path = light
-                    ? "/resources/running_bg_light.png"
-                    : "/resources/running_bg.png";
+                ? "/runninglasafor/resources/running_bg_light.png"      
+                : "/runninglasafor/resources/running_bg.png";
             bgImage.setImage(new Image(getClass().getResource(path).toExternalForm()));
+            // hecho por ia: blend mode 
             bgImage.setBlendMode(light ? BlendMode.SRC_OVER : BlendMode.MULTIPLY);
             bgImage.setOpacity(light ? 0.9 : 0.65);
         }
@@ -144,13 +146,14 @@ public class SessionHistoryController implements Initializable {
             return;
         }
 
+        // carga a la lista observable que esta enlazada por tabla en memoria
         List<Session> sessions =
                 SportActivityApp.getInstance().getSessionsByUser(user);
         ObservableList<Session> items = FXCollections.observableArrayList(
                 sessions == null ? List.of() : sessions);
         sessionTable.setItems(items);
 
-        /* --- Totales acumulados --- */
+        // iteracion trivial para variables acumulativas
         long totalSeconds = 0;
         int totalImported = 0;
         int totalViewed = 0;
@@ -179,8 +182,6 @@ public class SessionHistoryController implements Initializable {
             }
         }
     }
-
-    // ─── Formateo ────────────────────────────────────────────
 
     private static String formatDateTime(LocalDateTime dt) {
         return dt == null ? "-" : DATE_FMT.format(dt);

@@ -23,21 +23,17 @@
         <HBox fx:id="authRoot" styleClass="auth-root"
               prefHeight="540.0" prefWidth="900.0">
             <children>
-
-                <!-- ═══ Panel izquierdo: tabla ═══ -->
                 <VBox styleClass="auth-form-panel" HBox.hgrow="ALWAYS"
                       minWidth="420.0" spacing="14.0" alignment="TOP_LEFT">
                     <padding>
                         <Insets top="32.0" right="40.0" bottom="28.0" left="40.0"/>
                     </padding>
                     <children>
-
-                        <!-- Logo + tema + idioma -->
                         <HBox spacing="10.0" alignment="CENTER_LEFT">
                             <children>
                                 <ImageView fx:id="brandLogo" styleClass="brand-logo"
                                            fitHeight="42.0" preserveRatio="true">
-                                    <image><Image url="@../../resources/logo_brand.png"/></image>
+                                    <image><Image url="@../resources/logo_brand.png"/></image>
                                 </ImageView>
                                 <Region HBox.hgrow="ALWAYS"/>
                                 <Button fx:id="themeButton" styleClass="theme-toggle"
@@ -49,8 +45,6 @@
                                 <ComboBox fx:id="languageBox" styleClass="lang-combo"/>
                             </children>
                         </HBox>
-
-                        <!-- Título -->
                         <VBox spacing="4.0">
                             <children>
                                 <Label styleClass="auth-title"
@@ -59,8 +53,6 @@
                                        text="%history.subtitle" wrapText="true"/>
                             </children>
                         </VBox>
-
-                        <!-- Tabla de sesiones -->
                         <TableView fx:id="sessionTable"
                                    styleClass="session-table"
                                    prefHeight="300.0" VBox.vgrow="ALWAYS">
@@ -79,19 +71,15 @@
                                              text="%history.col.annotations" prefWidth="90"/>
                             </columns>
                         </TableView>
-
                         <Label fx:id="statusLabel" styleClass="status-label" wrapText="true"/>
                     </children>
                 </VBox>
-
-                <!-- ═══ Panel derecho: totales + imagen ═══ -->
                 <VBox styleClass="auth-image-panel" prefWidth="320.0" minWidth="240.0"
                       alignment="TOP_LEFT" spacing="14.0">
                     <padding>
                         <Insets top="32.0" right="24.0" bottom="32.0" left="24.0"/>
                     </padding>
                     <children>
-
                         <VBox alignment="TOP_LEFT" spacing="4.0">
                             <children>
                                 <Label styleClass="image-panel-title"
@@ -100,8 +88,6 @@
                                        text="%history.tagline.sub" wrapText="true"/>
                             </children>
                         </VBox>
-
-                        <!-- Tarjetas de totales -->
                         <VBox spacing="8.0">
                             <children>
                                 <VBox styleClass="stat-card" spacing="2.0">
@@ -141,12 +127,10 @@
                                 </VBox>
                             </children>
                         </VBox>
-
-                        <!-- Imagen decorativa -->
                         <ImageView fx:id="bgImage" fitHeight="120.0"
                                    preserveRatio="true" opacity="0.65"
                                    blendMode="MULTIPLY">
-                            <image><Image url="@../../resources/running_bg.png"/></image>
+                            <image><Image url="@../resources/running_bg.png"/></image>
                         </ImageView>
                         <VBox alignment="CENTER" spacing="-4.0">
                             <children>
