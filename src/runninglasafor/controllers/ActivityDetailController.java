@@ -4,13 +4,18 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import runninglasafor.MainApp;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.MapRegion;
 import upv.ipc.sportlib.SportActivityApp;
@@ -32,18 +37,22 @@ public class ActivityDetailController implements Initializable {
     
     @FXML private Label minElevLabel;
     @FXML private Label maxElevLabel;
+    
+    @FXML private BorderPane detailRoot;
 
     private Activity currentActivity;
     private RootLayoutController root;  
     
     @FXML
-    private HBox statsBox;
+    private FlowPane statsBox;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) { 
+    @Override    
+    public void initialize(URL url, ResourceBundle rb) {
+        applyTheme();
     }
 
     public void setActivity(Activity activity) {
+        applyTheme();
         elevationProfileController.setMapViewController(mapViewController);
         this.currentActivity = activity;
         if (activity == null) return;
@@ -117,5 +126,23 @@ public class ActivityDetailController implements Initializable {
             mapSelector.getItems().add(newMap);
             mapSelector.getSelectionModel().select(newMap);
         });
+    }
+    
+    private void applyTheme() {
+        if (detailRoot != null) {
+            if (MainApp.isLightTheme() && !detailRoot.getStyleClass().contains("theme-light")) {
+                detailRoot.getStyleClass().add("theme-light");
+            } else if (!MainApp.isLightTheme()) {
+                detailRoot.getStyleClass().remove("theme-light");
+            }
+        }
+        mapViewController.refreshTheme(); 
+    }
+    
+    @FXML private void onToggleTheme(ActionEvent event) {
+        MainApp.toggleTheme();
+        applyTheme();
+        mapViewController.refreshTheme();
+        if (root != null) root.refreshChromeTheme();
     }
 }
