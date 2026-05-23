@@ -4,8 +4,11 @@
  */
 package runninglasafor.controllers;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -19,25 +22,28 @@ import upv.ipc.sportlib.TrackPoint;
  *
  * @author rubenpuigmur
  */
-public class ElevationProfileController {
+public class ElevationProfileController implements Initializable {
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+    }
 
-    @FXML
-    private LineChart<Number, Number> elevationChart;
-    @FXML
-    private NumberAxis yAxis;
-    @FXML
-    private NumberAxis xAxis;
+    @FXML private LineChart<Number, Number> elevationChart;
+    @FXML private NumberAxis yAxis;
+    @FXML private NumberAxis xAxis;
     
     private MapViewController mapViewController;
+    private double[] accumulatedDistances;
     
-    //mateo tiene q gastar este metodo al cargar un GPX para refrescar la grafica
     public void loadProfileData(Activity activity){
+        // vaciado previo de los datos para no solapar graficas
         elevationChart.getData().clear();
         
         if (activity == null || activity.getTrackPoints().isEmpty()){
             return;
         }
         
+        // instanciamos las series requeridas por la api del chart de javafx
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
         List<TrackPoint> trackPoints = activity.getTrackPoints();
         
@@ -49,6 +55,11 @@ public class ElevationProfileController {
         double distAtMax = 0;
         double distAtMin = 0;
         
+        // guardamos las distancias en un array en paralelo para la busqueda rapida en el hover
+        accumulatedDistances = new double[trackPoints.size()];
+        int index = 0;
+        
+        // recorrido basico calculando distancias acumuladas
         for(TrackPoint point : trackPoints) {
             accumlatedDistance += GeoUtils.distance(prev, point);
             double distKm = accumlatedDistance / 1000.0;
@@ -60,8 +71,10 @@ public class ElevationProfileController {
             if(ele < minEle){ minEle = ele; distAtMin = distKm;}
             
             prev = point;
+            accumulatedDistances[index++] = distKm;
         }
         
+        // series extra exclusivas para pintar los puntos extremos (max/min)
         XYChart.Series<Number, Number> maxSeries = new XYChart.Series<>();
         maxSeries.getData().add(new XYChart.Data<>(distAtMax, maxEle));
         
@@ -73,6 +86,7 @@ public class ElevationProfileController {
         
         setupHoverInteractivity(trackPoints);
         
+        // ocultamos los simbolos del trazado principal para que solo quede la linea
         for (XYChart.Data<Number, Number> data : series.getData()) {
             data.getNode().setVisible(false);
         }
@@ -87,34 +101,34 @@ public class ElevationProfileController {
     
     private void setupHoverInteractivity(List<TrackPoint> points) {
         elevationChart.setOnMouseMoved((MouseEvent e) -> {
-            if (points == null || points.isEmpty() || mapViewController == null) return;
-        
-        double mouseXScene = e.getSceneX();
-        double mouseXLocal = xAxis.sceneToLocal(mouseXScene, 0).getX();
-        double distKm = xAxis.getValueForDisplay(mouseXLocal).doubleValue();
-        
-        double accumDist = 0.0;
-        TrackPoint closest = points.get(0);
-        double minDiff = Double.MAX_VALUE;
-        TrackPoint prev = points.get(0);
-        for (TrackPoint tp : points) {
-            accumDist += GeoUtils.distance(prev, tp);
-            double diff = Math.abs(accumDist / 1000.0 - distKm);
-            if (diff < minDiff) {
-                minDiff = diff;
-                closest = tp;
+            if (points == null || points.isEmpty() || mapViewController == null || accumulatedDistances == null) return;
+            
+            // hecho por ia: la traduccion del raton en pantalla a valor matematico del chart.
+            // meter sceneToLocal y pedir getValueForDisplay
+            double mouseXScene = e.getSceneX();
+            double mouseXLocal = xAxis.sceneToLocal(mouseXScene, 0).getX();
+            double distKmTarget = xAxis.getValueForDisplay(mouseXLocal).doubleValue();
+            
+            // algoritmo de busqueda del minimo basico iterando el array
+            int closestIndex = 0;
+            double minDiff = Double.MAX_VALUE;
+            
+            for (int i = 0; i < accumulatedDistances.length; i++) {
+                double diff = Math.abs(accumulatedDistances[i] - distKmTarget);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    closestIndex = i;
+                }
             }
-            prev = tp;
-        }
-        
-        mapViewController.highlightPoint(closest);
+            
+            mapViewController.highlightPoint(points.get(closestIndex));
         });
         
+        // lambda trivial de control de eventos
         elevationChart.setOnMouseExited((MouseEvent e) -> {
             if (mapViewController != null) {
                 mapViewController.clearHighlight();
             }
         });
     }
-       
 }
