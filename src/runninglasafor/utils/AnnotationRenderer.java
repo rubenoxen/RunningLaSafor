@@ -41,37 +41,40 @@ public class AnnotationRenderer {
         switch(annotation.getType()){
             case POINT:
                 Circle point = new Circle(p1.getX(), p1.getY(), 5, color);
+                point.setMouseTransparent(true);
                 group.getChildren().add(point);
                 if (annotation.getText() != null && !annotation.getText().trim().isEmpty()) {
                     Text text = new Text(p1.getX() + 8, p1.getY() + 4, annotation.getText());
+                    text.setMouseTransparent(true);
                     text.setFill(color);
                     text.setFont(Font.font("System", FontWeight.BOLD, 12));
                     group.getChildren().add(text);
                 }
                 break;
-                
             case TEXT: 
                 Text textOnly = new Text(p1.getX(),p1.getY(),annotation.getText());
+                textOnly.setMouseTransparent(true); 
                 textOnly.setFill(color);
                 textOnly.setFont(Font.font("System", FontWeight.BOLD, 14));
                 group.getChildren().add(textOnly);
                 break;
-                
             case LINE:
                 if (geoPoints.size() >= 2) {
                     Point2D p2 = proj.project(geoPoints.get(1));
                     Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+                    line.setMouseTransparent(true); 
                     line.setStroke(color);
                     line.setStrokeWidth(strokeWidth);
                     group.getChildren().add(line);
                 }
                 break;
-                
             case CIRCLE:
+                // hecho por ia: calculo de distancia euclidea con point2d para el radio del circulo
                 if (geoPoints.size() >= 2) {
                     Point2D p2 = proj.project(geoPoints.get(1));
                     double radius = p1.distance(p2);
                     Circle circle = new Circle(p1.getX(), p1.getY(), radius);
+                    circle.setMouseTransparent(true); 
                     circle.setStroke(color);
                     circle.setStrokeWidth(strokeWidth);
                     circle.setFill(Color.TRANSPARENT);

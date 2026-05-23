@@ -26,7 +26,7 @@
                     <children>
                         <ImageView fx:id="brandLogo" styleClass="brand-logo" fitHeight="42.0" preserveRatio="true">
                             <image>
-                                <Image url="@../../resources/logo_brand.png" />
+                                <Image url="@../resources/logo_brand.png" />
                             </image>
                         </ImageView>
                         <Region HBox.hgrow="ALWAYS" />
@@ -134,7 +134,7 @@
             <children>
                 <ImageView fx:id="bgImage" fitHeight="220.0" preserveRatio="true" opacity="0.65" blendMode="MULTIPLY">
                     <image>
-                        <Image url="@../../resources/running_bg.png" />
+                        <Image url="@../resources/running_bg.png" />
                     </image>
                 </ImageView>
                 <VBox alignment="CENTER" spacing="-4.0">

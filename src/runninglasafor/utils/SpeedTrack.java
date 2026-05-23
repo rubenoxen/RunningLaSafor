@@ -16,10 +16,7 @@ import javafx.scene.shape.Line;
  *
  * @author rubenpuigmur
  */
-public class SpeedTrack {
-    //pablo, no uses una Polyline, tienes q hacerlo asi
-    //Group ruta = SpeedTrack.createColoredTrack(actividad.getTrackPoints(), tuProyeccion);
-    // mapPane.getChildren().add(ruta);
+public class SpeedTrack {    
     public static Group createColoredTrack(List<TrackPoint> track, MapProjection proj) {
         Group trackGroup = new Group();
         if(track == null || track.size() < 2){
@@ -50,8 +47,12 @@ public class SpeedTrack {
             double speed = p1.speedTo(p2);
             double ratio = (speed - minSpeed) / (maxSpeed - minSpeed);
             
+            // hecho por ia: color hsb para espectro continuo rojo-verde-azul
             Color color = Color.hsb(ratio * 120, 1.0, 1.0);
             segment.setStroke(color);
+            
+            segment.setStrokeLineCap(javafx.scene.shape.StrokeLineCap.ROUND); 
+            segment.setMouseTransparent(true); 
             
             trackGroup.getChildren().add(segment);
         }   

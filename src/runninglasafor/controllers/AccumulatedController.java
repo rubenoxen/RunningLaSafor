@@ -116,8 +116,11 @@ public class AccumulatedController implements Initializable {
             themeIcon.getStyleClass().add(light ? "theme-sun" : "theme-moon");
         }
         if (bgImage != null) {
-            String path = light ? "/resources/running_bg_light.png" : "/resources/running_bg.png";
+            String path = light
+                ? "/runninglasafor/resources/running_bg_light.png"    
+                : "/runninglasafor/resources/running_bg.png";
             bgImage.setImage(new Image(getClass().getResource(path).toExternalForm()));
+            // hecho por ia: blendmode 
             bgImage.setBlendMode(light ? BlendMode.SRC_OVER : BlendMode.MULTIPLY);
             bgImage.setOpacity(light ? 0.9 : 0.65);
         }
