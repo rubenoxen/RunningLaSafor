@@ -28,7 +28,7 @@
                     <children>
                         <ImageView fx:id="brandLogo" styleClass="brand-logo" fitHeight="46.0" preserveRatio="true">
                             <image>
-                                <Image url="@../../resources/logo_brand.png" />
+                                <Image url="@../resources/logo_brand.png" />
                             </image>
                         </ImageView>
                         <Region HBox.hgrow="ALWAYS" />
@@ -40,28 +40,24 @@
                         <ComboBox fx:id="languageBox" styleClass="lang-combo" />
                     </children>
                 </HBox>
-
                 <VBox spacing="4.0">
                     <children>
                         <Label styleClass="auth-title" text="%register.title" wrapText="true" />
                         <Label styleClass="auth-subtitle" text="%register.subtitle" wrapText="true" />
                     </children>
                 </VBox>
-
                 <VBox spacing="3.0">
                     <children>
                         <Label styleClass="form-label" text="%register.user" />
                         <TextField fx:id="nickField" styleClass="form-input" promptText="%register.userPrompt" />
                     </children>
                 </VBox>
-
                 <VBox spacing="3.0">
                     <children>
                         <Label styleClass="form-label" text="%register.email" />
                         <TextField fx:id="emailField" styleClass="form-input" promptText="%register.emailPrompt" />
                     </children>
                 </VBox>
-
                 <HBox spacing="12.0">
                     <children>
                         <VBox spacing="3.0" HBox.hgrow="ALWAYS">
@@ -78,7 +74,6 @@
                         </VBox>
                     </children>
                 </HBox>
-
                 <HBox spacing="12.0">
                     <children>
                         <VBox spacing="3.0" HBox.hgrow="ALWAYS">
@@ -100,7 +95,6 @@
                         </VBox>
                     </children>
                 </HBox>
-
                 <Label fx:id="errorLabel" styleClass="error-label" wrapText="true" />
 
                 <Button styleClass="primary-button" text="%register.create" onAction="#onCreate" maxWidth="Infinity" defaultButton="true" />
@@ -112,7 +106,6 @@
                 </HBox>
             </children>
         </VBox>
-
         <VBox styleClass="auth-image-panel" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="10.0">
             <padding>
                 <Insets top="32.0" right="32.0" bottom="32.0" left="32.0" />
@@ -120,7 +113,7 @@
             <children>
                 <ImageView fx:id="bgImage" fitHeight="260.0" preserveRatio="true" opacity="0.65" blendMode="MULTIPLY">
                     <image>
-                        <Image url="@../../resources/running_bg.png" />
+                        <Image url="@../resources/running_bg.png" />
                     </image>
                 </ImageView>
                 <VBox alignment="CENTER" spacing="-4.0">

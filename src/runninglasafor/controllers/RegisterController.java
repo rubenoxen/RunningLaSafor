@@ -30,28 +30,17 @@ public class RegisterController implements Initializable {
 
     private static final int MIN_AGE = 12;
 
-    @FXML
-    private HBox authRoot;
-    @FXML
-    private TextField nickField;
-    @FXML
-    private TextField emailField;
-    @FXML
-    private PasswordField passField;
-    @FXML
-    private PasswordField confirmField;
-    @FXML
-    private DatePicker birthPicker;
-    @FXML
-    private TextField avatarField;
-    @FXML
-    private Label errorLabel;
-    @FXML
-    private ComboBox<String> languageBox;
-    @FXML
-    private Region themeIcon;
-    @FXML
-    private ImageView bgImage;
+    @FXML private HBox authRoot;
+    @FXML private TextField nickField;
+    @FXML private TextField emailField;
+    @FXML private PasswordField passField;
+    @FXML private PasswordField confirmField;
+    @FXML private DatePicker birthPicker;
+    @FXML private TextField avatarField;
+    @FXML private Label errorLabel;
+    @FXML private ComboBox<String> languageBox;
+    @FXML private Region themeIcon;
+    @FXML private ImageView bgImage;
 
     private RootLayoutController root;
     private ResourceBundle bundle;
@@ -90,8 +79,11 @@ public class RegisterController implements Initializable {
             themeIcon.getStyleClass().add(light ? "theme-sun" : "theme-moon");
         }
         if (bgImage != null) {
-            String path = light ? "/resources/running_bg_light.png" : "/resources/running_bg.png";
+            String path = light
+                ? "/runninglasafor/resources/running_bg_light.png"   
+                : "/runninglasafor/resources/running_bg.png"; 
             bgImage.setImage(new Image(getClass().getResource(path).toExternalForm()));
+            // hecho por ia: blendmode para el fondo igual que en login
             bgImage.setBlendMode(light ? BlendMode.SRC_OVER : BlendMode.MULTIPLY);
             bgImage.setOpacity(light ? 0.9 : 0.65);
         }
@@ -108,7 +100,7 @@ public class RegisterController implements Initializable {
     }
 
     @FXML
-    private void onBrowseAvatar(ActionEvent event) {
+    private void onBrowseAvatar(ActionEvent event) {        
         FileChooser fc = new FileChooser();
         fc.setTitle(bundle.getString("register.dialog.title"));
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(
@@ -129,7 +121,7 @@ public class RegisterController implements Initializable {
         LocalDate birth = birthPicker.getValue();
         String avatarPath = trim(avatarField.getText());
         if (avatarPath.isEmpty()) avatarPath = null;
-
+        
         String error = validate(nick, email, pass, confirm, birth);
         if (error != null) {
             errorLabel.setText(error);
@@ -142,10 +134,12 @@ public class RegisterController implements Initializable {
             errorLabel.setText(bundle.getString("register.errorTaken"));
             return;
         }
-
+        
         Alert info = new Alert(Alert.AlertType.INFORMATION);
         info.setHeaderText(bundle.getString("register.ok.header"));
         info.setContentText(bundle.getString("register.ok.content"));
+        info.getDialogPane().getStylesheets().add(getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
+        info.getDialogPane().getStyleClass().add("auth-form-panel"); 
         info.showAndWait();
 
         if (root != null) {
@@ -159,7 +153,7 @@ public class RegisterController implements Initializable {
             root.showLogin();
         }
     }
-
+    
     private String validate(String nick, String email, String pass,
                             String confirm, LocalDate birth) {
         if (nick.isEmpty() || email.isEmpty() || pass.isEmpty()
@@ -178,7 +172,7 @@ public class RegisterController implements Initializable {
         if (!pass.equals(confirm)) {
             return bundle.getString("register.errorConfirm");
         }
-        if (!User.isOlderThan(birth, MIN_AGE)) {
+        if (!User.isOlderThan(birth, MIN_AGE)) {            
             return MessageFormat.format(
                     bundle.getString("register.errorAge"), MIN_AGE);
         }
