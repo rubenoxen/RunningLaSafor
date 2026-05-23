@@ -24,24 +24,15 @@ public class ProfileController implements Initializable {
 
     private static final int MIN_AGE = 12;
 
-    @FXML
-    private Label nickLabel;
-    @FXML
-    private Label emailReadLabel;
-    @FXML
-    private ImageView avatarPreview;
-    @FXML
-    private TextField emailField;
-    @FXML
-    private DatePicker birthPicker;
-    @FXML
-    private TextField avatarField;
-    @FXML
-    private PasswordField passField;
-    @FXML
-    private PasswordField confirmField;
-    @FXML
-    private Label errorLabel;
+    @FXML private Label nickLabel;
+    @FXML private Label emailReadLabel;
+    @FXML private ImageView avatarPreview;
+    @FXML private TextField emailField;
+    @FXML private DatePicker birthPicker;
+    @FXML private TextField avatarField;
+    @FXML private PasswordField passField;
+    @FXML private PasswordField confirmField;
+    @FXML private Label errorLabel;
 
     private RootLayoutController root;
     private ResourceBundle bundle;
@@ -57,6 +48,7 @@ public class ProfileController implements Initializable {
         this.root = root;
     }
 
+    // volcado de los datos del modelo a la vista 
     private void loadCurrentUser() {
         User u = SportActivityApp.getInstance().getCurrentUser();
         if (u == null) return;
@@ -102,6 +94,7 @@ public class ProfileController implements Initializable {
             return;
         }
 
+        // pasamos la actual si no la cambian
         String finalPass = pass.isEmpty() ? current.getPassword() : pass;
         boolean ok = SportActivityApp.getInstance()
                 .updateCurrentUser(email, finalPass, birth, avatarPath);
@@ -118,6 +111,8 @@ public class ProfileController implements Initializable {
         Alert info = new Alert(Alert.AlertType.INFORMATION);
         info.setHeaderText(bundle.getString("profile.ok.header"));
         info.setContentText(bundle.getString("profile.ok.content"));
+        info.getDialogPane().getStylesheets().add(getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
+        info.getDialogPane().getStyleClass().add("auth-form-panel"); 
         info.showAndWait();
     }
 
