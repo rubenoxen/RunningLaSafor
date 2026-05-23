@@ -5,10 +5,10 @@
 package runninglasafor.controllers;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +16,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -39,6 +40,9 @@ import upv.ipc.sportlib.AnnotationType;
 import upv.ipc.sportlib.GeoPoint;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.TrackPoint;
+import javafx.scene.control.SeparatorMenuItem;
+import java.util.Optional;
+import javafx.util.StringConverter;
 
 public class MapViewController implements Initializable {
     
@@ -59,12 +63,13 @@ public class MapViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+    
         zoomSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             zoomGroup.setScaleX(newVal.doubleValue());
             zoomGroup.setScaleY(newVal.doubleValue());
         });
         
+        // instanciamos contextmenu dinamico para pedir opciones con el clic derecho
         mapPane.setOnContextMenuRequested(e -> {
             if (currentProj == null || currentActivity == null) return;
 
@@ -84,11 +89,17 @@ public class MapViewController implements Initializable {
             miLine.setOnAction(ev  -> iniciarSegundoPunto(geo, AnnotationType.LINE));
             miCircle.setOnAction(ev -> iniciarSegundoPunto(geo, AnnotationType.CIRCLE));
 
-            menu.getItems().addAll(miPoint, miText, miLine, miCircle);
+            MenuItem miDelete = new MenuItem(bundle.getString("annotation.delete"));
+            miDelete.setDisable(currentActivity.getAnnotations().isEmpty());
+            miDelete.setOnAction(ev -> deleteAnnotation());
+
+            menu.getItems().addAll(miPoint, miText, miLine, miCircle, 
+                                   new SeparatorMenuItem(), miDelete); 
             menu.show(mapPane, e.getScreenX(), e.getScreenY());
         });
         
         mapPane.setOnMouseClicked(e -> {
+            // control de flujo manual: si no estabamos pidiendo segundo punto abortamos
             if (!awaitingSecondClick) return;
             if (e.getButton() != javafx.scene.input.MouseButton.PRIMARY) return;
             if (currentProj == null || currentActivity == null) return;
@@ -98,6 +109,7 @@ public class MapViewController implements Initializable {
         });
         
         mapPane.setOnKeyPressed(ke -> {
+            // maquina de estados para limpiar flags
             if (awaitingSecondClick
                     && ke.getCode() == javafx.scene.input.KeyCode.ESCAPE) {
                 awaitingSecondClick = false;
@@ -124,12 +136,15 @@ public class MapViewController implements Initializable {
         
         mapPane.setCursor(javafx.scene.Cursor.CROSSHAIR);
         
+        // instanciamos una marca temporal normal para feedback visual
         Point2D p1 = currentProj.project(firstPoint);
         tempFirstMarker = new Circle(p1.getX(), p1.getY(), 6, Color.ORANGE);
         tempFirstMarker.setStroke(Color.WHITE);
         tempFirstMarker.setStrokeWidth(1.5);
-        tempFirstMarker.setOpacity(0.85);
+        tempFirstMarker.setOpacity(0.85);       
+        tempFirstMarker.setMouseTransparent(true); 
         mapPane.getChildren().add(tempFirstMarker);
+        mapPane.requestFocus(); 
     }
 
     private void completarAnotacionDosPuntos(GeoPoint secondPoint) {        
@@ -150,34 +165,42 @@ public class MapViewController implements Initializable {
 
     private void crearAnotacion(List<GeoPoint> puntos, AnnotationType tipoForzado) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/runninglasafor/views/Annotation.fxml"));
+            ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());                
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/runninglasafor/views/Annotation.fxml"), bundle);
             Parent view = loader.load();
             AnnotationController ctrl = loader.getController();
-            
+
             ctrl.setPreselectedType(tipoForzado);
 
             Stage stage = new Stage();
             stage.initOwner(mapPane.getScene().getWindow());
             stage.initModality(Modality.WINDOW_MODAL);
-            ResourceBundle bundle = ResourceBundle.getBundle(
-                    "runninglasafor.resources.messages", MainApp.getCurrentLocale());
             stage.setTitle(bundle.getString("annotation.title"));
             Scene scene = new Scene(view);
-            scene.getStylesheets().add(
-                getClass().getResource("/resources/estilos.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
+            
+            if (MainApp.isLightTheme()) {
+                scene.getRoot().getStyleClass().add("theme-light");
+            }
+
             stage.setScene(scene);
             stage.showAndWait();
 
             if (ctrl.isAccepted()) {
-                Annotation ann = new Annotation(
-                        ctrl.getSelecType(), ctrl.getEnteredText(),
-                        ctrl.getHexColor(), 2.0, puntos);
+                Annotation ann = new Annotation(ctrl.getSelecType(), ctrl.getEnteredText(), ctrl.getHexColor(), 2.0, puntos);
                 SportActivityApp.getInstance().addAnnotation(currentActivity, ann);
+                // repintado sucio pero funcional
                 loadActivityWithMap(currentActivity, currentProj.getRegion());
             }
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.ERROR, "Fallo al abrir anotaciones: " + ex.getMessage());
+            a.getDialogPane().getStylesheets().add(getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
+            a.getDialogPane().getStyleClass().add("custom-alert");
+            if (MainApp.isLightTheme()) {
+                a.getDialogPane().getStyleClass().add("theme-light");
+            }
+            a.showAndWait();
         }
     }
 
@@ -195,15 +218,26 @@ public class MapViewController implements Initializable {
         if (imgFile.exists()) {
             Image img = new Image(imgFile.toURI().toString());
             mapImageView.setImage(img);
+            if (!MainApp.isLightTheme()) {
+                // hecho por ia: usar ColorAdjust para oscurecer la imagen y no quemar las retinas en modo oscuro
+                javafx.scene.effect.ColorAdjust darkEffect = new javafx.scene.effect.ColorAdjust();
+                darkEffect.setBrightness(-0.4);
+                darkEffect.setContrast(0.1);   
+                darkEffect.setSaturation(-0.3);
+                mapImageView.setEffect(darkEffect);
+            } else {
+                mapImageView.setEffect(null); 
+            }
             mapPane.setPrefSize(img.getWidth(), img.getHeight());
         }
     }
-    
+
     public void loadActivityWithMap(Activity activity, MapRegion region) {
         if (activity == null || region == null) return;
         this.currentActivity = activity;        
         loadMapRegion(region);
                 
+        // purga de hijos del mapPane preservando solo la imagen base del fondo
         if (mapPane.getChildren().size() > 1) {
             mapPane.getChildren().remove(1, mapPane.getChildren().size());
         }
@@ -230,6 +264,7 @@ public class MapViewController implements Initializable {
         }
         
         if (startTP != null) {
+            // instanciamos marcadores basandose en conversion project
             Point2D startPix = currentProj.project(startTP);
             Circle startCircle = new Circle(6, Color.CHARTREUSE);
             startCircle.setCenterX(startPix.getX());
@@ -252,6 +287,16 @@ public class MapViewController implements Initializable {
             endCircle.strokeWidthProperty().bind(javafx.beans.binding.Bindings.divide(1.5, zoomSlider.valueProperty()));
             mapPane.getChildren().add(endCircle);
         }
+        
+        Platform.runLater(() -> {
+            // hecho por ia: el delay del runlater obliga al hilo de javafx a centrar 
+            // el panel solo cuando ya tiene la resolucion seteada final
+            if (startTP != null && mapPane.getWidth() > 0) {
+                Point2D startPix = currentProj.project(startTP);                
+                mapScrollPane.setHvalue(startPix.getX() / mapPane.getWidth());
+                mapScrollPane.setVvalue(startPix.getY() / mapPane.getHeight());
+            }
+        });
     }
     
     public void highlightPoint(TrackPoint tp) {
@@ -281,5 +326,81 @@ public class MapViewController implements Initializable {
             mapPane.getChildren().remove(highlightMarker);
             highlightMarker = null;
         }
+    }
+    
+    public void refreshTheme() {
+        if (mapImageView.getImage() == null) return;
+        if (!MainApp.isLightTheme()) {
+            javafx.scene.effect.ColorAdjust darkEffect = new javafx.scene.effect.ColorAdjust();
+            darkEffect.setBrightness(-0.4);
+            darkEffect.setContrast(0.1);
+            darkEffect.setSaturation(-0.3);
+            mapImageView.setEffect(darkEffect);
+        } else {
+            mapImageView.setEffect(null);
+        }
+    }
+    
+    private void deleteAnnotation() {
+        if (currentActivity == null || currentActivity.getAnnotations().isEmpty()) return;
+
+        ResourceBundle bundle = ResourceBundle.getBundle(
+                "runninglasafor.resources.messages", MainApp.getCurrentLocale());
+
+        javafx.scene.control.Dialog<Annotation> dialog = new javafx.scene.control.Dialog<>();
+        dialog.setTitle(bundle.getString("annotation.delete.title"));
+        dialog.setHeaderText(bundle.getString("annotation.delete.header"));
+
+        javafx.scene.control.ComboBox<Annotation> comboBox = new javafx.scene.control.ComboBox<>(
+                javafx.collections.FXCollections.observableArrayList(currentActivity.getAnnotations()));
+                
+        comboBox.setConverter(new StringConverter<Annotation>() {
+            @Override
+            public String toString(Annotation ann) {
+                if (ann == null) return "";
+                String text = ann.getText();
+                if (text != null && !text.trim().isEmpty()) {
+                    return ann.getType().name() + ": \"" + text + "\"";
+                }
+                return ann.getType().name() + " (" + ann.getColor() + ")";
+            }
+
+            @Override
+            public Annotation fromString(String string) {
+                return null;
+            }
+        });
+
+        if (!currentActivity.getAnnotations().isEmpty()) {
+            comboBox.getSelectionModel().selectFirst();
+        }
+
+        comboBox.setPrefWidth(350);
+
+        dialog.getDialogPane().setContent(comboBox);
+        dialog.getDialogPane().getButtonTypes().addAll(
+                javafx.scene.control.ButtonType.OK, 
+                javafx.scene.control.ButtonType.CANCEL);
+
+        dialog.getDialogPane().getStylesheets().add(
+                getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("custom-alert");
+        if (MainApp.isLightTheme()) {
+            dialog.getDialogPane().getStyleClass().add("theme-light");
+        }
+
+        dialog.setResultConverter(buttonType -> {
+            if (buttonType == javafx.scene.control.ButtonType.OK) {
+                return comboBox.getSelectionModel().getSelectedItem();
+            }
+            return null;
+        });
+
+        Optional<Annotation> result = dialog.showAndWait();
+
+        result.ifPresent(ann -> {
+            SportActivityApp.getInstance().removeAnnotation(ann);
+            loadActivityWithMap(currentActivity, currentProj.getRegion());
+        });
     }
 }
