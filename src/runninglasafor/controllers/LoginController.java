@@ -9,11 +9,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -31,6 +33,9 @@ public class LoginController implements Initializable {
     @FXML private VBox authRoot;
     @FXML private TextField userField;
     @FXML private PasswordField passField;
+    @FXML private TextField passVisibleField;
+    @FXML private Button showPassButton;
+    @FXML private Region passToggleIcon;
     @FXML private Label errorLabel;
     @FXML private CheckBox rememberCheck;
     @FXML private ComboBox<String> languageBox;
@@ -42,6 +47,7 @@ public class LoginController implements Initializable {
 
     private RootLayoutController root;
     private ResourceBundle bundle;
+    private boolean passVisible;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -50,7 +56,12 @@ public class LoginController implements Initializable {
         setupLanguageBox();
         applyTheme();
         setupHeroBackground();
+        setupPassToggle();
         Platform.runLater(this::setupMaximizeListener);
+    }
+
+    private void setupPassToggle() {
+        updatePassToggleIcon();
     }
 
     private void setupHeroBackground() {
@@ -131,9 +142,60 @@ public class LoginController implements Initializable {
     }
 
     @FXML
+    private void onTogglePassVisible(ActionEvent event) {
+        passVisible = !passVisible;
+        if (passVisible) {
+            passVisibleField.setText(passField.getText());
+            passField.setVisible(false);
+            passField.setManaged(false);
+            passVisibleField.setVisible(true);
+            passVisibleField.setManaged(true);
+            passVisibleField.requestFocus();
+            passVisibleField.positionCaret(passVisibleField.getText().length());
+        } else {
+            passField.setText(passVisibleField.getText());
+            passVisibleField.setVisible(false);
+            passVisibleField.setManaged(false);
+            passField.setVisible(true);
+            passField.setManaged(true);
+            passField.requestFocus();
+            passField.end();
+        }
+        updatePassToggleIcon();
+    }
+
+    private void updatePassToggleIcon() {
+        if (passToggleIcon == null || showPassButton == null || bundle == null) {
+            return;
+        }
+        passToggleIcon.getStyleClass().removeAll("pass-eye-icon", "pass-eye-off-icon");
+        if (passVisible) {
+            passToggleIcon.getStyleClass().add("pass-eye-off-icon");
+            showPassButton.setTooltip(new Tooltip(bundle.getString("login.hidePassword")));
+        } else {
+            passToggleIcon.getStyleClass().add("pass-eye-icon");
+            showPassButton.setTooltip(new Tooltip(bundle.getString("login.showPassword")));
+        }
+    }
+
+    private String getPassText() {
+        if (passVisible && passVisibleField != null) {
+            return passVisibleField.getText() == null ? "" : passVisibleField.getText();
+        }
+        return passField.getText() == null ? "" : passField.getText();
+    }
+
+    private void clearPassFields() {
+        passField.clear();
+        if (passVisibleField != null) {
+            passVisibleField.clear();
+        }
+    }
+
+    @FXML
     private void onLogin(ActionEvent event) {
         String user = userField.getText() == null ? "" : userField.getText().trim();
-        String pass = passField.getText() == null ? "" : passField.getText();
+        String pass = getPassText();
 
         if (user.isEmpty() || pass.isEmpty()) {
             errorLabel.setText(bundle.getString("login.errorEmpty"));
@@ -143,7 +205,7 @@ public class LoginController implements Initializable {
         boolean ok = SportActivityApp.getInstance().login(user, pass);
         if (!ok) {
             errorLabel.setText(bundle.getString("login.errorInvalid"));
-            passField.clear();
+            clearPassFields();
             return;
         }
 

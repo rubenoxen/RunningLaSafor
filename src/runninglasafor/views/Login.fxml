@@ -88,7 +88,17 @@
                                 <VBox spacing="8.0">
                                     <children>
                                         <Label styleClass="form-label" text="%login.passwordPrompt" />
-                                        <PasswordField fx:id="passField" styleClass="form-input" promptText="%login.passwordPromptHint" onAction="#onLogin" />
+                                        <StackPane styleClass="pass-field-wrap">
+                                            <children>
+                                                <PasswordField fx:id="passField" styleClass="form-input pass-input" promptText="%login.passwordPromptHint" onAction="#onLogin" maxWidth="Infinity" />
+                                                <TextField fx:id="passVisibleField" styleClass="form-input pass-input" promptText="%login.passwordPromptHint" onAction="#onLogin" maxWidth="Infinity" visible="false" managed="false" />
+                                                <Button fx:id="showPassButton" styleClass="pass-toggle" onAction="#onTogglePassVisible" StackPane.alignment="CENTER_RIGHT">
+                                                    <graphic>
+                                                        <Region fx:id="passToggleIcon" styleClass="pass-eye-icon" />
+                                                    </graphic>
+                                                </Button>
+                                            </children>
+                                        </StackPane>
                                     </children>
                                 </VBox>
 
