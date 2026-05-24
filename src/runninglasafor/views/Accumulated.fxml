@@ -1,150 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="authRoot" styleClass="auth-root" prefHeight="540.0" prefWidth="900.0"
-      xmlns="http://javafx.com/javafx/23.0.1"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="runninglasafor.controllers.AccumulatedController">
-    <children>
-        <VBox styleClass="auth-form-panel" HBox.hgrow="ALWAYS" minWidth="520.0" spacing="18.0" alignment="TOP_LEFT">
+<ScrollPane styleClass="auth-scroll" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" fitToWidth="true"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="runninglasafor.controllers.AccumulatedController">
+    <content>
+        <VBox fx:id="authRoot" styleClass="content-area" spacing="20.0">
             <padding>
-                <Insets top="32.0" right="40.0" bottom="28.0" left="40.0" />
+                <Insets top="24.0" right="28.0" bottom="24.0" left="28.0" />
             </padding>
             <children>
-                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
                     <children>
-                        <ImageView fx:id="brandLogo" styleClass="brand-logo" fitHeight="42.0" preserveRatio="true">
-                            <image>
-                                <Image url="@../resources/logo_brand.png" />
-                            </image>
-                        </ImageView>
-                        <Region HBox.hgrow="ALWAYS" />
-                        <Button fx:id="themeButton" styleClass="theme-toggle" onAction="#onToggleTheme">
-                            <graphic>
-                                <Region fx:id="themeIcon" styleClass="theme-icon" />
-                            </graphic>
-                        </Button>
-                        <ComboBox fx:id="languageBox" styleClass="lang-combo" />
-                    </children>
-                </HBox>
-
-                <VBox spacing="4.0">
-                    <children>
-                        <Label styleClass="auth-title" text="%acc.title" wrapText="true" />
-                        <Label styleClass="auth-subtitle" text="%acc.subtitle" wrapText="true" />
-                    </children>
-                </VBox>
-
-                <HBox spacing="10.0" alignment="CENTER_LEFT">
-                    <children>
-                        <Label styleClass="form-label" text="%acc.period" />
-                        <ComboBox fx:id="periodCombo" styleClass="form-combo" prefWidth="220.0" />
-                    </children>
-                </HBox>
-
-                <GridPane hgap="12.0" vgap="12.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
-                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
-                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.4" />
-                    </columnConstraints>
-                    <children>
-                        <VBox styleClass="stat-card" spacing="6.0"
-                              GridPane.rowIndex="0" GridPane.columnIndex="0">
-                            <padding>
-                                <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
-                            </padding>
+                        <VBox spacing="4.0" HBox.hgrow="ALWAYS">
                             <children>
-                                <Label styleClass="stat-card-label" text="%acc.activities" />
-                                <Label fx:id="lblCount" styleClass="stat-card-value" text="0" />
+                                <Label styleClass="page-title" text="%acc.title" />
+                                <Label styleClass="page-subtitle" text="%acc.subtitle" />
                             </children>
                         </VBox>
-                        <VBox styleClass="stat-card" spacing="6.0"
-                              GridPane.rowIndex="0" GridPane.columnIndex="1">
+                    </children>
+                </HBox>
+
+                <TabPane fx:id="periodTabs" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab fx:id="tabAll" text="%acc.period.all" />
+                        <Tab fx:id="tabMonth" text="%acc.period.month" />
+                        <Tab fx:id="tabYear" text="%acc.period.year" />
+                    </tabs>
+                </TabPane>
+
+                <GridPane hgap="14.0" vgap="14.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                    </columnConstraints>
+                    <children>
+                        <VBox styleClass="stat-card" spacing="8.0" GridPane.rowIndex="0" GridPane.columnIndex="0">
                             <padding>
-                                <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
+                                <Insets top="16.0" right="18.0" bottom="16.0" left="18.0" />
                             </padding>
                             <children>
-                                <Label styleClass="stat-card-label" text="%acc.distance" />
+                                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                    <children>
+                                        <Region styleClass="stat-card-icon" style="-fx-shape: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z';" />
+                                        <Label styleClass="stat-card-label" text="%acc.distance" />
+                                    </children>
+                                </HBox>
                                 <Label fx:id="lblDistance" styleClass="stat-card-value" text="0 km" />
                             </children>
                         </VBox>
-                        <VBox styleClass="stat-card" spacing="6.0"
-                              GridPane.rowIndex="0" GridPane.columnIndex="2">
+                        <VBox styleClass="stat-card" spacing="8.0" GridPane.rowIndex="0" GridPane.columnIndex="1">
                             <padding>
-                                <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
+                                <Insets top="16.0" right="18.0" bottom="16.0" left="18.0" />
                             </padding>
                             <children>
-                                <Label styleClass="stat-card-label" text="%acc.time" />
-                                <Label fx:id="lblTime" styleClass="stat-card-value" text="0h" />
+                                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                    <children>
+                                        <Region styleClass="stat-card-icon" style="-fx-shape: 'M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2z';" />
+                                        <Label styleClass="stat-card-label" text="%acc.time" />
+                                    </children>
+                                </HBox>
+                                <Label fx:id="lblTime" styleClass="stat-card-value" text="0h 00min" />
                             </children>
                         </VBox>
-                        <VBox styleClass="stat-card" spacing="6.0"
-                              GridPane.rowIndex="1" GridPane.columnIndex="0">
+                        <VBox styleClass="stat-card" spacing="8.0" GridPane.rowIndex="0" GridPane.columnIndex="2">
                             <padding>
-                                <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
+                                <Insets top="16.0" right="18.0" bottom="16.0" left="18.0" />
                             </padding>
                             <children>
-                                <Label styleClass="stat-card-label" text="%acc.gain" />
+                                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                    <children>
+                                        <Region styleClass="stat-card-icon" style="-fx-shape: 'M3 17h2v-6h2v6h2v-8h2v8h2v-3h2v3h2V7l-3-3-3 4-3-2-5 5z';" />
+                                        <Label styleClass="stat-card-label" text="%acc.gain" />
+                                    </children>
+                                </HBox>
                                 <Label fx:id="lblGain" styleClass="stat-card-value" text="0 m" />
                             </children>
                         </VBox>
-                        <VBox styleClass="stat-card" spacing="6.0"
-                              GridPane.rowIndex="1" GridPane.columnIndex="1">
+                        <VBox styleClass="stat-card" spacing="8.0" GridPane.rowIndex="0" GridPane.columnIndex="3">
                             <padding>
-                                <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
+                                <Insets top="16.0" right="18.0" bottom="16.0" left="18.0" />
                             </padding>
                             <children>
-                                <Label styleClass="stat-card-label" text="%acc.loss" />
+                                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                    <children>
+                                        <Region styleClass="stat-card-icon" style="-fx-shape: 'M11 9H9V2H7v7H5l3 4 3-4zm4 14v-7h2V9l-3-4-3 4v7H9l3 4 3-4z';" />
+                                        <Label styleClass="stat-card-label" text="%acc.loss" />
+                                    </children>
+                                </HBox>
                                 <Label fx:id="lblLoss" styleClass="stat-card-value" text="0 m" />
-                            </children>
-                        </VBox>
-                        <VBox styleClass="stat-card" spacing="6.0"
-                              GridPane.rowIndex="1" GridPane.columnIndex="2">
-                            <padding>
-                                <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
-                            </padding>
-                            <children>
-                                <Label styleClass="stat-card-label" text="%acc.speed" />
-                                <Label fx:id="lblSpeed" styleClass="stat-card-value" text="0 km/h" />
                             </children>
                         </VBox>
                     </children>
                 </GridPane>
 
-                <Label fx:id="statusLabel" styleClass="status-label" wrapText="true" />
-            </children>
-        </VBox>
-
-        <VBox styleClass="auth-image-panel" prefWidth="320.0" minWidth="240.0" alignment="CENTER" spacing="10.0">
-            <padding>
-                <Insets top="32.0" right="28.0" bottom="32.0" left="28.0" />
-            </padding>
-            <children>
-                <ImageView fx:id="bgImage" fitHeight="220.0" preserveRatio="true" opacity="0.65" blendMode="MULTIPLY">
-                    <image>
-                        <Image url="@../resources/running_bg.png" />
-                    </image>
-                </ImageView>
-                <VBox alignment="CENTER" spacing="-4.0">
+                <HBox spacing="16.0">
                     <children>
-                        <Label styleClass="image-tagline-1" text="%acc.tagline1" />
-                        <Label styleClass="image-tagline-2" text="%acc.tagline2" />
+                        <VBox styleClass="panel-card" spacing="10.0" HBox.hgrow="ALWAYS">
+                            <padding>
+                                <Insets top="16.0" right="18.0" bottom="16.0" left="18.0" />
+                            </padding>
+                            <children>
+                                <Label styleClass="panel-title" text="%acc.chart.distance" />
+                                <BarChart fx:id="distanceChart" animated="false" legendVisible="false" prefHeight="260.0">
+                                    <xAxis>
+                                        <CategoryAxis fx:id="distanceXAxis" side="BOTTOM" />
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis fx:id="distanceYAxis" side="LEFT" autoRanging="true" />
+                                    </yAxis>
+                                </BarChart>
+                            </children>
+                        </VBox>
+                        <VBox styleClass="panel-card" spacing="10.0" minWidth="300.0" maxWidth="380.0">
+                            <padding>
+                                <Insets top="16.0" right="18.0" bottom="16.0" left="18.0" />
+                            </padding>
+                            <children>
+                                <Label styleClass="panel-title" text="%acc.chart.avg" />
+                                <VBox spacing="12.0">
+                                    <children>
+                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                            <children>
+                                                <Label styleClass="stat-card-label" text="%acc.speed" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                                <Label fx:id="lblSpeed" styleClass="activity-name-label" text="0 km/h" />
+                                            </children>
+                                        </HBox>
+                                        <HBox styleClass="divider-h" />
+                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                            <children>
+                                                <Label styleClass="stat-card-label" text="%acc.activities" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                                <Label fx:id="lblCount" styleClass="activity-name-label" text="0" />
+                                            </children>
+                                        </HBox>
+                                        <HBox styleClass="divider-h" />
+                                        <Label fx:id="statusLabel" styleClass="status-label" wrapText="true" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
                     </children>
-                </VBox>
-                <Label styleClass="image-tagline-sub" text="%acc.tagline.sub" wrapText="true" />
+                </HBox>
             </children>
         </VBox>
-    </children>
-</HBox>
+    </content>
+</ScrollPane>

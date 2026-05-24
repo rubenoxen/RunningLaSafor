@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package runninglasafor.controllers;
 
 import java.net.URL;
@@ -9,36 +5,27 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import runninglasafor.MainApp;
+import javafx.scene.layout.VBox;
 import upv.ipc.sportlib.Session;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 
 public class SessionHistoryController implements Initializable {
 
-    // parseador estandar localdatetime
     private static final DateTimeFormatter DATE_FMT =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-    @FXML private HBox authRoot;
+    @FXML private VBox authRoot;
     @FXML private TableView<Session> sessionTable;
     @FXML private TableColumn<Session, String> colStartTime;
     @FXML private TableColumn<Session, String> colEndTime;
@@ -54,10 +41,6 @@ public class SessionHistoryController implements Initializable {
     @FXML private Label lblTotalAnnotations;
     @FXML private Label statusLabel;
 
-    @FXML private ComboBox<String> languageBox;
-    @FXML private Region themeIcon;
-    @FXML private ImageView bgImage;
-
     private RootLayoutController root;
     private ResourceBundle bundle;
 
@@ -65,8 +48,6 @@ public class SessionHistoryController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         this.bundle = rb;
         setupTableColumns();
-        setupLanguageBox();
-        applyTheme();
         refresh();
     }
 
@@ -91,49 +72,6 @@ public class SessionHistoryController implements Initializable {
                         cellData.getValue().getAnnotationsCreated()));
     }
 
-    private void setupLanguageBox() {
-        if (languageBox == null) return;
-        languageBox.getItems().setAll("ES", "EN", "FR", "DE", "ZH");
-        String current = MainApp.getCurrentLocale().getLanguage().toUpperCase();
-        languageBox.setValue(current);
-        languageBox.setOnAction(e -> {
-            String sel = languageBox.getValue();
-            if (sel == null) return;
-            MainApp.changeLocale(new Locale(sel.toLowerCase()));
-        });
-    }
-
-    private void applyTheme() {
-        boolean light = MainApp.isLightTheme();
-        if (authRoot != null) {
-            if (light && !authRoot.getStyleClass().contains("theme-light")) {
-                authRoot.getStyleClass().add("theme-light");
-            } else if (!light) {
-                authRoot.getStyleClass().remove("theme-light");
-            }
-        }
-        if (themeIcon != null) {
-            themeIcon.getStyleClass().removeAll("theme-moon", "theme-sun");
-            themeIcon.getStyleClass().add(light ? "theme-sun" : "theme-moon");
-        }
-        if (bgImage != null) {
-            String path = light
-                ? "/runninglasafor/resources/running_bg_light.png"      
-                : "/runninglasafor/resources/running_bg.png";
-            bgImage.setImage(new Image(getClass().getResource(path).toExternalForm()));
-            // hecho por ia: blend mode 
-            bgImage.setBlendMode(light ? BlendMode.SRC_OVER : BlendMode.MULTIPLY);
-            bgImage.setOpacity(light ? 0.9 : 0.65);
-        }
-    }
-
-    @FXML
-    private void onToggleTheme(ActionEvent event) {
-        MainApp.toggleTheme();
-        applyTheme();
-        if (root != null) root.refreshChromeTheme();
-    }
-
     public void setRoot(RootLayoutController root) {
         this.root = root;
     }
@@ -146,14 +84,12 @@ public class SessionHistoryController implements Initializable {
             return;
         }
 
-        // carga a la lista observable que esta enlazada por tabla en memoria
         List<Session> sessions =
                 SportActivityApp.getInstance().getSessionsByUser(user);
         ObservableList<Session> items = FXCollections.observableArrayList(
                 sessions == null ? List.of() : sessions);
         sessionTable.setItems(items);
 
-        // iteracion trivial para variables acumulativas
         long totalSeconds = 0;
         int totalImported = 0;
         int totalViewed = 0;

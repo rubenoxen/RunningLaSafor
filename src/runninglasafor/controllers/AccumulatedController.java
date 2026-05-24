@@ -5,23 +5,24 @@ import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import runninglasafor.MainApp;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.VBox;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.SportActivityApp;
 
@@ -29,30 +30,26 @@ public class AccumulatedController implements Initializable {
 
     private enum Period { ALL, MONTH, YEAR }
 
-    @FXML
-    private HBox authRoot;
-    @FXML
-    private ComboBox<Period> periodCombo;
-    @FXML
-    private Label lblCount;
-    @FXML
-    private Label lblDistance;
-    @FXML
-    private Label lblTime;
-    @FXML
-    private Label lblGain;
-    @FXML
-    private Label lblLoss;
-    @FXML
-    private Label lblSpeed;
-    @FXML
-    private Label statusLabel;
-    @FXML
-    private ComboBox<String> languageBox;
-    @FXML
-    private Region themeIcon;
-    @FXML
-    private ImageView bgImage;
+    private static final String[] MONTHS_ES =
+            { "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" };
+
+    @FXML private VBox authRoot;
+    @FXML private TabPane periodTabs;
+    @FXML private Tab tabAll;
+    @FXML private Tab tabMonth;
+    @FXML private Tab tabYear;
+
+    @FXML private Label lblCount;
+    @FXML private Label lblDistance;
+    @FXML private Label lblTime;
+    @FXML private Label lblGain;
+    @FXML private Label lblLoss;
+    @FXML private Label lblSpeed;
+    @FXML private Label statusLabel;
+
+    @FXML private BarChart<String, Number> distanceChart;
+    @FXML private CategoryAxis distanceXAxis;
+    @FXML private NumberAxis distanceYAxis;
 
     private RootLayoutController root;
     private ResourceBundle bundle;
@@ -60,90 +57,29 @@ public class AccumulatedController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.bundle = rb;
-
-        ObservableList<Period> values = FXCollections.observableArrayList(
-                Period.ALL, Period.MONTH, Period.YEAR);
-        periodCombo.setItems(values);
-        periodCombo.setConverter(new javafx.util.StringConverter<Period>() {
-            @Override
-            public String toString(Period p) {
-                if (p == null) return "";
-                switch (p) {
-                    case MONTH: return bundle.getString("acc.period.month");
-                    case YEAR: return bundle.getString("acc.period.year");
-                    case ALL:
-                    default: return bundle.getString("acc.period.all");
-                }
-            }
-
-            @Override
-            public Period fromString(String s) {
-                return Period.ALL;
-            }
-        });
-        periodCombo.getSelectionModel().select(Period.ALL);
-        periodCombo.getSelectionModel().selectedItemProperty()
-                .addListener((obs, oldV, newV) -> refresh());
-
-        setupLanguageBox();
-        applyTheme();
+        if (periodTabs != null) {
+            periodTabs.getSelectionModel().selectedItemProperty()
+                    .addListener((obs, oldV, newV) -> refresh());
+        }
         refresh();
-    }
-
-    private void setupLanguageBox() {
-        if (languageBox == null) return;
-        languageBox.getItems().setAll("ES", "EN", "FR", "DE", "ZH");
-        String current = MainApp.getCurrentLocale().getLanguage().toUpperCase();
-        languageBox.setValue(current);
-        languageBox.setOnAction(e -> {
-            String sel = languageBox.getValue();
-            if (sel == null) return;
-            MainApp.changeLocale(new Locale(sel.toLowerCase()));
-        });
-    }
-
-    private void applyTheme() {
-        boolean light = MainApp.isLightTheme();
-        if (authRoot != null) {
-            if (light && !authRoot.getStyleClass().contains("theme-light")) {
-                authRoot.getStyleClass().add("theme-light");
-            } else if (!light) {
-                authRoot.getStyleClass().remove("theme-light");
-            }
-        }
-        if (themeIcon != null) {
-            themeIcon.getStyleClass().removeAll("theme-moon", "theme-sun");
-            themeIcon.getStyleClass().add(light ? "theme-sun" : "theme-moon");
-        }
-        if (bgImage != null) {
-            String path = light
-                ? "/runninglasafor/resources/running_bg_light.png"    
-                : "/runninglasafor/resources/running_bg.png";
-            bgImage.setImage(new Image(getClass().getResource(path).toExternalForm()));
-            // hecho por ia: blendmode 
-            bgImage.setBlendMode(light ? BlendMode.SRC_OVER : BlendMode.MULTIPLY);
-            bgImage.setOpacity(light ? 0.9 : 0.65);
-        }
-    }
-
-    @FXML
-    private void onToggleTheme(ActionEvent event) {
-        MainApp.toggleTheme();
-        applyTheme();
-        if (root != null) {
-            root.refreshChromeTheme();
-        }
     }
 
     public void setRoot(RootLayoutController root) {
         this.root = root;
     }
 
+    private Period currentPeriod() {
+        if (periodTabs == null) return Period.ALL;
+        Tab sel = periodTabs.getSelectionModel().getSelectedItem();
+        if (sel == tabMonth) return Period.MONTH;
+        if (sel == tabYear) return Period.YEAR;
+        return Period.ALL;
+    }
+
     private void refresh() {
         List<Activity> all = SportActivityApp.getInstance().getUserActivities();
         if (all == null) all = List.of();
-        List<Activity> filtered = filterByPeriod(all,
-                periodCombo.getSelectionModel().getSelectedItem());
+        List<Activity> filtered = filterByPeriod(all, currentPeriod());
 
         int count = filtered.size();
         double distMeters = 0.0;
@@ -176,6 +112,28 @@ public class AccumulatedController implements Initializable {
                         bundle.getString("acc.count"), count));
             }
         }
+
+        updateDistanceChart(filtered);
+    }
+
+    private void updateDistanceChart(List<Activity> activities) {
+        if (distanceChart == null) return;
+        distanceChart.getData().clear();
+
+        Map<Integer, Double> byMonth = new HashMap<>();
+        for (Activity a : activities) {
+            if (a.getStartTime() == null) continue;
+            int m = a.getStartTime().getMonthValue();
+            byMonth.merge(m, a.getTotalDistance() / 1000.0, Double::sum);
+        }
+
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        for (int i = 1; i <= 12; i++) {
+            String label = MONTHS_ES[i - 1];
+            double v = byMonth.getOrDefault(i, 0.0);
+            series.getData().add(new XYChart.Data<>(label, v));
+        }
+        distanceChart.setData(FXCollections.singletonObservableList(series));
     }
 
     private static List<Activity> filterByPeriod(List<Activity> all, Period period) {
