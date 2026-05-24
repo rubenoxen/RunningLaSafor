@@ -25,12 +25,12 @@
                 <StackPane fx:id="heroStack" styleClass="hero-bg" HBox.hgrow="ALWAYS" prefWidth="640.0" minWidth="360.0" minHeight="0.0">
                     <children>
                         <Region styleClass="auth-image-overlay" />
-                        <VBox alignment="CENTER" spacing="14.0">
+                        <VBox alignment="TOP_CENTER" spacing="14.0" StackPane.alignment="TOP_CENTER">
                             <padding>
-                                <Insets top="40.0" right="40.0" bottom="40.0" left="40.0" />
+                                <Insets top="56.0" right="40.0" bottom="24.0" left="40.0" />
                             </padding>
                             <children>
-                                <ImageView fx:id="brandLogo" fitHeight="150.0" preserveRatio="true">
+                                <ImageView fx:id="brandLogo" fitHeight="120.0" preserveRatio="true">
                                     <image>
                                         <Image url="@../../resources/logo.png" />
                                     </image>

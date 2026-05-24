@@ -72,7 +72,7 @@ public class LoginController implements Initializable {
                 "-fx-background-color: #120D31;"
                 + "-fx-background-image: url('" + imgUrl.toExternalForm() + "');"
                 + "-fx-background-size: cover;"
-                + "-fx-background-position: center;"
+                + "-fx-background-position: center 35%;"
                 + "-fx-background-repeat: no-repeat;");
     }
 
