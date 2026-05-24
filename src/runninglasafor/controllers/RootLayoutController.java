@@ -14,12 +14,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import runninglasafor.MainApp;
@@ -31,38 +34,67 @@ import upv.ipc.sportlib.User;
 public class RootLayoutController implements Initializable {
 
     @FXML private BorderPane rootPane;
-    @FXML private MenuBar menuBar;
-    @FXML private MenuItem miImport;
-    @FXML private MenuItem miLogout;
-    @FXML private Menu menuActivities;
-    @FXML private Menu menuProfile;
     @FXML private Label footerLabel;
+    @FXML private HBox footerBox;
+
+    @FXML private javafx.scene.layout.VBox sidebar;
+    @FXML private Button navHome;
+    @FXML private Button navActivities;
+    @FXML private Button navStats;
+    @FXML private Button navSessions;
+    @FXML private Button navMaps;
+    @FXML private Button navProfile;
+    @FXML private Button navLogout;
+    @FXML private HBox sidebarUser;
+    @FXML private Label sidebarUserName;
+    @FXML private Label sidebarUserEmail;
+    @FXML private ImageView sidebarAvatar;
+
+    @FXML private Button footerThemeButton;
+    @FXML private Region footerThemeIcon;
+    @FXML private ComboBox<String> footerLangBox;
 
     private ResourceBundle bundle;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // guardamos la referencia al bundle de idiomas que inyecta mainapp
         this.bundle = rb;
-        refreshChromeTheme();
+        setupLanguageBox();
+        applyTheme();
         restoreView();
     }
 
-    public void refreshChromeTheme() {
-        // comprobacion para inyectar o quitar la clase css del tema claro
-        if (rootPane == null) return;
-        boolean light = MainApp.isLightTheme();
-        if (light) {
-            if (!rootPane.getStyleClass().contains("theme-light")) {
-                rootPane.getStyleClass().add("theme-light");
-            }
-        } else {
-            rootPane.getStyleClass().remove("theme-light");
+    private void setupLanguageBox() {
+        if (footerLangBox == null) return;
+        footerLangBox.getItems().setAll("ES", "EN", "FR", "DE", "ZH");
+        String current = MainApp.getCurrentLocale().getLanguage().toUpperCase();
+        footerLangBox.setValue(current);
+        footerLangBox.setOnAction(e -> {
+            String sel = footerLangBox.getValue();
+            if (sel == null) return;
+            MainApp.changeLocale(new Locale(sel.toLowerCase()));
+        });
+    }
+
+    private void applyTheme() {
+        if (footerThemeIcon != null) {
+            boolean light = !MainApp.isLightTheme();
+            footerThemeIcon.getStyleClass().removeAll("theme-moon", "theme-sun");
+            footerThemeIcon.getStyleClass().add(light ? "theme-sun" : "theme-moon");
         }
     }
 
+    public void refreshChromeTheme() {
+        applyTheme();
+    }
+
+    @FXML
+    private void onToggleTheme(ActionEvent event) {
+        MainApp.toggleTheme();
+        applyTheme();
+    }
+
     private void restoreView() {
-        // switch para el enrutamiento de las vistas
         View v = MainApp.getCurrentView();
         switch (v) {
             case REGISTER:
@@ -92,7 +124,8 @@ public class RootLayoutController implements Initializable {
         setSessionMenusEnabled(false);
         setChromeVisible(false);
         updateFooter();
-        // cargamos el panel central y pasamos el controlador principal
+        updateSidebarUser();
+        markActiveNav(null);
         LoginController c = loadCenter("/runninglasafor/views/Login.fxml");
         if (c != null) c.setRoot(this);
     }
@@ -102,6 +135,8 @@ public class RootLayoutController implements Initializable {
         setSessionMenusEnabled(false);
         setChromeVisible(false);
         updateFooter();
+        updateSidebarUser();
+        markActiveNav(null);
         RegisterController c = loadCenter("/runninglasafor/views/Register.fxml");
         if (c != null) c.setRoot(this);
     }
@@ -115,6 +150,8 @@ public class RootLayoutController implements Initializable {
         setSessionMenusEnabled(true);
         setChromeVisible(true);
         updateFooter();
+        updateSidebarUser();
+        markActiveNav(navActivities);
         ActivitiesListController c = loadCenter("/runninglasafor/views/ActivitiesList.fxml");
         if (c != null) c.setRoot(this);
     }
@@ -124,20 +161,24 @@ public class RootLayoutController implements Initializable {
         setSessionMenusEnabled(true);
         setChromeVisible(true);
         updateFooter();
+        updateSidebarUser();
+        markActiveNav(navStats);
         AccumulatedController c = loadCenter("/runninglasafor/views/Accumulated.fxml");
         if (c != null) c.setRoot(this);
     }
-    
+
     public void showActivityDetail(upv.ipc.sportlib.Activity activity) {
-        MainApp.setCurrentView(MainApp.View.ACTIVITIES); 
+        MainApp.setCurrentView(MainApp.View.ACTIVITIES);
         setSessionMenusEnabled(true);
         setChromeVisible(true);
         updateFooter();
-        
+        updateSidebarUser();
+        markActiveNav(navActivities);
+
         ActivityDetailController c = loadCenter("/runninglasafor/views/ActivityDetail.fxml");
         if (c != null) {
             c.setRoot(this);
-            c.setActivity(activity); 
+            c.setActivity(activity);
         }
     }
 
@@ -146,6 +187,8 @@ public class RootLayoutController implements Initializable {
         setSessionMenusEnabled(true);
         setChromeVisible(true);
         updateFooter();
+        updateSidebarUser();
+        markActiveNav(navProfile);
         ProfileController c = loadCenter("/runninglasafor/views/Profile.fxml");
         if (c != null) c.setRoot(this);
     }
@@ -155,8 +198,31 @@ public class RootLayoutController implements Initializable {
         setSessionMenusEnabled(true);
         setChromeVisible(true);
         updateFooter();
+        updateSidebarUser();
+        markActiveNav(navSessions);
         SessionHistoryController c = loadCenter("/runninglasafor/views/SessionHistory.fxml");
         if (c != null) c.setRoot(this);
+    }
+
+    public void showMaps() {
+        setSessionMenusEnabled(true);
+        setChromeVisible(true);
+        updateFooter();
+        updateSidebarUser();
+        markActiveNav(navMaps);
+        MapsController c = loadCenter("/runninglasafor/views/Maps.fxml");
+        if (c != null) c.setRoot(this);
+    }
+
+    private void markActiveNav(Button active) {
+        Button[] all = { navHome, navActivities, navStats, navSessions, navMaps, navProfile, navLogout };
+        for (Button b : all) {
+            if (b == null) continue;
+            b.getStyleClass().remove("active");
+        }
+        if (active != null && !active.getStyleClass().contains("active")) {
+            active.getStyleClass().add("active");
+        }
     }
 
     @FXML
@@ -166,25 +232,11 @@ public class RootLayoutController implements Initializable {
         }
     }
 
-    @FXML
-    private void onShowActivities(ActionEvent event) {
-        showActivities();
-    }
-
-    @FXML
-    private void onShowAccumulated(ActionEvent event) {
-        showAccumulated();
-    }
-
-    @FXML
-    private void onShowProfile(ActionEvent event) {
-        showProfile();
-    }
-
-    @FXML
-    private void onShowHistory(ActionEvent event) {
-        showHistory();
-    }
+    @FXML private void onShowActivities(ActionEvent event) { showActivities(); }
+    @FXML private void onShowAccumulated(ActionEvent event) { showAccumulated(); }
+    @FXML private void onShowProfile(ActionEvent event) { showProfile(); }
+    @FXML private void onShowHistory(ActionEvent event) { showHistory(); }
+    @FXML private void onShowMaps(ActionEvent event) { showMaps(); }
 
     @FXML
     private void onLogout(ActionEvent event) {
@@ -214,7 +266,6 @@ public class RootLayoutController implements Initializable {
         a.showAndWait();
     }
 
-    // handlers simples de botones de menu para setear el locale
     @FXML private void onIdiomaEs(ActionEvent event) { MainApp.changeLocale(new Locale("es")); }
     @FXML private void onIdiomaEn(ActionEvent event) { MainApp.changeLocale(new Locale("en")); }
     @FXML private void onIdiomaFr(ActionEvent event) { MainApp.changeLocale(new Locale("fr")); }
@@ -222,7 +273,6 @@ public class RootLayoutController implements Initializable {
     @FXML private void onIdiomaZh(ActionEvent event) { MainApp.changeLocale(new Locale("zh")); }
 
     public boolean importGpx() {
-        // filechooser estandar para pillar ficheros locales
         FileChooser fc = new FileChooser();
         fc.setTitle(bundle.getString("import.title"));
         fc.getExtensionFilters().add(
@@ -255,40 +305,43 @@ public class RootLayoutController implements Initializable {
     }
 
     private void setSessionMenusEnabled(boolean enabled) {
-        if (miImport != null) miImport.setDisable(!enabled);
-        if (miLogout != null) miLogout.setDisable(!enabled);
-        if (menuActivities != null) menuActivities.setDisable(!enabled);
-        if (menuProfile != null) menuProfile.setDisable(!enabled);
+        if (sidebar != null) {
+            sidebar.setVisible(enabled);
+            sidebar.setManaged(enabled);
+        }
     }
 
     private void setChromeVisible(boolean visible) {
-        if (menuBar != null) {
-            menuBar.setVisible(visible);
-            menuBar.setManaged(visible);
-        }
-        if (footerLabel != null && footerLabel.getParent() != null) {
-            footerLabel.getParent().setVisible(visible);
-            footerLabel.getParent().setManaged(visible);
-        }
-        if (visible) {
-            refreshChromeTheme();
+        if (footerBox != null) {
+            footerBox.setVisible(visible);
+            footerBox.setManaged(visible);
         }
     }
 
     private void updateFooter() {
         if (footerLabel == null) return;
+        footerLabel.setText(bundle.getString("app.footer"));
+    }
+
+    private void updateSidebarUser() {
+        if (sidebarUserName == null || sidebarUserEmail == null) return;
         User u;
         try {
             u = SportActivityApp.getInstance().getCurrentUser();
         } catch (Throwable t) {
-            footerLabel.setText(bundle.getString("app.footer"));
             return;
         }
         if (u == null) {
-            footerLabel.setText(bundle.getString("app.footer"));
+            sidebarUserName.setText("");
+            sidebarUserEmail.setText("");
+            if (sidebarAvatar != null) sidebarAvatar.setImage(null);
         } else {
-            footerLabel.setText(bundle.getString("app.footer") + "  -  "
-                    + bundle.getString("app.session") + ": " + u.getNickName());
+            sidebarUserName.setText(u.getNickName());
+            sidebarUserEmail.setText(u.getEmail() == null ? "" : u.getEmail());
+            if (sidebarAvatar != null) {
+                Image av = u.getAvatar();
+                sidebarAvatar.setImage(av);
+            }
         }
     }
 

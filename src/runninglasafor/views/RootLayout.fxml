@@ -1,63 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="rootPane" prefHeight="800.0" prefWidth="900.0" styleClass="app-chrome" stylesheets="@../resources/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="runninglasafor.controllers.RootLayoutController">
-    <top>
-        <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
-            <menus>
-                <Menu text="%menu.file">
-                    <items>
-                        <MenuItem fx:id="miImport" onAction="#onImportGpx" text="%menu.file.import">
-                            <accelerator>
-                                <KeyCodeCombination alt="UP" code="I" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                            </accelerator>
-                        </MenuItem>
-                        <SeparatorMenuItem />
-                        <MenuItem fx:id="miLogout" onAction="#onLogout" text="%menu.file.logout" />
-                        <MenuItem onAction="#onExit" text="%menu.file.exit" />
-                    </items>
-                </Menu>
-                <Menu fx:id="menuActivities" text="%menu.activities">
-                    <items>
-                        <MenuItem onAction="#onShowActivities" text="%menu.activities.list" />
-                        <MenuItem onAction="#onShowAccumulated" text="%menu.activities.accumulated" />
-                    </items>
-                </Menu>
-                <Menu fx:id="menuProfile" text="%menu.profile">
-                    <items>
-                        <MenuItem onAction="#onShowProfile" text="%menu.profile.edit" />
-                        <MenuItem onAction="#onShowHistory" text="%menu.profile.history" />
-                    </items>
-                </Menu>
-                <Menu text="%menu.language">
-                    <items>
-                        <MenuItem onAction="#onIdiomaEs" text="%menu.language.spanish" />
-                        <MenuItem onAction="#onIdiomaEn" text="%menu.language.english" />
-                        <MenuItem onAction="#onIdiomaFr" text="%menu.language.french" />
-                        <MenuItem onAction="#onIdiomaDe" text="%menu.language.german" />
-                        <MenuItem onAction="#onIdiomaZh" text="%menu.language.chinese" />
-                    </items>
-                </Menu>
-                <Menu text="%menu.help">
-                    <items>
-                        <MenuItem onAction="#onAbout" text="%menu.help.about" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-    </top>
+<BorderPane fx:id="rootPane" prefHeight="800.0" prefWidth="1200.0" styleClass="app-chrome" stylesheets="@../resources/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="runninglasafor.controllers.RootLayoutController">
+    <left>
+        <VBox fx:id="sidebar" styleClass="sidebar" BorderPane.alignment="CENTER">
+            <children>
+                <HBox styleClass="sidebar-brand" alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <ImageView fitHeight="56.0" preserveRatio="true">
+                            <image>
+                                <Image url="@../../resources/logo.png" />
+                            </image>
+                        </ImageView>
+                        <Label styleClass="sidebar-brand-label" text="%app.title" />
+                    </children>
+                </HBox>
+
+                <Button fx:id="navHome" styleClass="sidebar-button" text="%nav.home" onAction="#onShowActivities" maxWidth="Infinity" />
+                <Button fx:id="navActivities" styleClass="sidebar-button" text="%nav.activities" onAction="#onShowActivities" maxWidth="Infinity" />
+                <Button fx:id="navStats" styleClass="sidebar-button" text="%nav.stats" onAction="#onShowAccumulated" maxWidth="Infinity" />
+                <Button fx:id="navSessions" styleClass="sidebar-button" text="%nav.sessions" onAction="#onShowHistory" maxWidth="Infinity" />
+                <Button fx:id="navMaps" styleClass="sidebar-button" text="%nav.maps" onAction="#onShowMaps" maxWidth="Infinity" />
+                <Button fx:id="navProfile" styleClass="sidebar-button" text="%nav.profile" onAction="#onShowProfile" maxWidth="Infinity" />
+                <Button fx:id="navLogout" styleClass="sidebar-button" text="%nav.logout" onAction="#onLogout" maxWidth="Infinity" />
+
+                <Region VBox.vgrow="ALWAYS" />
+
+                <HBox fx:id="sidebarUser" styleClass="sidebar-user" alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <StackPane styleClass="sidebar-avatar">
+                            <children>
+                                <ImageView fx:id="sidebarAvatar" fitHeight="32.0" fitWidth="32.0" preserveRatio="true" />
+                            </children>
+                        </StackPane>
+                        <VBox spacing="2.0">
+                            <children>
+                                <Label fx:id="sidebarUserName" styleClass="sidebar-user-name" text="Usuario" />
+                                <Label fx:id="sidebarUserEmail" styleClass="sidebar-user-email" text="user@example.com" />
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets top="10.0" right="14.0" bottom="10.0" left="14.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </left>
     <bottom>
-        <HBox fx:id="footerBox" alignment="CENTER_LEFT" styleClass="app-footer" BorderPane.alignment="CENTER">
+        <HBox fx:id="footerBox" alignment="CENTER_LEFT" styleClass="app-footer" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
                 <Label fx:id="footerLabel" text="%app.footer" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="footerThemeButton" styleClass="theme-toggle" onAction="#onToggleTheme">
+                    <graphic>
+                        <Region fx:id="footerThemeIcon" styleClass="theme-icon" />
+                    </graphic>
+                </Button>
+                <ComboBox fx:id="footerLangBox" styleClass="lang-combo" />
             </children>
         </HBox>
     </bottom>

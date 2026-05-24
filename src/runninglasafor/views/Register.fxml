@@ -7,123 +7,113 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="authRoot" styleClass="auth-root" prefHeight="540.0" prefWidth="900.0"
-      xmlns="http://javafx.com/javafx/23.0.1"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="runninglasafor.controllers.RegisterController">
-    <children>
-        <VBox styleClass="auth-form-panel" prefWidth="500.0" minWidth="420.0" spacing="14.0" alignment="TOP_LEFT">
+<ScrollPane styleClass="auth-scroll" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="runninglasafor.controllers.RegisterController">
+    <content>
+        <VBox fx:id="authRoot" styleClass="auth-root" alignment="CENTER">
             <padding>
-                <Insets top="28.0" right="44.0" bottom="24.0" left="44.0" />
+                <Insets top="32.0" right="40.0" bottom="32.0" left="40.0" />
             </padding>
             <children>
-                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                <VBox styleClass="auth-form-card" spacing="14.0" maxWidth="520.0">
+                    <padding>
+                        <Insets top="28.0" right="36.0" bottom="28.0" left="36.0" />
+                    </padding>
                     <children>
-                        <ImageView fx:id="brandLogo" styleClass="brand-logo" fitHeight="46.0" preserveRatio="true">
-                            <image>
-                                <Image url="@../resources/logo_brand.png" />
-                            </image>
-                        </ImageView>
-                        <Region HBox.hgrow="ALWAYS" />
-                        <Button fx:id="themeButton" styleClass="theme-toggle" onAction="#onToggleTheme">
-                            <graphic>
-                                <Region fx:id="themeIcon" styleClass="theme-icon" />
-                            </graphic>
-                        </Button>
-                        <ComboBox fx:id="languageBox" styleClass="lang-combo" />
-                    </children>
-                </HBox>
-                <VBox spacing="4.0">
-                    <children>
-                        <Label styleClass="auth-title" text="%register.title" wrapText="true" />
-                        <Label styleClass="auth-subtitle" text="%register.subtitle" wrapText="true" />
-                    </children>
-                </VBox>
-                <VBox spacing="3.0">
-                    <children>
-                        <Label styleClass="form-label" text="%register.user" />
-                        <TextField fx:id="nickField" styleClass="form-input" promptText="%register.userPrompt" />
-                    </children>
-                </VBox>
-                <VBox spacing="3.0">
-                    <children>
-                        <Label styleClass="form-label" text="%register.email" />
-                        <TextField fx:id="emailField" styleClass="form-input" promptText="%register.emailPrompt" />
-                    </children>
-                </VBox>
-                <HBox spacing="12.0">
-                    <children>
-                        <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
                             <children>
-                                <Label styleClass="form-label" text="%register.password" />
-                                <PasswordField fx:id="passField" styleClass="form-input" promptText="%register.passwordPrompt" />
-                            </children>
-                        </VBox>
-                        <VBox spacing="3.0" HBox.hgrow="ALWAYS">
-                            <children>
-                                <Label styleClass="form-label" text="%register.confirm" />
-                                <PasswordField fx:id="confirmField" styleClass="form-input" promptText="%register.confirmPrompt" />
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <HBox spacing="12.0">
-                    <children>
-                        <VBox spacing="3.0" HBox.hgrow="ALWAYS">
-                            <children>
-                                <Label styleClass="form-label" text="%register.birth" />
-                                <DatePicker fx:id="birthPicker" styleClass="form-input" maxWidth="Infinity" />
-                            </children>
-                        </VBox>
-                        <VBox spacing="3.0" HBox.hgrow="ALWAYS">
-                            <children>
-                                <Label styleClass="form-label" text="%register.avatar" />
-                                <HBox spacing="6.0">
+                                <StackPane style="-fx-background-color: #AF3B6E; -fx-background-radius: 22; -fx-min-width: 44; -fx-min-height: 44; -fx-max-width: 44; -fx-max-height: 44;">
                                     <children>
-                                        <TextField fx:id="avatarField" styleClass="form-input" promptText="%register.avatarPrompt" HBox.hgrow="ALWAYS" />
-                                        <Button styleClass="secondary-button" text="%register.browse" onAction="#onBrowseAvatar" />
+                                        <ImageView fx:id="brandLogo" fitHeight="26.0" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../resources/logo_brand.png" />
+                                            </image>
+                                        </ImageView>
                                     </children>
-                                </HBox>
+                                </StackPane>
+                                <Label styleClass="auth-title" text="%register.title" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button fx:id="themeButton" styleClass="theme-toggle" onAction="#onToggleTheme">
+                                    <graphic>
+                                        <Region fx:id="themeIcon" styleClass="theme-icon" />
+                                    </graphic>
+                                </Button>
+                                <ComboBox fx:id="languageBox" styleClass="lang-combo" />
+                            </children>
+                        </HBox>
+                        <Label styleClass="auth-subtitle" text="%register.subtitle" wrapText="true" />
+
+                        <VBox spacing="6.0">
+                            <children>
+                                <Label styleClass="form-label" text="%register.user" />
+                                <TextField fx:id="nickField" styleClass="form-input" promptText="%register.userPrompt" />
                             </children>
                         </VBox>
-                    </children>
-                </HBox>
-                <Label fx:id="errorLabel" styleClass="error-label" wrapText="true" />
+                        <VBox spacing="6.0">
+                            <children>
+                                <Label styleClass="form-label" text="%register.email" />
+                                <TextField fx:id="emailField" styleClass="form-input" promptText="%register.emailPrompt" />
+                            </children>
+                        </VBox>
+                        <HBox spacing="12.0">
+                            <children>
+                                <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="form-label" text="%register.password" />
+                                        <PasswordField fx:id="passField" styleClass="form-input" promptText="%register.passwordPrompt" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="form-label" text="%register.confirm" />
+                                        <PasswordField fx:id="confirmField" styleClass="form-input" promptText="%register.confirmPrompt" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                        <HBox spacing="12.0">
+                            <children>
+                                <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="form-label" text="%register.birth" />
+                                        <DatePicker fx:id="birthPicker" styleClass="form-input" maxWidth="Infinity" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="form-label" text="%register.avatar" />
+                                        <HBox spacing="6.0">
+                                            <children>
+                                                <TextField fx:id="avatarField" styleClass="form-input" promptText="%register.avatarPrompt" HBox.hgrow="ALWAYS" />
+                                                <Button styleClass="secondary-button" text="%register.browse" onAction="#onBrowseAvatar" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                        <Label fx:id="errorLabel" styleClass="error-label" wrapText="true" />
 
-                <Button styleClass="primary-button" text="%register.create" onAction="#onCreate" maxWidth="Infinity" defaultButton="true" />
+                        <Button styleClass="primary-button" text="%register.create" onAction="#onCreate" maxWidth="Infinity" defaultButton="true" />
 
-                <HBox alignment="CENTER" spacing="2.0">
-                    <children>
-                        <Hyperlink styleClass="auth-link" text="%register.back" onAction="#onBack" />
-                    </children>
-                </HBox>
-            </children>
-        </VBox>
-        <VBox styleClass="auth-image-panel" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="10.0">
-            <padding>
-                <Insets top="32.0" right="32.0" bottom="32.0" left="32.0" />
-            </padding>
-            <children>
-                <ImageView fx:id="bgImage" fitHeight="260.0" preserveRatio="true" opacity="0.65" blendMode="MULTIPLY">
-                    <image>
-                        <Image url="@../resources/running_bg.png" />
-                    </image>
-                </ImageView>
-                <VBox alignment="CENTER" spacing="-4.0">
-                    <children>
-                        <Label styleClass="image-tagline-1" text="%register.tagline1" />
-                        <Label styleClass="image-tagline-2" text="%register.tagline2" />
+                        <HBox alignment="CENTER" spacing="2.0">
+                            <children>
+                                <Hyperlink styleClass="auth-link" text="%register.back" onAction="#onBack" />
+                            </children>
+                        </HBox>
                     </children>
                 </VBox>
-                <Label styleClass="image-tagline-sub" text="%register.tagline.sub" />
             </children>
         </VBox>
-    </children>
-</HBox>
+    </content>
+</ScrollPane>

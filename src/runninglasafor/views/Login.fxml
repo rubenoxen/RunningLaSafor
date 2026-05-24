@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -11,88 +12,182 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="authRoot" styleClass="auth-root" prefHeight="540.0" prefWidth="900.0"
+<VBox fx:id="authRoot" styleClass="auth-root" prefHeight="800.0" prefWidth="1280.0" minHeight="640.0" minWidth="960.0"
       xmlns="http://javafx.com/javafx/23.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="runninglasafor.controllers.LoginController">
     <children>
-        <VBox styleClass="auth-form-panel" prefWidth="440.0" minWidth="360.0" spacing="22.0" alignment="TOP_LEFT">
-            <padding>
-                <Insets top="40.0" right="48.0" bottom="32.0" left="48.0" />
-            </padding>
+        <HBox fx:id="contentRow" VBox.vgrow="ALWAYS" alignment="CENTER">
             <children>
-                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                <StackPane fx:id="heroStack" styleClass="hero-bg" HBox.hgrow="ALWAYS" prefWidth="640.0" minWidth="360.0" minHeight="0.0">
                     <children>
-                        <ImageView fx:id="brandLogo" styleClass="brand-logo" fitHeight="46.0" preserveRatio="true">
-                            <image>
-                                <Image url="@../resources/logo_brand.png" />
-                            </image>
-                        </ImageView>
-                        <Region HBox.hgrow="ALWAYS" />
-                        <Button fx:id="themeButton" styleClass="theme-toggle" onAction="#onToggleTheme">
-                            <graphic>
-                                <Region fx:id="themeIcon" styleClass="theme-icon" />
-                            </graphic>
-                        </Button>
-                        <ComboBox fx:id="languageBox" styleClass="lang-combo" />
+                        <Region styleClass="auth-image-overlay" />
+                        <VBox alignment="CENTER" spacing="14.0">
+                            <padding>
+                                <Insets top="40.0" right="40.0" bottom="40.0" left="40.0" />
+                            </padding>
+                            <children>
+                                <ImageView fx:id="brandLogo" fitHeight="150.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../resources/logo.png" />
+                                    </image>
+                                </ImageView>
+                                <Label styleClass="auth-hero-title" text="%app.title" />
+                                <Region prefHeight="4.0" maxWidth="100.0" style="-fx-background-color: #AF3B6E; -fx-background-radius: 2;" />
+                                <Label styleClass="auth-hero-sub" text="%login.hero.subtitle" wrapText="true" textAlignment="CENTER" maxWidth="440.0" />
+                            </children>
+                        </VBox>
+                    </children>
+                </StackPane>
+
+                <VBox fx:id="formSide" HBox.hgrow="ALWAYS" prefWidth="620.0" minWidth="420.0" alignment="CENTER" styleClass="auth-root">
+                    <padding>
+                        <Insets top="20.0" right="44.0" bottom="20.0" left="44.0" />
+                    </padding>
+                    <children>
+                        <VBox fx:id="formCard" styleClass="auth-form-card" spacing="14.0" maxWidth="500.0" alignment="TOP_CENTER">
+                            <padding>
+                                <Insets top="28.0" right="40.0" bottom="28.0" left="40.0" />
+                            </padding>
+                            <children>
+                                <HBox alignment="CENTER_RIGHT" spacing="8.0">
+                                    <children>
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="themeButton" styleClass="theme-toggle" onAction="#onToggleTheme">
+                                            <graphic>
+                                                <Region fx:id="themeIcon" styleClass="theme-icon" />
+                                            </graphic>
+                                        </Button>
+                                        <ComboBox fx:id="languageBox" styleClass="lang-combo" />
+                                    </children>
+                                </HBox>
+
+                                <StackPane styleClass="auth-lock-circle" maxWidth="-Infinity" maxHeight="-Infinity">
+                                    <children>
+                                        <Region styleClass="auth-lock-icon" />
+                                    </children>
+                                </StackPane>
+
+                                <VBox spacing="6.0" alignment="CENTER">
+                                    <children>
+                                        <Label styleClass="auth-title" text="%login.title" />
+                                        <Label styleClass="auth-subtitle" text="%login.subtitle" wrapText="true" />
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="8.0">
+                                    <children>
+                                        <Label styleClass="form-label" text="%login.userPrompt" />
+                                        <TextField fx:id="userField" styleClass="form-input" promptText="%login.userPromptHint" />
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="8.0">
+                                    <children>
+                                        <Label styleClass="form-label" text="%login.passwordPrompt" />
+                                        <PasswordField fx:id="passField" styleClass="form-input" promptText="%login.passwordPromptHint" onAction="#onLogin" />
+                                    </children>
+                                </VBox>
+
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <CheckBox fx:id="rememberCheck" text="%login.remember" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Hyperlink styleClass="auth-link" text="%login.forgot" onAction="#onForgot" />
+                                    </children>
+                                </HBox>
+
+                                <Label fx:id="errorLabel" styleClass="error-label" wrapText="true" />
+
+                                <Button styleClass="primary-button" text="%login.button" onAction="#onLogin" maxWidth="Infinity" defaultButton="true" />
+
+                                <HBox alignment="CENTER" spacing="8.0">
+                                    <children>
+                                        <Region styleClass="auth-divider-line" HBox.hgrow="ALWAYS" />
+                                        <Label styleClass="auth-divider-label" text="%login.continueWith" />
+                                        <Region styleClass="auth-divider-line" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+
+                                <HBox spacing="12.0">
+                                    <children>
+                                        <Button styleClass="outline-button" text="%login.register" onAction="#onRegister" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                        <Button styleClass="outline-button" text="%login.moreInfo" onAction="#onMoreInfo" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <HBox fx:id="featureBar" styleClass="feature-bar" spacing="28.0" alignment="CENTER_LEFT" minHeight="92.0" prefHeight="92.0">
+            <children>
+                <HBox spacing="12.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                    <children>
+                        <StackPane styleClass="feature-tile-icon-bg, feature-tile-bg-1">
+                            <children>
+                                <Region styleClass="feature-tile-icon" style="-fx-shape: 'M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z';" />
+                            </children>
+                        </StackPane>
+                        <VBox spacing="2.0">
+                            <children>
+                                <Label styleClass="feature-tile-title" text="%login.feature1.title" />
+                                <Label styleClass="feature-tile-sub" text="%login.feature1.sub" />
+                            </children>
+                        </VBox>
                     </children>
                 </HBox>
-
-                <VBox spacing="6.0">
+                <HBox spacing="12.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                     <children>
-                        <Label styleClass="auth-title" text="%login.title" wrapText="true" />
-                        <Label styleClass="auth-subtitle" text="%login.subtitle" wrapText="true" />
-                    </children>
-                </VBox>
-
-                <VBox spacing="14.0">
-                    <children>
-                        <VBox spacing="4.0">
+                        <StackPane styleClass="feature-tile-icon-bg, feature-tile-bg-2">
                             <children>
-                                <Label styleClass="form-label" text="%login.userPrompt" />
-                                <TextField fx:id="userField" styleClass="form-input" promptText="%login.userPrompt" />
+                                <Region styleClass="feature-tile-icon" style="-fx-shape: 'M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z';" />
+                            </children>
+                        </StackPane>
+                        <VBox spacing="2.0">
+                            <children>
+                                <Label styleClass="feature-tile-title" text="%login.feature2.title" />
+                                <Label styleClass="feature-tile-sub" text="%login.feature2.sub" />
                             </children>
                         </VBox>
-                        <VBox spacing="4.0">
+                    </children>
+                </HBox>
+                <HBox spacing="12.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                    <children>
+                        <StackPane styleClass="feature-tile-icon-bg, feature-tile-bg-3">
                             <children>
-                                <Label styleClass="form-label" text="%login.passwordPrompt" />
-                                <PasswordField fx:id="passField" styleClass="form-input" promptText="%login.passwordPrompt" onAction="#onLogin" />
+                                <Region styleClass="feature-tile-icon" style="-fx-shape: 'M14 6l-3.75 5 2.85 3.8L11.5 16c-1.86-2.48-5-7-5-7L2 21h20L14 6z';" />
+                            </children>
+                        </StackPane>
+                        <VBox spacing="2.0">
+                            <children>
+                                <Label styleClass="feature-tile-title" text="%login.feature3.title" />
+                                <Label styleClass="feature-tile-sub" text="%login.feature3.sub" />
                             </children>
                         </VBox>
-                        <Label fx:id="errorLabel" styleClass="error-label" wrapText="true" />
-                        <Button styleClass="primary-button" text="%login.button" onAction="#onLogin" maxWidth="Infinity" defaultButton="true" />
                     </children>
-                </VBox>
-
-                <HBox alignment="CENTER" spacing="2.0">
+                </HBox>
+                <HBox spacing="12.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                     <children>
-                        <Label styleClass="auth-footer-label" text="%login.noAccount" />
-                        <Hyperlink styleClass="auth-link" text="%login.register" onAction="#onRegister" />
+                        <StackPane styleClass="feature-tile-icon-bg, feature-tile-bg-4">
+                            <children>
+                                <Region styleClass="feature-tile-icon" style="-fx-shape: 'M19 3H5c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm-8.94 14L5.5 12.44l1.41-1.41 3.15 3.15 6.59-6.59L18.06 9 10.06 17z';" />
+                            </children>
+                        </StackPane>
+                        <VBox spacing="2.0">
+                            <children>
+                                <Label styleClass="feature-tile-title" text="%login.feature4.title" />
+                                <Label styleClass="feature-tile-sub" text="%login.feature4.sub" />
+                            </children>
+                        </VBox>
                     </children>
                 </HBox>
             </children>
-        </VBox>
-
-        <VBox styleClass="auth-image-panel" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="10.0">
-            <padding>
-                <Insets top="32.0" right="40.0" bottom="32.0" left="40.0" />
-            </padding>
-            <children>
-                <ImageView fx:id="bgImage" fitHeight="300.0" preserveRatio="true" opacity="0.65" blendMode="MULTIPLY">
-                    <image>
-                        <Image url="@../resources/running_bg.png" />
-                    </image>
-                </ImageView>
-                <VBox alignment="CENTER" spacing="-4.0">
-                    <children>
-                        <Label styleClass="image-tagline-1" text="%login.tagline1" />
-                        <Label styleClass="image-tagline-2" text="%login.tagline2" />
-                    </children>
-                </VBox>
-                <Label styleClass="image-tagline-sub" text="%login.tagline.sub" />
-            </children>
-        </VBox>
+        </HBox>
     </children>
-</HBox>
+</VBox>
