@@ -26,9 +26,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -40,25 +37,20 @@ import upv.ipc.sportlib.SportActivityApp;
 public class ActivitiesListController implements Initializable {
 
     private static final DateTimeFormatter DATE_FMT =
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private enum Period { ALL, MONTH, YEAR }
 
-    @FXML private HBox authRoot;
+    @FXML private VBox authRoot;
     @FXML private ListView<Activity> activitiesList;
     @FXML private MenuButton optionsButton;
     @FXML private Label statusLabel;
-    @FXML private ComboBox<String> languageBox;
-    @FXML private Region themeIcon;
-    @FXML private ImageView bgImage;
 
     @FXML private ComboBox<Period> periodCombo;
     @FXML private Label lblCount;
     @FXML private Label lblDistance;
     @FXML private Label lblTime;
-    @FXML private Label lblSpeed;
     @FXML private Label lblGain;
-    @FXML private Label lblLoss;
 
     private final ObservableList<Activity> items = FXCollections.observableArrayList();
     private RootLayoutController root;
@@ -68,9 +60,8 @@ public class ActivitiesListController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         this.bundle = rb;
         activitiesList.setItems(items);
-        // definimos una factoria de celdas para personalizar el renderizado de la lista
         activitiesList.setCellFactory(lv -> new ActivityCell(bundle));
-        
+
         activitiesList.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
                 Activity a = activitiesList.getSelectionModel().getSelectedItem();
@@ -80,15 +71,12 @@ public class ActivitiesListController implements Initializable {
             }
         });
 
-        // habilitamos opciones solo cuando hay un elemento seleccionado en la lista
         ChangeListener<Activity> selListener = (obs, oldV, newV) -> {
             optionsButton.setDisable(newV == null);
         };
         activitiesList.getSelectionModel().selectedItemProperty().addListener(selListener);
 
         setupPeriodCombo();
-        setupLanguageBox();
-        applyTheme();
         refresh();
     }
 
@@ -117,49 +105,6 @@ public class ActivitiesListController implements Initializable {
                 .addListener((obs, oldV, newV) -> updateStats());
     }
 
-    private void setupLanguageBox() {
-        if (languageBox == null) return;
-        languageBox.getItems().setAll("ES", "EN", "FR", "DE", "ZH");
-        String current = MainApp.getCurrentLocale().getLanguage().toUpperCase();
-        languageBox.setValue(current);
-        languageBox.setOnAction(e -> {
-            String sel = languageBox.getValue();
-            if (sel == null) return;
-            MainApp.changeLocale(new Locale(sel.toLowerCase()));
-        });
-    }
-
-    private void applyTheme() {
-        boolean light = MainApp.isLightTheme();
-        if (authRoot != null) {
-            if (light && !authRoot.getStyleClass().contains("theme-light")) {
-                authRoot.getStyleClass().add("theme-light");
-            } else if (!light) {
-                authRoot.getStyleClass().remove("theme-light");
-            }
-        }
-        if (themeIcon != null) {
-            themeIcon.getStyleClass().removeAll("theme-moon", "theme-sun");
-            themeIcon.getStyleClass().add(light ? "theme-sun" : "theme-moon");
-        }
-        if (bgImage != null) {
-            String path = light ? "/resources/running_bg_light.png" : "/resources/running_bg.png";
-            bgImage.setImage(new Image(getClass().getResource(path).toExternalForm()));
-            // hecho por ia: fusion con multiply 
-            bgImage.setBlendMode(light ? BlendMode.SRC_OVER : BlendMode.MULTIPLY);
-            bgImage.setOpacity(light ? 0.9 : 0.65);
-        }
-    }
-
-    @FXML
-    private void onToggleTheme(ActionEvent event) {
-        MainApp.toggleTheme();
-        applyTheme();
-        if (root != null) {
-            root.refreshChromeTheme();
-        }
-    }
-
     public void setRoot(RootLayoutController root) {
         this.root = root;
     }
@@ -180,7 +125,7 @@ public class ActivitiesListController implements Initializable {
     private void onView(ActionEvent event) {
         Activity a = activitiesList.getSelectionModel().getSelectedItem();
         if (a == null) return;
-                
+
         if (root != null) {
             root.showActivityDetail(a);
         }
@@ -264,24 +209,17 @@ public class ActivitiesListController implements Initializable {
         double distMeters = 0.0;
         long durSeconds = 0L;
         double gain = 0.0;
-        double loss = 0.0;
         for (Activity a : filtered) {
             distMeters += a.getTotalDistance();
             Duration d = a.getDuration();
             if (d != null) durSeconds += d.getSeconds();
             gain += a.getElevationGain();
-            loss += a.getElevationLoss();
         }
-        double avgSpeed = durSeconds > 0
-                ? (distMeters / 1000.0) / (durSeconds / 3600.0)
-                : 0.0;
 
         lblCount.setText(String.valueOf(count));
-        lblDistance.setText(String.format(Locale.ROOT, "%.2f km", distMeters / 1000.0));
+        lblDistance.setText(String.format(Locale.ROOT, "%.1f km", distMeters / 1000.0));
         lblTime.setText(formatHoursMinutes(durSeconds));
-        lblSpeed.setText(String.format(Locale.ROOT, "%.2f km/h", avgSpeed));
         lblGain.setText(String.format(Locale.ROOT, "%.0f m", gain));
-        lblLoss.setText(String.format(Locale.ROOT, "%.0f m", loss));
     }
 
     private static List<Activity> filterByPeriod(List<? extends Activity> all, Period period) {
@@ -320,11 +258,10 @@ public class ActivitiesListController implements Initializable {
         long total = d.getSeconds();
         long h = total / 3600;
         long m = (total % 3600) / 60;
-        long s = total % 60;
         if (h > 0) {
-            return String.format("%dh %02dmin %02ds", h, m, s);
+            return String.format("%dh %02dmin", h, m);
         }
-        return String.format("%dmin %02ds", m, s);
+        return String.format("%dmin", m);
     }
 
     private static String formatHoursMinutes(long totalSeconds) {
@@ -336,29 +273,34 @@ public class ActivitiesListController implements Initializable {
         return String.format("%dh %02dmin", h, m);
     }
 
-    // clase interna para el renderizado custom de la lista
     private static final class ActivityCell extends ListCell<Activity> {
         private final ResourceBundle bundle;
-        private final Label title = new Label();
-        private final Label subtitle = new Label();
-        private final Label distance = new Label();
-        private final Label pace = new Label();
+        private final Label name = new Label();
+        private final Label date = new Label();
+        private final Label dist = new Label();
+        private final Label dur = new Label();
+        private final Label gain = new Label();
+        private final Label type = new Label();
         private final HBox container;
 
         ActivityCell(ResourceBundle bundle) {
             this.bundle = bundle;
-            title.getStyleClass().add("activity-cell-title");
-            subtitle.getStyleClass().add("activity-cell-subtitle");
-            distance.getStyleClass().add("activity-cell-stat");
-            pace.getStyleClass().add("activity-cell-substat");
+            name.getStyleClass().add("activity-cell-title");
+            date.getStyleClass().add("activity-cell-subtitle");
+            dist.getStyleClass().add("activity-cell-stat");
+            dur.getStyleClass().add("activity-cell-substat");
+            gain.getStyleClass().add("activity-cell-substat");
+            type.getStyleClass().add("activity-cell-substat");
 
-            VBox left = new VBox(2.0, title, subtitle);
-            VBox right = new VBox(2.0, distance, pace);
-            right.setAlignment(Pos.CENTER_RIGHT);
-            Region spacer = new Region();
-            HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+            name.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(name, javafx.scene.layout.Priority.ALWAYS);
+            date.setMinWidth(100);
+            dist.setMinWidth(90);
+            dur.setMinWidth(80);
+            gain.setMinWidth(80);
+            type.setMinWidth(60);
 
-            container = new HBox(10.0, left, spacer, right);
+            container = new HBox(0.0, name, date, dist, dur, gain, type);
             container.setAlignment(Pos.CENTER_LEFT);
         }
 
@@ -370,15 +312,14 @@ public class ActivitiesListController implements Initializable {
                 setText(null);
                 return;
             }
-            title.setText(a.getName() == null
+            name.setText(a.getName() == null
                     ? bundle.getString("activities.unnamed")
                     : a.getName());
-            subtitle.setText(formatDate(a.getStartTime()) + "   "
-                    + formatDuration(a.getDuration()));
-            distance.setText(String.format(Locale.ROOT,
-                    "%.2f km", a.getTotalDistance() / 1000.0));
-            pace.setText(String.format(Locale.ROOT,
-                    "%.1f km/h", a.getAverageSpeed()));
+            date.setText(formatDate(a.getStartTime()));
+            dist.setText(String.format(Locale.ROOT, "%.2f km", a.getTotalDistance() / 1000.0));
+            dur.setText(formatDuration(a.getDuration()));
+            gain.setText(String.format(Locale.ROOT, "%.0f m", a.getElevationGain()));
+            type.setText(bundle.getString("activities.type.running"));
             setGraphic(container);
             setText(null);
         }

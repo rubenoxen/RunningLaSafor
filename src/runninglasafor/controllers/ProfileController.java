@@ -3,7 +3,10 @@ package runninglasafor.controllers;
 import java.io.File;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +20,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import upv.ipc.sportlib.Activity;
+import upv.ipc.sportlib.Session;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 
@@ -34,6 +39,12 @@ public class ProfileController implements Initializable {
     @FXML private PasswordField confirmField;
     @FXML private Label errorLabel;
 
+    @FXML private Label lblTotalActivities;
+    @FXML private Label lblTotalDistance;
+    @FXML private Label lblTotalTime;
+    @FXML private Label lblTotalGain;
+    @FXML private Label lblTotalSessions;
+
     private RootLayoutController root;
     private ResourceBundle bundle;
 
@@ -42,13 +53,13 @@ public class ProfileController implements Initializable {
         this.bundle = rb;
         errorLabel.setText("");
         loadCurrentUser();
+        loadQuickStats();
     }
 
     public void setRoot(RootLayoutController root) {
         this.root = root;
     }
 
-    // volcado de los datos del modelo a la vista 
     private void loadCurrentUser() {
         User u = SportActivityApp.getInstance().getCurrentUser();
         if (u == null) return;
@@ -61,6 +72,37 @@ public class ProfileController implements Initializable {
         if (av != null) {
             avatarPreview.setImage(av);
         }
+    }
+
+    private void loadQuickStats() {
+        User u = SportActivityApp.getInstance().getCurrentUser();
+        if (u == null) return;
+
+        List<Activity> activities = SportActivityApp.getInstance().getUserActivities();
+        if (activities == null) activities = List.of();
+
+        int count = activities.size();
+        double dist = 0.0;
+        long secs = 0L;
+        double gain = 0.0;
+        for (Activity a : activities) {
+            dist += a.getTotalDistance();
+            Duration d = a.getDuration();
+            if (d != null) secs += d.getSeconds();
+            gain += a.getElevationGain();
+        }
+
+        if (lblTotalActivities != null) lblTotalActivities.setText(String.valueOf(count));
+        if (lblTotalDistance != null)
+            lblTotalDistance.setText(String.format(Locale.ROOT, "%.1f km", dist / 1000.0));
+        if (lblTotalTime != null)
+            lblTotalTime.setText(formatHoursMinutes(secs));
+        if (lblTotalGain != null)
+            lblTotalGain.setText(String.format(Locale.ROOT, "%.0f m", gain));
+
+        List<Session> sessions = SportActivityApp.getInstance().getSessionsByUser(u);
+        if (lblTotalSessions != null)
+            lblTotalSessions.setText(String.valueOf(sessions == null ? 0 : sessions.size()));
     }
 
     @FXML
@@ -94,7 +136,6 @@ public class ProfileController implements Initializable {
             return;
         }
 
-        // pasamos la actual si no la cambian
         String finalPass = pass.isEmpty() ? current.getPassword() : pass;
         boolean ok = SportActivityApp.getInstance()
                 .updateCurrentUser(email, finalPass, birth, avatarPath);
@@ -111,16 +152,9 @@ public class ProfileController implements Initializable {
         Alert info = new Alert(Alert.AlertType.INFORMATION);
         info.setHeaderText(bundle.getString("profile.ok.header"));
         info.setContentText(bundle.getString("profile.ok.content"));
-        info.getDialogPane().getStylesheets().add(getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
-        info.getDialogPane().getStyleClass().add("auth-form-panel"); 
+        info.getDialogPane().getStylesheets().add(
+                getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
         info.showAndWait();
-    }
-
-    @FXML
-    private void onBack(ActionEvent event) {
-        if (root != null) {
-            root.showHome();
-        }
     }
 
     @FXML
@@ -155,5 +189,12 @@ public class ProfileController implements Initializable {
 
     private static String trim(String s) {
         return s == null ? "" : s.trim();
+    }
+
+    private static String formatHoursMinutes(long totalSeconds) {
+        if (totalSeconds <= 0) return "0h 00min";
+        long h = totalSeconds / 3600;
+        long m = (totalSeconds % 3600) / 60;
+        return String.format("%dh %02dmin", h, m);
     }
 }
