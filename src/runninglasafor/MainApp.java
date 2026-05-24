@@ -20,7 +20,7 @@ public class MainApp extends Application {
 
     private static Locale currentLocale = new Locale("es");
     private static View currentView = View.LOGIN;
-    private static boolean lightTheme = false;
+    private static boolean lightTheme = true;
     private static Stage primaryStage;
 
     public static Locale getCurrentLocale() {
@@ -33,6 +33,25 @@ public class MainApp extends Application {
 
     public static void toggleTheme() {
         lightTheme = !lightTheme;
+        applyThemeToScene();
+    }
+
+    public static void applyTheme(Parent root) {
+        if (root == null) {
+            return;
+        }
+        root.getStyleClass().remove("theme-dark");
+        root.getStyleClass().remove("theme-light");
+        if (!lightTheme) {
+            root.getStyleClass().add("theme-dark");
+        }
+    }
+
+    public static void applyThemeToScene() {
+        if (primaryStage == null || primaryStage.getScene() == null) {
+            return;
+        }
+        applyTheme(primaryStage.getScene().getRoot());
     }
 
     public static View getCurrentView() {
@@ -60,6 +79,7 @@ public class MainApp extends Application {
                     MainApp.class.getResource(CSS_PATH).toExternalForm());
             primaryStage.getScene().setRoot(root);
             primaryStage.setTitle(getBundle().getString("app.title"));
+            applyThemeToScene();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -81,6 +101,7 @@ public class MainApp extends Application {
         stage.setTitle(bundle.getString("app.title"));
         stage.setScene(scene);
         stage.show();
+        applyThemeToScene();
     }
 
     public static void main(String[] args) {

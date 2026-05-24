@@ -178,10 +178,7 @@ public class MapViewController implements Initializable {
             stage.setTitle(bundle.getString("annotation.title"));
             Scene scene = new Scene(view);
             scene.getStylesheets().add(getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
-            
-            if (MainApp.isLightTheme()) {
-                scene.getRoot().getStyleClass().add("theme-light");
-            }
+            MainApp.applyTheme(view);
 
             stage.setScene(scene);
             stage.showAndWait();
@@ -196,9 +193,7 @@ public class MapViewController implements Initializable {
             Alert a = new Alert(Alert.AlertType.ERROR, "Fallo al abrir anotaciones: " + ex.getMessage());
             a.getDialogPane().getStylesheets().add(getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
             a.getDialogPane().getStyleClass().add("custom-alert");
-            if (MainApp.isLightTheme()) {
-                a.getDialogPane().getStyleClass().add("theme-light");
-            }
+            MainApp.applyTheme(a.getDialogPane());
             a.showAndWait();
         }
     }
@@ -365,9 +360,7 @@ public class MapViewController implements Initializable {
         dialog.getDialogPane().getStylesheets().add(
                 getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
         dialog.getDialogPane().getStyleClass().add("custom-alert");
-        if (MainApp.isLightTheme()) {
-            dialog.getDialogPane().getStyleClass().add("theme-light");
-        }
+        MainApp.applyTheme(dialog.getDialogPane());
 
         dialog.setResultConverter(buttonType -> {
             if (buttonType == javafx.scene.control.ButtonType.OK) {

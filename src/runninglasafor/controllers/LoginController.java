@@ -135,6 +135,9 @@ public class LoginController implements Initializable {
     private void onToggleTheme(ActionEvent event) {
         MainApp.toggleTheme();
         applyTheme();
+        if (root != null) {
+            root.refreshChromeTheme();
+        }
     }
 
     public void setRoot(RootLayoutController root) {
