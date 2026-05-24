@@ -7,61 +7,68 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
+<VBox alignment="TOP_LEFT" maxWidth="520.0" prefWidth="520.0" spacing="16.0"
+      styleClass="content-area"
+      xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="runninglasafor.controllers.AddMapController">
+    <padding>
+        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+    </padding>
+    <children>
+        <Label styleClass="page-title" text="%addmap.title" />
+        <Label styleClass="page-subtitle" text="%addmap.subtitle" wrapText="true" />
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="480.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="480.0" spacing="14.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="runninglasafor.controllers.AddMapController">
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-   <children>
-      <Label text="%addmap.title">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label text="%addmap.subtitle" textFill="#777777" wrapText="true" />
-      <GridPane hgap="10.0" vgap="10.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="130.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label text="%addmap.name" />
-            <TextField fx:id="nameField" promptText="%addmap.namePrompt" GridPane.columnIndex="1" />
-            <Label text="%addmap.image" GridPane.rowIndex="1" />
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <TextField fx:id="imagePathField" promptText="%addmap.imagePrompt" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="browseButton" mnemonicParsing="false" onAction="#onBrowse" text="%addmap.browse" />
-               </children>
-            </HBox>
-            <Label text="%addmap.latMin" GridPane.rowIndex="2" />
-            <TextField fx:id="latMinField" promptText="%addmap.latMinPrompt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="%addmap.latMax" GridPane.rowIndex="3" />
-            <TextField fx:id="latMaxField" promptText="%addmap.latMaxPrompt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="%addmap.lonMin" GridPane.rowIndex="4" />
-            <TextField fx:id="lonMinField" promptText="%addmap.lonMinPrompt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="lonMaxField" promptText="%addmap.lonMaxPrompt" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label text="%addmap.lonMax" GridPane.rowIndex="5" />
-         </children>
-      </GridPane>
-      <Label fx:id="errorLabel" textFill="#c0392b" wrapText="true" />
-      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-         <children>
-            <Button fx:id="acceptButton" defaultButton="true" mnemonicParsing="false" onAction="#onAccept" text="%addmap.accept" />
-            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#onCancel" text="%addmap.cancel" />
-         </children>
-      </HBox>
-   </children>
+        <GridPane hgap="12.0" vgap="12.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="140.0" prefWidth="140.0" />
+                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label styleClass="form-label" text="%addmap.name" />
+                <TextField fx:id="nameField" styleClass="form-input" promptText="%addmap.namePrompt" GridPane.columnIndex="1" />
+
+                <Label styleClass="form-label" text="%addmap.image" GridPane.rowIndex="1" />
+                <HBox spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <children>
+                        <TextField fx:id="imagePathField" styleClass="form-input" promptText="%addmap.imagePrompt" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="browseButton" mnemonicParsing="false" onAction="#onBrowse" styleClass="secondary-button" text="%addmap.browse" />
+                    </children>
+                </HBox>
+
+                <Label styleClass="form-label" text="%addmap.latMin" GridPane.rowIndex="2" />
+                <TextField fx:id="latMinField" styleClass="form-input" promptText="%addmap.latMinPrompt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <Label styleClass="form-label" text="%addmap.latMax" GridPane.rowIndex="3" />
+                <TextField fx:id="latMaxField" styleClass="form-input" promptText="%addmap.latMaxPrompt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                <Label styleClass="form-label" text="%addmap.lonMin" GridPane.rowIndex="4" />
+                <TextField fx:id="lonMinField" styleClass="form-input" promptText="%addmap.lonMinPrompt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                <Label styleClass="form-label" text="%addmap.lonMax" GridPane.rowIndex="5" />
+                <TextField fx:id="lonMaxField" styleClass="form-input" promptText="%addmap.lonMaxPrompt" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            </children>
+        </GridPane>
+
+        <Label fx:id="errorLabel" styleClass="error-label" wrapText="true" />
+
+        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+            <children>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#onCancel" styleClass="secondary-button" text="%addmap.cancel" />
+                <Button fx:id="acceptButton" defaultButton="true" mnemonicParsing="false" onAction="#onAccept" styleClass="primary-button" text="%addmap.accept" />
+            </children>
+        </HBox>
+    </children>
 </VBox>

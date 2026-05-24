@@ -69,7 +69,6 @@ public class AnnotationRenderer {
                 }
                 break;
             case CIRCLE:
-                // hecho por ia: calculo de distancia euclidea con point2d para el radio del circulo
                 if (geoPoints.size() >= 2) {
                     Point2D p2 = proj.project(geoPoints.get(1));
                     double radius = p1.distance(p2);

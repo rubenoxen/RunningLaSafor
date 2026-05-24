@@ -47,7 +47,6 @@ public class SpeedTrack {
             double speed = p1.speedTo(p2);
             double ratio = (speed - minSpeed) / (maxSpeed - minSpeed);
             
-            // hecho por ia: color hsb para espectro continuo rojo-verde-azul
             Color color = Color.hsb(ratio * 120, 1.0, 1.0);
             segment.setStroke(color);
             

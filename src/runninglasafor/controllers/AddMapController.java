@@ -131,8 +131,6 @@ public class AddMapController implements Initializable {
         return s == null ? "" : s.trim();
     }
     
-    // hecho por ia: metodo estatico para gestionar el flujo modal del dialogo
-    // esto abstrae la creacion del stage de la logica del controlador padre
     public static Optional<MapRegion> showDialog(javafx.stage.Window owner) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -147,7 +145,7 @@ public class AddMapController implements Initializable {
             stage.setTitle(bundle.getString("addmap.title"));
             javafx.scene.Scene scene = new javafx.scene.Scene(view);
             scene.getStylesheets().add(
-                AddMapController.class.getResource("/resources/estilos.css").toExternalForm());
+                AddMapController.class.getResource("/runninglasafor/resources/estilos.css").toExternalForm());
             stage.setScene(scene);
             stage.showAndWait();
 

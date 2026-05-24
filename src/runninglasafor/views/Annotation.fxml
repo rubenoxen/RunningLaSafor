@@ -7,37 +7,44 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="380.0" spacing="15.0" styleClass="app-chrome" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="runninglasafor.controllers.AnnotationController">
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-   <children>      
-      <Label styleClass="auth-title" text="%annotation.title" />
-      <VBox spacing="5.0">
-         <children>
-            <Label styleClass="form-label" text="%annotation.type" />
-            <ComboBox fx:id="typeComboBox" prefWidth="Infinity" styleClass="form-combo" />
-         </children>
-      </VBox>
-      <VBox spacing="5.0">
-         <children>
-            <Label styleClass="form-label" text="%annotation.text" />
-            <TextField fx:id="textField" promptText="%annotation.prompt" styleClass="form-input" />
-         </children>
-      </VBox>
-      <VBox spacing="5.0">
-         <children>
-            <Label styleClass="form-label" text="%annotation.color" />
-            <ColorPicker fx:id="colorPicker" prefWidth="Infinity" styleClass="form-combo" />
-         </children>
-      </VBox>
-      <HBox alignment="CENTER_RIGHT" spacing="15.0">
-         <children>
-            <Button fx:id="bCancel" mnemonicParsing="false" styleClass="secondary-button" text="%annotation.cancel" />
-            <Button fx:id="bAccept" mnemonicParsing="false" styleClass="primary-button" text="%annotation.accept" />
-         </children>
-      </HBox>
-   </children>
+<VBox alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefWidth="420.0" spacing="16.0" styleClass="content-area"
+      xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="runninglasafor.controllers.AnnotationController">
+    <padding>
+        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+    </padding>
+    <children>
+        <Label styleClass="page-title" text="%annotation.title" />
+        <Label styleClass="page-subtitle" text="%annotation.subtitle" wrapText="true" />
+
+        <VBox spacing="6.0">
+            <children>
+                <Label styleClass="form-label" text="%annotation.type" />
+                <ComboBox fx:id="typeComboBox" maxWidth="Infinity" styleClass="form-combo" />
+            </children>
+        </VBox>
+        <VBox spacing="6.0">
+            <children>
+                <Label styleClass="form-label" text="%annotation.text" />
+                <TextField fx:id="textField" promptText="%annotation.prompt" styleClass="form-input" />
+            </children>
+        </VBox>
+        <VBox spacing="6.0">
+            <children>
+                <Label styleClass="form-label" text="%annotation.color" />
+                <ColorPicker fx:id="colorPicker" maxWidth="Infinity" />
+            </children>
+        </VBox>
+        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+            <children>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="bCancel" mnemonicParsing="false" styleClass="secondary-button" text="%annotation.cancel" />
+                <Button fx:id="bAccept" mnemonicParsing="false" styleClass="primary-button" text="%annotation.accept" />
+            </children>
+        </HBox>
+    </children>
 </VBox>
