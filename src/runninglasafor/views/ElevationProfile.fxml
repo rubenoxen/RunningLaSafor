@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane styleClass="app-chrome" prefHeight="150.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="runninglasafor.controllers.ElevationProfileController">
-   <children>
-      <LineChart fx:id="elevationChart" createSymbols="false" legendVisible="false" animated="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <xAxis>
-            <!-- cambiado number axis en codigo a mano, no salia la opcion -->
-          <NumberAxis fx:id="xAxis" label="%elevation.distance" side="BOTTOM" autoRanging="true"/>
-        </xAxis>
-        <yAxis>
-          <NumberAxis fx:id="yAxis" label="%elevation.altitude" side="LEFT" autoRanging="true"/>
-        </yAxis>
-      </LineChart>
-   </children>
+<AnchorPane prefHeight="220.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="runninglasafor.controllers.ElevationProfileController">
+    <children>
+        <AreaChart fx:id="elevationChart" createSymbols="false" legendVisible="false" animated="false"
+                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <xAxis>
+                <NumberAxis fx:id="xAxis" label="%elevation.distance" side="BOTTOM" autoRanging="true" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis fx:id="yAxis" label="%elevation.altitude" side="LEFT" autoRanging="true" />
+            </yAxis>
+        </AreaChart>
+    </children>
 </AnchorPane>

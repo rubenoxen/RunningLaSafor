@@ -189,7 +189,6 @@ public class MapViewController implements Initializable {
             if (ctrl.isAccepted()) {
                 Annotation ann = new Annotation(ctrl.getSelecType(), ctrl.getEnteredText(), ctrl.getHexColor(), 2.0, puntos);
                 SportActivityApp.getInstance().addAnnotation(currentActivity, ann);
-                // repintado sucio pero funcional
                 loadActivityWithMap(currentActivity, currentProj.getRegion());
             }
         } catch (Exception ex) {
@@ -218,16 +217,7 @@ public class MapViewController implements Initializable {
         if (imgFile.exists()) {
             Image img = new Image(imgFile.toURI().toString());
             mapImageView.setImage(img);
-            if (!MainApp.isLightTheme()) {
-                // hecho por ia: usar ColorAdjust para oscurecer la imagen y no quemar las retinas en modo oscuro
-                javafx.scene.effect.ColorAdjust darkEffect = new javafx.scene.effect.ColorAdjust();
-                darkEffect.setBrightness(-0.4);
-                darkEffect.setContrast(0.1);   
-                darkEffect.setSaturation(-0.3);
-                mapImageView.setEffect(darkEffect);
-            } else {
-                mapImageView.setEffect(null); 
-            }
+            mapImageView.setEffect(null);
             mapPane.setPrefSize(img.getWidth(), img.getHeight());
         }
     }
@@ -289,8 +279,6 @@ public class MapViewController implements Initializable {
         }
         
         Platform.runLater(() -> {
-            // hecho por ia: el delay del runlater obliga al hilo de javafx a centrar 
-            // el panel solo cuando ya tiene la resolucion seteada final
             if (startTP != null && mapPane.getWidth() > 0) {
                 Point2D startPix = currentProj.project(startTP);                
                 mapScrollPane.setHvalue(startPix.getX() / mapPane.getWidth());
@@ -330,15 +318,7 @@ public class MapViewController implements Initializable {
     
     public void refreshTheme() {
         if (mapImageView.getImage() == null) return;
-        if (!MainApp.isLightTheme()) {
-            javafx.scene.effect.ColorAdjust darkEffect = new javafx.scene.effect.ColorAdjust();
-            darkEffect.setBrightness(-0.4);
-            darkEffect.setContrast(0.1);
-            darkEffect.setSaturation(-0.3);
-            mapImageView.setEffect(darkEffect);
-        } else {
-            mapImageView.setEffect(null);
-        }
+        mapImageView.setEffect(null);
     }
     
     private void deleteAnnotation() {
