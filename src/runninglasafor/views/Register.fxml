@@ -13,7 +13,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <ScrollPane styleClass="auth-scroll" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
@@ -30,17 +29,13 @@
                         <Insets top="28.0" right="36.0" bottom="28.0" left="36.0" />
                     </padding>
                     <children>
-                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <HBox alignment="CENTER_LEFT" spacing="12.0">
                             <children>
-                                <StackPane style="-fx-background-color: #AF3B6E; -fx-background-radius: 22; -fx-min-width: 44; -fx-min-height: 44; -fx-max-width: 44; -fx-max-height: 44;">
-                                    <children>
-                                        <ImageView fx:id="brandLogo" fitHeight="26.0" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../resources/logo_brand.png" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                </StackPane>
+                                <ImageView fitHeight="48.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../resources/logo.png" />
+                                    </image>
+                                </ImageView>
                                 <Label styleClass="auth-title" text="%register.title" />
                                 <Region HBox.hgrow="ALWAYS" />
                                 <Button fx:id="themeButton" styleClass="theme-toggle" onAction="#onToggleTheme">
