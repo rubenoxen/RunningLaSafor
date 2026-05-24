@@ -16,7 +16,7 @@ public class MainApp extends Application {
     private static final String ROOT_FXML = "/runninglasafor/views/RootLayout.fxml";
     private static final String CSS_PATH = "/runninglasafor/resources/estilos.css"; 
 
-    public enum View { LOGIN, REGISTER, ACTIVITIES, ACCUMULATED, PROFILE, HISTORY }
+    public enum View { LOGIN, REGISTER, ACTIVITIES, ACCUMULATED, PROFILE, HISTORY, MAPS }
 
     private static Locale currentLocale = new Locale("es");
     private static View currentView = View.LOGIN;
@@ -100,6 +100,12 @@ public class MainApp extends Application {
         }
         stage.setTitle(bundle.getString("app.title"));
         stage.setScene(scene);
+        stage.setOnCloseRequest(event -> {
+            try {
+                upv.ipc.sportlib.SportActivityApp.getInstance().logout();
+            } catch (RuntimeException ignored) {
+            }
+        });
         stage.show();
         applyThemeToScene();
     }

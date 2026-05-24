@@ -74,7 +74,10 @@ public class AnnotationController implements Initializable {
     public AnnotationType getSelecType() { return typeComboBox.getValue(); }
     
     public void setPreselectedType(AnnotationType type) {
-        if (type != null) typeComboBox.getSelectionModel().select(type);
+        if (type != null) {
+            typeComboBox.getSelectionModel().select(type);
+            typeComboBox.setDisable(true);
+        }
     }
     
     public String getEnteredText() { return textField.getText().trim(); }

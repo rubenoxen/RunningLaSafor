@@ -133,15 +133,15 @@ public class AddMapController implements Initializable {
     
     public static Optional<MapRegion> showDialog(javafx.stage.Window owner) {
         try {
+            ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
             FXMLLoader loader = new FXMLLoader(
-                AddMapController.class.getResource("/runninglasafor/views/AddMap.fxml"));
+                AddMapController.class.getResource("/runninglasafor/views/AddMap.fxml"), bundle);
             javafx.scene.Parent view = loader.load();
             AddMapController ctrl = loader.getController();
 
             javafx.stage.Stage stage = new javafx.stage.Stage();
             stage.initOwner(owner);
             stage.initModality(javafx.stage.Modality.WINDOW_MODAL);
-            ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
             stage.setTitle(bundle.getString("addmap.title"));
             javafx.scene.Scene scene = new javafx.scene.Scene(view);
             scene.getStylesheets().add(

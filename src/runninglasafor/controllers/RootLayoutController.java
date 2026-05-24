@@ -112,6 +112,9 @@ public class RootLayoutController implements Initializable {
             case HISTORY:
                 showHistory();
                 break;
+            case MAPS:
+                showMaps();
+                break;
             case LOGIN:
             default:
                 showLogin();
@@ -175,10 +178,19 @@ public class RootLayoutController implements Initializable {
         updateSidebarUser();
         markActiveNav(navActivities);
 
+        Activity activityToShow = activity;
+        if (activity != null) {
+            try {
+                activityToShow = SportActivityApp.getInstance().getActivityById(activity.getId());
+            } catch (Exception ignored) {
+                activityToShow = activity;
+            }
+        }
+
         ActivityDetailController c = loadCenter("/runninglasafor/views/ActivityDetail.fxml");
         if (c != null) {
             c.setRoot(this);
-            c.setActivity(activity);
+            c.setActivity(activityToShow);
         }
     }
 
@@ -205,6 +217,7 @@ public class RootLayoutController implements Initializable {
     }
 
     public void showMaps() {
+        MainApp.setCurrentView(View.MAPS);
         setSessionMenusEnabled(true);
         setChromeVisible(true);
         updateFooter();
@@ -227,8 +240,9 @@ public class RootLayoutController implements Initializable {
 
     @FXML
     private void onImportGpx(ActionEvent event) {
-        if (importGpx()) {
-            showActivities();
+        Activity imported = importGpxActivity();
+        if (imported != null) {
+            showActivityDetail(imported);
         }
     }
 
@@ -273,6 +287,10 @@ public class RootLayoutController implements Initializable {
     @FXML private void onIdiomaZh(ActionEvent event) { MainApp.changeLocale(new Locale("zh")); }
 
     public boolean importGpx() {
+        return importGpxActivity() != null;
+    }
+
+    public Activity importGpxActivity() {
         FileChooser fc = new FileChooser();
         fc.setTitle(bundle.getString("import.title"));
         fc.getExtensionFilters().add(
@@ -280,23 +298,23 @@ public class RootLayoutController implements Initializable {
         Stage stage = (Stage) rootPane.getScene().getWindow();
         File file = fc.showOpenDialog(stage);
         if (file == null) {
-            return false;
+            return null;
         }
         try {
             Activity imported = SportActivityApp.getInstance().importActivity(file);
             if (imported == null) {
                 showError(bundle.getString("error.importGpx"));
-                return false;
+                return null;
             }
             Alert ok = new Alert(Alert.AlertType.INFORMATION);
             ok.setHeaderText(bundle.getString("import.ok.header"));
             ok.setContentText(MessageFormat.format(
                     bundle.getString("import.ok.content"), imported.getName()));
             ok.showAndWait();
-            return true;
+            return imported;
         } catch (RuntimeException ex) {
             showError(bundle.getString("error.importException") + ": " + ex.getMessage());
-            return false;
+            return null;
         }
     }
 
@@ -343,6 +361,11 @@ public class RootLayoutController implements Initializable {
                 sidebarAvatar.setImage(av);
             }
         }
+    }
+
+    public void refreshSessionChrome() {
+        updateFooter();
+        updateSidebarUser();
     }
 
     private <T> T loadCenter(String fxmlPath) {

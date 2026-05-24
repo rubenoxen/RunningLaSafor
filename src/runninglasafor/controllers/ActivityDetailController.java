@@ -20,7 +20,7 @@ import upv.ipc.sportlib.SportActivityApp;
 public class ActivityDetailController implements Initializable {
 
     private static final DateTimeFormatter DATE_FMT =
-            DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy · HH:mm", new Locale("es"));
+            DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy '·' HH:mm", new Locale("es"));
 
     @FXML private MapViewController mapViewController;
     @FXML private ElevationProfileController elevationProfileController;
@@ -31,6 +31,7 @@ public class ActivityDetailController implements Initializable {
     @FXML private Label durationLabel;
     @FXML private Label speedLabel;
     @FXML private Label elevationLabel;
+    @FXML private Label lossLabel;
     @FXML private Label paceLabel;
     @FXML private Label minElevLabel;
     @FXML private Label maxElevLabel;
@@ -114,6 +115,9 @@ public class ActivityDetailController implements Initializable {
         durationLabel.setText(durTxt);
         speedLabel.setText(speedTxt);
         elevationLabel.setText(String.format(Locale.ROOT, "+%.0f m", currentActivity.getElevationGain()));
+        if (lossLabel != null) {
+            lossLabel.setText(String.format(Locale.ROOT, "-%.0f m", currentActivity.getElevationLoss()));
+        }
         paceLabel.setText(paceTxt);
         minElevLabel.setText(String.format(Locale.ROOT, "%.0f m", currentActivity.getMinElevation()));
         maxElevLabel.setText(String.format(Locale.ROOT, "%.0f m", currentActivity.getMaxElevation()));
@@ -153,8 +157,8 @@ public class ActivityDetailController implements Initializable {
 
     @FXML
     private void onViewAnnotations() {
-        if (root != null) {
-            root.showMaps();
+        if (mapViewController != null) {
+            mapViewController.refreshTheme();
         }
     }
 }

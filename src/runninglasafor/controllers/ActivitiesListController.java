@@ -33,6 +33,7 @@ import javafx.util.StringConverter;
 import runninglasafor.MainApp;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.SportActivityApp;
+import upv.ipc.sportlib.User;
 
 public class ActivitiesListController implements Initializable {
 
@@ -116,8 +117,11 @@ public class ActivitiesListController implements Initializable {
 
     @FXML
     private void onImport(ActionEvent event) {
-        if (root != null && root.importGpx()) {
-            refresh();
+        if (root != null) {
+            Activity imported = root.importGpxActivity();
+            if (imported != null) {
+                root.showActivityDetail(imported);
+            }
         }
     }
 
@@ -186,7 +190,8 @@ public class ActivitiesListController implements Initializable {
     }
 
     private void refresh() {
-        List<Activity> data = SportActivityApp.getInstance().getUserActivities();
+        User user = SportActivityApp.getInstance().getCurrentUser();
+        List<Activity> data = user == null ? List.of() : user.getActivities();
         items.setAll(data == null ? List.of() : data);
         if (items.isEmpty()) {
             setStatus(bundle.getString("activities.empty"), false);

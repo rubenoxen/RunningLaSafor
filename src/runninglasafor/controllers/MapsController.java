@@ -18,6 +18,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -70,6 +71,12 @@ public class MapsController implements Initializable {
 
     void deleteRegion(MapRegion region) {
         if (region == null) return;
+        if (!isRegionUnused(region)) {
+            Alert err = new Alert(Alert.AlertType.INFORMATION, bundle.getString("maps.delete.error"));
+            err.setHeaderText(null);
+            err.showAndWait();
+            return;
+        }
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
                 MessageFormat.format(bundle.getString("maps.delete.content"), region.getName()),
                 ButtonType.OK, ButtonType.CANCEL);
@@ -85,6 +92,12 @@ public class MapsController implements Initializable {
             err.setHeaderText(null);
             err.showAndWait();
         }
+    }
+
+    private boolean isRegionUnused(MapRegion region) {
+        List<MapRegion> unused = SportActivityApp.getInstance().getUnusedMapRegions();
+        if (unused == null) return false;
+        return unused.stream().anyMatch(r -> r.getId() == region.getId());
     }
 
     private static final class MapCell extends ListCell<MapRegion> {
@@ -117,6 +130,7 @@ public class MapsController implements Initializable {
             deleteBtn.setText(bundle.getString("maps.delete"));
             deleteBtn.getStyleClass().add("secondary-button");
             deleteBtn.setOnAction(e -> owner.deleteRegion(getItem()));
+            deleteBtn.setTooltip(new Tooltip(bundle.getString("maps.delete")));
 
             container = new HBox(14.0, thumb, info, deleteBtn);
             container.setAlignment(Pos.CENTER_LEFT);
@@ -144,6 +158,7 @@ public class MapsController implements Initializable {
             } catch (Exception ex) {
                 thumb.setImage(null);
             }
+            deleteBtn.setDisable(!owner.isRegionUnused(r));
             setGraphic(container);
             setText(null);
         }

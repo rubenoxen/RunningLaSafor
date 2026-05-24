@@ -156,8 +156,10 @@ public class MapViewController implements Initializable {
             tempFirstMarker = null;
         }
         
-        List<GeoPoint> puntos = List.of(pendingFirstPoint, secondPoint);
-        crearAnotacion(puntos, pendingAnnotationType);
+        if (pendingFirstPoint != null && pendingAnnotationType != null) {
+            List<GeoPoint> puntos = List.of(pendingFirstPoint, secondPoint);
+            crearAnotacion(puntos, pendingAnnotationType);
+        }
 
         pendingFirstPoint = null;
         pendingAnnotationType = null;
@@ -185,12 +187,17 @@ public class MapViewController implements Initializable {
 
             if (ctrl.isAccepted()) {
                 Annotation ann = new Annotation(ctrl.getSelecType(), ctrl.getEnteredText(), ctrl.getHexColor(), 2.0, puntos);
-                SportActivityApp.getInstance().addAnnotation(currentActivity, ann);
+                Annotation saved = SportActivityApp.getInstance().addAnnotation(currentActivity, ann);
+                if (saved == null) {
+                    throw new IllegalStateException(bundle.getString("annotation.errorSave"));
+                }
                 loadActivityWithMap(currentActivity, currentProj.getRegion());
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            Alert a = new Alert(Alert.AlertType.ERROR, "Fallo al abrir anotaciones: " + ex.getMessage());
+            ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
+            Alert a = new Alert(Alert.AlertType.ERROR,
+                    bundle.getString("annotation.errorOpen") + ": " + ex.getMessage());
             a.getDialogPane().getStylesheets().add(getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
             a.getDialogPane().getStyleClass().add("custom-alert");
             MainApp.applyTheme(a.getDialogPane());
@@ -202,36 +209,59 @@ public class MapViewController implements Initializable {
         if (activity == null) return;
         this.currentActivity = activity;
         MapRegion region = activity.getSuggestedMap();
-        loadMapRegion(region);
-        drawRouteAndMarkers(activity, region);
+        if (region == null) {
+            region = SportActivityApp.getInstance().findMapForActivity(activity);
+        }
+        if (region == null) {
+            clearMap();
+            return;
+        }
+        loadActivityWithMap(activity, region);
     }
 
-    private void loadMapRegion(MapRegion region) {
-        if (region == null) return;
+    private boolean loadMapRegion(MapRegion region) {
+        if (region == null) {
+            clearMap();
+            return false;
+        }
         File imgFile = new File(region.getImagePath());
         if (imgFile.exists()) {
             Image img = new Image(imgFile.toURI().toString());
             mapImageView.setImage(img);
             mapImageView.setEffect(null);
             mapPane.setPrefSize(img.getWidth(), img.getHeight());
+            return true;
         }
+        clearMap();
+        return false;
     }
 
     public void loadActivityWithMap(Activity activity, MapRegion region) {
         if (activity == null || region == null) return;
         this.currentActivity = activity;        
-        loadMapRegion(region);
+        if (!loadMapRegion(region)) return;
                 
-        // purga de hijos del mapPane preservando solo la imagen base del fondo
-        if (mapPane.getChildren().size() > 1) {
-            mapPane.getChildren().remove(1, mapPane.getChildren().size());
-        }
+        clearOverlays();
         
         drawRouteAndMarkers(activity, region);
     }
+
+    private void clearMap() {
+        currentProj = null;
+        mapImageView.setImage(null);
+        clearOverlays();
+    }
+
+    private void clearOverlays() {
+        if (mapPane.getChildren().size() > 1) {
+            mapPane.getChildren().remove(1, mapPane.getChildren().size());
+        }
+        highlightMarker = null;
+        tempFirstMarker = null;
+    }
     
     private void drawRouteAndMarkers(Activity activity, MapRegion region) {
-        if (mapPane.getPrefWidth() <= 0) return;
+        if (region == null || mapPane.getPrefWidth() <= 0 || mapPane.getPrefHeight() <= 0) return;
         
         this.currentProj = new MapProjection(region, mapPane.getPrefWidth(), mapPane.getPrefHeight());
                 

@@ -48,6 +48,7 @@ public class SessionHistoryController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         this.bundle = rb;
         setupTableColumns();
+        sessionTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         refresh();
     }
 

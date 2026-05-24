@@ -25,6 +25,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.SportActivityApp;
+import upv.ipc.sportlib.User;
 
 public class AccumulatedController implements Initializable {
 
@@ -77,7 +78,8 @@ public class AccumulatedController implements Initializable {
     }
 
     private void refresh() {
-        List<Activity> all = SportActivityApp.getInstance().getUserActivities();
+        User user = SportActivityApp.getInstance().getCurrentUser();
+        List<Activity> all = user == null ? List.of() : user.getActivities();
         if (all == null) all = List.of();
         List<Activity> filtered = filterByPeriod(all, currentPeriod());
 

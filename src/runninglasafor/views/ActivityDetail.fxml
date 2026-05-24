@@ -81,11 +81,14 @@
                                         <Label text="%acc.gain" styleClass="stat-card-label" GridPane.rowIndex="4" GridPane.columnIndex="0" />
                                         <Label fx:id="elevationLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="4" GridPane.columnIndex="1" />
 
-                                        <Label text="%detail.minElev" styleClass="stat-card-label" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-                                        <Label fx:id="minElevLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                                        <Label text="%acc.loss" styleClass="stat-card-label" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                                        <Label fx:id="lossLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="5" GridPane.columnIndex="1" />
 
-                                        <Label text="%detail.maxElev" styleClass="stat-card-label" GridPane.rowIndex="6" GridPane.columnIndex="0" />
-                                        <Label fx:id="maxElevLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+                                        <Label text="%detail.minElev" styleClass="stat-card-label" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+                                        <Label fx:id="minElevLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+
+                                        <Label text="%detail.maxElev" styleClass="stat-card-label" GridPane.rowIndex="7" GridPane.columnIndex="0" />
+                                        <Label fx:id="maxElevLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="7" GridPane.columnIndex="1" />
                                     </children>
                                 </GridPane>
 

@@ -78,7 +78,7 @@ public class ProfileController implements Initializable {
         User u = SportActivityApp.getInstance().getCurrentUser();
         if (u == null) return;
 
-        List<Activity> activities = SportActivityApp.getInstance().getUserActivities();
+        List<Activity> activities = u.getActivities();
         if (activities == null) activities = List.of();
 
         int count = activities.size();
@@ -148,6 +148,9 @@ public class ProfileController implements Initializable {
         passField.clear();
         confirmField.clear();
         loadCurrentUser();
+        if (root != null) {
+            root.refreshSessionChrome();
+        }
 
         Alert info = new Alert(Alert.AlertType.INFORMATION);
         info.setHeaderText(bundle.getString("profile.ok.header"));

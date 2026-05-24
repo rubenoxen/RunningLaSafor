@@ -1627,3 +1627,93 @@
 .theme-dark .auth-scroll > .scroll-bar:vertical {
     -fx-background-color: #1E1849;
 }
+
+.theme-dark .auth-scroll,
+.theme-dark .auth-scroll > .viewport,
+.theme-dark .scroll-pane,
+.theme-dark .scroll-pane > .viewport {
+    -fx-background-color: #1E1849;
+}
+
+.theme-dark .secondary-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FCFAFA;
+    -fx-border-color: #C7C2D8;
+}
+
+.theme-dark .secondary-button:hover {
+    -fx-border-color: #AF3B6E;
+    -fx-text-fill: #FCFAFA;
+    -fx-background-color: #352F5A;
+}
+
+.theme-dark .secondary-button:disabled,
+.theme-dark .secondary-button:disabled .text {
+    -fx-opacity: 1.0;
+    -fx-text-fill: #9AA3B2;
+    -fx-border-color: #6F678E;
+}
+
+.theme-dark .date-picker.form-input > .arrow-button,
+.theme-dark .combo-box > .arrow-button,
+.theme-dark .form-combo > .arrow-button,
+.theme-dark .lang-combo > .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.theme-dark .date-picker.form-input > .arrow-button > .arrow,
+.theme-dark .combo-box > .arrow-button > .arrow,
+.theme-dark .form-combo > .arrow-button > .arrow,
+.theme-dark .lang-combo > .arrow-button > .arrow {
+    -fx-background-color: #C7C2D8;
+}
+
+.theme-dark .session-table {
+    -fx-table-cell-border-color: #3D3560;
+    -fx-control-inner-background: #2A2449;
+}
+
+.theme-dark .session-table .column-header-background,
+.theme-dark .session-table .filler {
+    -fx-background-color: #252040;
+}
+
+.theme-dark .session-table .table-row-cell,
+.theme-dark .session-table .table-row-cell:empty,
+.theme-dark .session-table .virtual-flow,
+.theme-dark .session-table .virtual-flow .clipped-container,
+.theme-dark .session-table .virtual-flow .sheet,
+.theme-dark .session-table .placeholder,
+.theme-dark .session-table .corner {
+    -fx-background-color: #2A2449;
+}
+
+.theme-dark .session-table .table-row-cell:empty .table-cell {
+    -fx-border-color: transparent;
+}
+
+.theme-dark .activity-list {
+    -fx-control-inner-background: #2A2449;
+}
+
+.theme-dark .activity-list .virtual-flow,
+.theme-dark .activity-list .virtual-flow .clipped-container,
+.theme-dark .activity-list .virtual-flow .sheet,
+.theme-dark .activity-list .placeholder,
+.theme-dark .activity-list .corner {
+    -fx-background-color: #2A2449;
+}
+
+.theme-dark .activity-list .list-cell:empty {
+    -fx-background-color: #2A2449;
+    -fx-border-color: transparent;
+}
+
+.theme-dark .chart,
+.theme-dark .chart-plot-background {
+    -fx-background-color: #2A2449;
+}
+
+.theme-dark .tab-pane > .tab-content-area {
+    -fx-background-color: #1E1849;
+}
