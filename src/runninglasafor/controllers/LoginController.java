@@ -78,7 +78,7 @@ public class LoginController implements Initializable {
 
     private void setupLanguageBox() {
         if (languageBox == null) return;
-        languageBox.getItems().setAll("ES", "EN", "FR", "DE", "ZH");
+        languageBox.getItems().setAll("ES", "VA", "EN", "FR", "DE", "ZH");
         String current = MainApp.getCurrentLocale().getLanguage().toUpperCase();
         languageBox.setValue(current);
         languageBox.setOnAction(e -> {

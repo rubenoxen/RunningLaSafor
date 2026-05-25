@@ -67,7 +67,7 @@ public class RootLayoutController implements Initializable {
 
     private void setupLanguageBox() {
         if (footerLangBox == null) return;
-        footerLangBox.getItems().setAll("ES", "EN", "FR", "DE", "ZH");
+        footerLangBox.getItems().setAll("ES","VA", "EN", "FR", "DE", "ZH");
         String current = MainApp.getCurrentLocale().getLanguage().toUpperCase();
         footerLangBox.setValue(current);
         footerLangBox.setOnAction(e -> {
@@ -282,6 +282,7 @@ public class RootLayoutController implements Initializable {
     }
 
     @FXML private void onIdiomaEs(ActionEvent event) { MainApp.changeLocale(new Locale("es")); }
+    @FXML private void onIdiomaVa(ActionEvent event) { MainApp.changeLocale(new Locale("va")); }
     @FXML private void onIdiomaEn(ActionEvent event) { MainApp.changeLocale(new Locale("en")); }
     @FXML private void onIdiomaFr(ActionEvent event) { MainApp.changeLocale(new Locale("fr")); }
     @FXML private void onIdiomaDe(ActionEvent event) { MainApp.changeLocale(new Locale("de")); }
