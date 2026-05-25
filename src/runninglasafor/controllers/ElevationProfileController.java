@@ -41,6 +41,11 @@ public class ElevationProfileController implements Initializable {
 
         accumulatedDistances = new double[trackPoints.size()];
         int index = 0;
+        
+        double maxEle = -Double.MAX_VALUE;
+        double minEle = Double.MAX_VALUE;
+        double maxDist = 0.0;
+        double minDist = 0.0;
 
         for (TrackPoint point : trackPoints) {
             accumulatedDistance += GeoUtils.distance(prev, point);
@@ -49,11 +54,31 @@ public class ElevationProfileController implements Initializable {
 
             series.getData().add(new XYChart.Data<>(distKm, ele));
 
+            if (ele > maxEle) { maxEle = ele; maxDist = distKm; }
+            if (ele < minEle) { minEle = ele; minDist = distKm; }
+
             prev = point;
             accumulatedDistances[index++] = distKm;
         }
 
         elevationChart.getData().add(series);
+
+        XYChart.Series<Number, Number> maxSeries = new XYChart.Series<>();
+        XYChart.Data<Number, Number> maxData = new XYChart.Data<>(maxDist, maxEle);
+        javafx.scene.shape.Circle maxCircle = new javafx.scene.shape.Circle(5, javafx.scene.paint.Color.web("#2ECC71"));
+        maxData.setNode(maxCircle);
+        maxSeries.getData().add(maxData);
+
+        XYChart.Series<Number, Number> minSeries = new XYChart.Series<>();
+        XYChart.Data<Number, Number> minData = new XYChart.Data<>(minDist, minEle);
+        javafx.scene.shape.Circle minCircle = new javafx.scene.shape.Circle(5, javafx.scene.paint.Color.web("#E74C3C"));
+        minData.setNode(minCircle);
+        minSeries.getData().add(minData);
+
+        elevationChart.getData().addAll(maxSeries, minSeries);
+
+        maxSeries.getNode().setStyle("-fx-stroke: transparent; -fx-fill: transparent;");
+        minSeries.getNode().setStyle("-fx-stroke: transparent; -fx-fill: transparent;");
 
         setupHoverInteractivity(trackPoints);
     }

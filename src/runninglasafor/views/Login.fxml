@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -101,7 +100,6 @@
 
                                 <HBox alignment="CENTER_LEFT" spacing="10.0">
                                     <children>
-                                        <CheckBox fx:id="rememberCheck" text="%login.remember" />
                                         <Region HBox.hgrow="ALWAYS" />
                                         <Hyperlink onAction="#onForgot" styleClass="auth-link" text="%login.forgot" />
                                     </children>
