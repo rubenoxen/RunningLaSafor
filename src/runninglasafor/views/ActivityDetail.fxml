@@ -5,8 +5,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -15,18 +13,16 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane styleClass="auth-scroll" fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
-            xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="runninglasafor.controllers.ActivityDetailController">
+<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="auth-scroll" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="runninglasafor.controllers.ActivityDetailController">
     <content>
-        <VBox fx:id="detailRoot" styleClass="content-area" spacing="16.0">
+        <VBox fx:id="detailRoot" spacing="16.0" styleClass="content-area">
             <padding>
-                <Insets top="20.0" right="24.0" bottom="20.0" left="24.0" />
+                <Insets bottom="20.0" left="24.0" right="24.0" top="20.0" />
             </padding>
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="14.0">
                     <children>
-                        <Button fx:id="backButton" styleClass="back-button" text="←" onAction="#onBack" />
+                        <Button fx:id="backButton" onAction="#onBack" styleClass="back-button" text="←" />
                         <Label styleClass="page-title" text="%detail.title" />
                         <Region HBox.hgrow="ALWAYS" />
                         <Label styleClass="form-label" text="%detail.map" />
@@ -37,9 +33,9 @@
 
                 <HBox spacing="16.0" VBox.vgrow="ALWAYS">
                     <children>
-                        <VBox styleClass="panel-card" spacing="14.0" minWidth="340.0" maxWidth="400.0" HBox.hgrow="NEVER">
+                        <VBox maxWidth="400.0" minWidth="340.0" spacing="14.0" styleClass="panel-card" HBox.hgrow="NEVER">
                             <padding>
-                                <Insets top="18.0" right="18.0" bottom="18.0" left="18.0" />
+                                <Insets bottom="18.0" left="18.0" right="18.0" top="18.0" />
                             </padding>
                             <children>
                                 <HBox alignment="CENTER_LEFT" spacing="12.0">
@@ -66,46 +62,48 @@
                                         <ColumnConstraints hgrow="ALWAYS" />
                                     </columnConstraints>
                                     <children>
-                                        <Label text="%detail.distance" styleClass="stat-card-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                                        <Label fx:id="distanceLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                                        <Label styleClass="stat-card-label" text="%detail.distance" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                        <Label fx:id="distanceLabel" styleClass="activity-name-label" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                                        <Label text="%detail.duration" styleClass="stat-card-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                                        <Label fx:id="durationLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                                        <Label styleClass="stat-card-label" text="%detail.duration" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                        <Label fx:id="durationLabel" styleClass="activity-name-label" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                        <Label text="%detail.pace" styleClass="stat-card-label" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-                                        <Label fx:id="paceLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                                        <Label styleClass="stat-card-label" text="%detail.pace" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                        <Label fx:id="paceLabel" styleClass="activity-name-label" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                                        <Label text="%detail.speed" styleClass="stat-card-label" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-                                        <Label fx:id="speedLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                                        <Label styleClass="stat-card-label" text="%detail.speed" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                        <Label fx:id="speedLabel" styleClass="activity-name-label" text="-" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                                        <Label text="%acc.gain" styleClass="stat-card-label" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-                                        <Label fx:id="elevationLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                                        <Label styleClass="stat-card-label" text="%acc.gain" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                        <Label fx:id="elevationLabel" styleClass="activity-name-label" text="-" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                                        <Label text="%acc.loss" styleClass="stat-card-label" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-                                        <Label fx:id="lossLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                                        <Label styleClass="stat-card-label" text="%acc.loss" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                        <Label fx:id="lossLabel" styleClass="activity-name-label" text="-" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-                                        <Label text="%detail.minElev" styleClass="stat-card-label" GridPane.rowIndex="6" GridPane.columnIndex="0" />
-                                        <Label fx:id="minElevLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+                                        <Label styleClass="stat-card-label" text="%detail.minElev" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                                        <Label fx:id="minElevLabel" styleClass="activity-name-label" text="-" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-                                        <Label text="%detail.maxElev" styleClass="stat-card-label" GridPane.rowIndex="7" GridPane.columnIndex="0" />
-                                        <Label fx:id="maxElevLabel" styleClass="activity-name-label" text="-" GridPane.rowIndex="7" GridPane.columnIndex="1" />
+                                        <Label styleClass="stat-card-label" text="%detail.maxElev" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                                        <Label fx:id="maxElevLabel" styleClass="activity-name-label" text="-" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                     </children>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
                                 </GridPane>
 
                                 <HBox styleClass="divider-h" />
-
-                                <HBox alignment="CENTER_LEFT" spacing="8.0">
-                                    <children>
-                                        <Label styleClass="panel-title" text="%detail.annotations" />
-                                        <Region HBox.hgrow="ALWAYS" />
-                                        <Button styleClass="secondary-button" text="%detail.viewAnnotations" onAction="#onViewAnnotations" />
-                                    </children>
-                                </HBox>
                                 <Label fx:id="annotationsHint" styleClass="panel-subtitle" text="%detail.annotations.hint" wrapText="true" />
                             </children>
                         </VBox>
 
-                        <VBox HBox.hgrow="ALWAYS" spacing="0.0">
+                        <VBox spacing="0.0" HBox.hgrow="ALWAYS">
                             <children>
                                 <fx:include fx:id="mapView" source="MapView.fxml" VBox.vgrow="ALWAYS" />
                             </children>
@@ -113,87 +111,19 @@
                     </children>
                 </HBox>
 
-                <VBox styleClass="panel-card" spacing="12.0">
+                <VBox spacing="12.0" styleClass="panel-card">
                     <padding>
-                        <Insets top="16.0" right="18.0" bottom="16.0" left="18.0" />
+                        <Insets bottom="16.0" left="18.0" right="18.0" top="16.0" />
                     </padding>
                     <children>
-                        <TabPane fx:id="detailTabs" tabClosingPolicy="UNAVAILABLE">
-                            <tabs>
-                                <Tab text="%detail.tab.summary">
-                                    <content>
-                                        <VBox spacing="10.0">
-                                            <padding>
-                                                <Insets top="14.0" right="6.0" bottom="6.0" left="6.0" />
-                                            </padding>
-                                            <children>
-                                                <GridPane hgap="14.0" vgap="14.0">
-                                                    <columnConstraints>
-                                                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
-                                                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
-                                                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.4" />
-                                                    </columnConstraints>
-                                                    <children>
-                                                        <VBox styleClass="stat-card" spacing="4.0" GridPane.rowIndex="0" GridPane.columnIndex="0">
-                                                            <padding>
-                                                                <Insets top="12.0" right="14.0" bottom="12.0" left="14.0" />
-                                                            </padding>
-                                                            <children>
-                                                                <Label styleClass="stat-card-label" text="%detail.distance" />
-                                                                <Label fx:id="summaryDistance" styleClass="stat-card-value" text="-" />
-                                                            </children>
-                                                        </VBox>
-                                                        <VBox styleClass="stat-card" spacing="4.0" GridPane.rowIndex="0" GridPane.columnIndex="1">
-                                                            <padding>
-                                                                <Insets top="12.0" right="14.0" bottom="12.0" left="14.0" />
-                                                            </padding>
-                                                            <children>
-                                                                <Label styleClass="stat-card-label" text="%detail.duration" />
-                                                                <Label fx:id="summaryDuration" styleClass="stat-card-value" text="-" />
-                                                            </children>
-                                                        </VBox>
-                                                        <VBox styleClass="stat-card" spacing="4.0" GridPane.rowIndex="0" GridPane.columnIndex="2">
-                                                            <padding>
-                                                                <Insets top="12.0" right="14.0" bottom="12.0" left="14.0" />
-                                                            </padding>
-                                                            <children>
-                                                                <Label styleClass="stat-card-label" text="%detail.pace" />
-                                                                <Label fx:id="summaryPace" styleClass="stat-card-value" text="-" />
-                                                            </children>
-                                                        </VBox>
-                                                    </children>
-                                                </GridPane>
-                                            </children>
-                                        </VBox>
-                                    </content>
-                                </Tab>
-                                <Tab text="%detail.tab.elevation">
-                                    <content>
-                                        <VBox spacing="4.0">
-                                            <padding>
-                                                <Insets top="12.0" right="6.0" bottom="6.0" left="6.0" />
-                                            </padding>
-                                            <children>
-                                                <fx:include fx:id="elevationProfile" source="ElevationProfile.fxml" VBox.vgrow="ALWAYS" />
-                                            </children>
-                                        </VBox>
-                                    </content>
-                                </Tab>
-                                <Tab text="%detail.tab.speed">
-                                    <content>
-                                        <VBox spacing="4.0">
-                                            <padding>
-                                                <Insets top="12.0" right="6.0" bottom="6.0" left="6.0" />
-                                            </padding>
-                                            <children>
-                                                <Label styleClass="panel-subtitle" text="%detail.tab.speed.hint" wrapText="true" />
-                                                <Region prefHeight="180" />
-                                            </children>
-                                        </VBox>
-                                    </content>
-                                </Tab>
-                            </tabs>
-                        </TabPane>
+                            <VBox spacing="4.0">
+                                <padding>
+                                    <Insets bottom="6.0" left="6.0" right="6.0" top="12.0" />
+                                </padding>
+                                <children>
+                                    <fx:include fx:id="elevationProfile" source="ElevationProfile.fxml" VBox.vgrow="ALWAYS" />
+                                </children>
+                            </VBox>
                     </children>
                 </VBox>
             </children>
