@@ -20,6 +20,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -248,7 +249,7 @@ public class RootLayoutController implements Initializable {
 
     @FXML private void onShowActivities(ActionEvent event) { showActivities(); }
     @FXML private void onShowAccumulated(ActionEvent event) { showAccumulated(); }
-    @FXML private void onShowProfile(ActionEvent event) { showProfile(); }
+    @FXML private void onShowProfile(MouseEvent event) { showProfile(); }
     @FXML private void onShowHistory(ActionEvent event) { showHistory(); }
     @FXML private void onShowMaps(ActionEvent event) { showMaps(); }
 

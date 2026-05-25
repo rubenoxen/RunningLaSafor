@@ -26,18 +26,14 @@
                         <Label styleClass="sidebar-brand-label" text="%app.title" />
                     </children>
                 </HBox>
-
                 <Button fx:id="navHome" maxWidth="Infinity" onAction="#onShowActivities" styleClass="sidebar-button" text="%nav.home" />
                 <Button fx:id="navActivities" maxWidth="Infinity" onAction="#onShowActivities" styleClass="sidebar-button" text="%nav.activities" />
                 <Button fx:id="navStats" maxWidth="Infinity" onAction="#onShowAccumulated" styleClass="sidebar-button" text="%nav.stats" />
                 <Button fx:id="navSessions" maxWidth="Infinity" onAction="#onShowHistory" styleClass="sidebar-button" text="%nav.sessions" />
-                <Button fx:id="navMaps" maxWidth="Infinity" onAction="#onShowMaps" styleClass="sidebar-button" text="%nav.maps" />
-                <Button fx:id="navProfile" maxWidth="Infinity" onAction="#onShowProfile" styleClass="sidebar-button" text="%nav.profile" />
-
-                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="navMaps" maxWidth="Infinity" onAction="#onShowMaps" styleClass="sidebar-button" text="%nav.maps" />                
+                <Region VBox.vgrow="ALWAYS" />               
                 <Button fx:id="navLogout" maxWidth="Infinity" onAction="#onLogout" styleClass="sidebar-button" text="%nav.logout" />
-
-                <HBox fx:id="sidebarUser" alignment="CENTER_LEFT" spacing="10.0" styleClass="sidebar-user">
+                <HBox fx:id="sidebarUser" onMouseClicked="#onShowProfile" alignment="CENTER_LEFT" spacing="10.0" styleClass="sidebar-user">
                     <children>
                         <StackPane styleClass="sidebar-avatar">
                             <children>
@@ -59,10 +55,9 @@
         </VBox>
     </left>
     <bottom>
-        <HBox fx:id="footerBox" alignment="CENTER_LEFT" spacing="10.0" styleClass="app-footer" BorderPane.alignment="CENTER">
+        <HBox fx:id="footerBox" alignment="CENTER" spacing="10.0" styleClass="app-footer" BorderPane.alignment="CENTER">
             <children>
                 <Label fx:id="footerLabel" text="%app.footer" />
-                <Region HBox.hgrow="ALWAYS" />
                 <Button fx:id="footerThemeButton" onAction="#onToggleTheme" styleClass="theme-toggle">
                     <graphic>
                         <Region fx:id="footerThemeIcon" styleClass="theme-icon" />

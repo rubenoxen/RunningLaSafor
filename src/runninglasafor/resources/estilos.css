@@ -110,6 +110,10 @@
     -fx-font-weight: bold;
 }
 
+.sidebar-user:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);    
+}
+
 .sidebar-user-email {
     -fx-text-fill: #7A8B99;
     -fx-font-size: 12px;
