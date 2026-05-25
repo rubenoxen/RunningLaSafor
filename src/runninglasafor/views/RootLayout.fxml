@@ -16,7 +16,7 @@
     <left>
         <VBox fx:id="sidebar" styleClass="sidebar" BorderPane.alignment="CENTER">
             <children>
-                <HBox styleClass="sidebar-brand" alignment="CENTER_LEFT" spacing="10.0">
+                <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="sidebar-brand">
                     <children>
                         <ImageView fitHeight="56.0" preserveRatio="true">
                             <image>
@@ -27,17 +27,17 @@
                     </children>
                 </HBox>
 
-                <Button fx:id="navHome" styleClass="sidebar-button" text="%nav.home" onAction="#onShowActivities" maxWidth="Infinity" />
-                <Button fx:id="navActivities" styleClass="sidebar-button" text="%nav.activities" onAction="#onShowActivities" maxWidth="Infinity" />
-                <Button fx:id="navStats" styleClass="sidebar-button" text="%nav.stats" onAction="#onShowAccumulated" maxWidth="Infinity" />
-                <Button fx:id="navSessions" styleClass="sidebar-button" text="%nav.sessions" onAction="#onShowHistory" maxWidth="Infinity" />
-                <Button fx:id="navMaps" styleClass="sidebar-button" text="%nav.maps" onAction="#onShowMaps" maxWidth="Infinity" />
-                <Button fx:id="navProfile" styleClass="sidebar-button" text="%nav.profile" onAction="#onShowProfile" maxWidth="Infinity" />
-                <Button fx:id="navLogout" styleClass="sidebar-button" text="%nav.logout" onAction="#onLogout" maxWidth="Infinity" />
+                <Button fx:id="navHome" maxWidth="Infinity" onAction="#onShowActivities" styleClass="sidebar-button" text="%nav.home" />
+                <Button fx:id="navActivities" maxWidth="Infinity" onAction="#onShowActivities" styleClass="sidebar-button" text="%nav.activities" />
+                <Button fx:id="navStats" maxWidth="Infinity" onAction="#onShowAccumulated" styleClass="sidebar-button" text="%nav.stats" />
+                <Button fx:id="navSessions" maxWidth="Infinity" onAction="#onShowHistory" styleClass="sidebar-button" text="%nav.sessions" />
+                <Button fx:id="navMaps" maxWidth="Infinity" onAction="#onShowMaps" styleClass="sidebar-button" text="%nav.maps" />
+                <Button fx:id="navProfile" maxWidth="Infinity" onAction="#onShowProfile" styleClass="sidebar-button" text="%nav.profile" />
 
                 <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="navLogout" maxWidth="Infinity" onAction="#onLogout" styleClass="sidebar-button" text="%nav.logout" />
 
-                <HBox fx:id="sidebarUser" styleClass="sidebar-user" alignment="CENTER_LEFT" spacing="10.0">
+                <HBox fx:id="sidebarUser" alignment="CENTER_LEFT" spacing="10.0" styleClass="sidebar-user">
                     <children>
                         <StackPane styleClass="sidebar-avatar">
                             <children>
@@ -52,18 +52,18 @@
                         </VBox>
                     </children>
                     <padding>
-                        <Insets top="10.0" right="14.0" bottom="10.0" left="14.0" />
+                        <Insets bottom="10.0" left="14.0" right="14.0" top="10.0" />
                     </padding>
                 </HBox>
             </children>
         </VBox>
     </left>
     <bottom>
-        <HBox fx:id="footerBox" alignment="CENTER_LEFT" styleClass="app-footer" spacing="10.0" BorderPane.alignment="CENTER">
+        <HBox fx:id="footerBox" alignment="CENTER_LEFT" spacing="10.0" styleClass="app-footer" BorderPane.alignment="CENTER">
             <children>
                 <Label fx:id="footerLabel" text="%app.footer" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Button fx:id="footerThemeButton" styleClass="theme-toggle" onAction="#onToggleTheme">
+                <Button fx:id="footerThemeButton" onAction="#onToggleTheme" styleClass="theme-toggle">
                     <graphic>
                         <Region fx:id="footerThemeIcon" styleClass="theme-icon" />
                     </graphic>
