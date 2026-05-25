@@ -301,6 +301,15 @@
 .color-picker .arrow { -fx-background-color: #7A8B99; }
 .color-palette { -fx-background-color: #FFFFFF; }
 .color-palette .label { -fx-text-fill: #120D31; }
+.theme-dark .color-picker .label {
+    -fx-text-fill: #FCFAFA;
+}
+.theme-dark .color-picker .arrow-button {
+    -fx-background-color: #2A2449;
+}
+.theme-dark .color-picker .arrow {
+    -fx-background-color: #FCFAFA;
+}
 
 /* ============================================ */
 /*         TEXT FIELDS                          */
@@ -525,6 +534,11 @@
     -fx-border-width: 1;
     -fx-padding: 11 18 11 18;
     -fx-cursor: hand;
+}
+
+.theme-dark .secondary-button {
+    -fx-text-fill: #FCFAFA; 
+    -fx-border-color: #C7C2D8;
 }
 
 .secondary-button:hover {
@@ -1370,6 +1384,10 @@
     -fx-background: #1E1849;
     -fx-control-inner-background: #2A2449;
     -fx-text-base-color: #FCFAFA;
+}
+
+.content-area.theme-dark {
+    -fx-background-color: #1E1849;
 }
 
 .theme-dark .label { -fx-text-fill: #FCFAFA; }

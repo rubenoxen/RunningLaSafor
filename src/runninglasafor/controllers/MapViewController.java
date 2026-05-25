@@ -167,41 +167,44 @@ public class MapViewController implements Initializable {
 
     private void crearAnotacion(List<GeoPoint> puntos, AnnotationType tipoForzado) {
         try {
-            ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());                
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/runninglasafor/views/Annotation.fxml"), bundle);
+            ResourceBundle bundle = ResourceBundle.getBundle(
+                    "runninglasafor.resources.messages", MainApp.getCurrentLocale());
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/runninglasafor/views/Annotation.fxml"), bundle);
             Parent view = loader.load();
             AnnotationController ctrl = loader.getController();
 
             ctrl.setPreselectedType(tipoForzado);
+            
+            boolean isDark = mapPane.getScene().getRoot().getStyleClass().contains("theme-dark");
+            if (isDark) {
+                view.getStyleClass().add("theme-dark");
+            }
 
             Stage stage = new Stage();
             stage.initOwner(mapPane.getScene().getWindow());
             stage.initModality(Modality.WINDOW_MODAL);
             stage.setTitle(bundle.getString("annotation.title"));
+
             Scene scene = new Scene(view);
-            scene.getStylesheets().add(getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
-            MainApp.applyTheme(view);
+            scene.getStylesheets().add(
+                    getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
+            
+            if (isDark) {
+                scene.setFill(Color.web("#1E1849"));
+            }
 
             stage.setScene(scene);
             stage.showAndWait();
 
             if (ctrl.isAccepted()) {
-                Annotation ann = new Annotation(ctrl.getSelecType(), ctrl.getEnteredText(), ctrl.getHexColor(), 2.0, puntos);
-                Annotation saved = SportActivityApp.getInstance().addAnnotation(currentActivity, ann);
-                if (saved == null) {
-                    throw new IllegalStateException(bundle.getString("annotation.errorSave"));
-                }
+                Annotation ann = new Annotation(ctrl.getSelecType(), ctrl.getEnteredText(),
+                        ctrl.getHexColor(), 2.0, puntos);
+                SportActivityApp.getInstance().addAnnotation(currentActivity, ann);
                 loadActivityWithMap(currentActivity, currentProj.getRegion());
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            ResourceBundle bundle = ResourceBundle.getBundle("runninglasafor.resources.messages", MainApp.getCurrentLocale());
-            Alert a = new Alert(Alert.AlertType.ERROR,
-                    bundle.getString("annotation.errorOpen") + ": " + ex.getMessage());
-            a.getDialogPane().getStylesheets().add(getClass().getResource("/runninglasafor/resources/estilos.css").toExternalForm());
-            a.getDialogPane().getStyleClass().add("custom-alert");
-            MainApp.applyTheme(a.getDialogPane());
-            a.showAndWait();
         }
     }
 
