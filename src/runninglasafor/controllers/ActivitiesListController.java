@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -145,6 +146,12 @@ public class ActivitiesListController implements Initializable {
         dlg.setHeaderText(MessageFormat.format(
                 bundle.getString("activities.rename.header"), displayName(a)));
         dlg.setContentText(bundle.getString("activities.rename.content"));
+        
+        ButtonType okBtn = new ButtonType(bundle.getString("btn.ok"), ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelBtn = new ButtonType(bundle.getString("btn.cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
+        
+        dlg.getDialogPane().getButtonTypes().setAll(cancelBtn, okBtn);
+
         Optional<String> res = dlg.showAndWait();
         if (!res.isPresent()) return;
 
@@ -170,15 +177,21 @@ public class ActivitiesListController implements Initializable {
     private void onDelete(ActionEvent event) {
         Activity a = activitiesList.getSelectionModel().getSelectedItem();
         if (a == null) return;
-
+        
+        ButtonType okBtn = new ButtonType(bundle.getString("btn.ok"), ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelBtn = new ButtonType(bundle.getString("btn.cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
+        
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
                 bundle.getString("activities.delete.content"),
-                ButtonType.OK, ButtonType.CANCEL);
+                okBtn, cancelBtn);
+
         confirm.setTitle(bundle.getString("activities.delete.title"));
         confirm.setHeaderText(MessageFormat.format(
                 bundle.getString("activities.delete.header"), displayName(a)));
+
         Optional<ButtonType> res = confirm.showAndWait();
-        if (!res.isPresent() || res.get() != ButtonType.OK) return;
+        
+        if (!res.isPresent() || res.get() != okBtn) return;
 
         boolean ok = SportActivityApp.getInstance().removeActivity(a);
         if (ok) {
