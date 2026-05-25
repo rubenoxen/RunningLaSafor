@@ -26,14 +26,13 @@
                         <Label styleClass="sidebar-brand-label" text="%app.title" />
                     </children>
                 </HBox>
-                <Button fx:id="navHome" maxWidth="Infinity" onAction="#onShowActivities" styleClass="sidebar-button" text="%nav.home" />
-                <Button fx:id="navActivities" maxWidth="Infinity" onAction="#onShowActivities" styleClass="sidebar-button" text="%nav.activities" />
+                <Button fx:id="navActivities" maxWidth="Infinity" onAction="#onShowActivities" styleClass="sidebar-button" text="%nav.home" />
                 <Button fx:id="navStats" maxWidth="Infinity" onAction="#onShowAccumulated" styleClass="sidebar-button" text="%nav.stats" />
                 <Button fx:id="navSessions" maxWidth="Infinity" onAction="#onShowHistory" styleClass="sidebar-button" text="%nav.sessions" />
                 <Button fx:id="navMaps" maxWidth="Infinity" onAction="#onShowMaps" styleClass="sidebar-button" text="%nav.maps" />                
                 <Region VBox.vgrow="ALWAYS" />               
                 <Button fx:id="navLogout" maxWidth="Infinity" onAction="#onLogout" styleClass="sidebar-button" text="%nav.logout" />
-                <HBox fx:id="sidebarUser" onMouseClicked="#onShowProfile" alignment="CENTER_LEFT" spacing="10.0" styleClass="sidebar-user">
+                <HBox fx:id="sidebarUser" alignment="CENTER_LEFT" onMouseClicked="#onShowProfile" spacing="10.0" styleClass="sidebar-user">
                     <children>
                         <StackPane styleClass="sidebar-avatar">
                             <children>
