@@ -20,7 +20,7 @@
                     <children>
                         <ImageView fitHeight="56.0" preserveRatio="true">
                             <image>
-                                <Image url="@../../resources/logo.png" />
+                                <Image url="@../../runninglasafor/resources/logo_brand.png" />
                             </image>
                         </ImageView>
                         <Label styleClass="sidebar-brand-label" text="%app.title" />

@@ -15,48 +15,45 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="authRoot" styleClass="auth-root" prefHeight="800.0" prefWidth="1280.0" minHeight="640.0" minWidth="960.0"
-      xmlns="http://javafx.com/javafx/23.0.1"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="runninglasafor.controllers.LoginController">
+<VBox fx:id="authRoot" minHeight="640.0" minWidth="960.0" prefHeight="800.0" prefWidth="1280.0" styleClass="auth-root" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="runninglasafor.controllers.LoginController">
     <children>
-        <HBox fx:id="contentRow" VBox.vgrow="ALWAYS" alignment="CENTER">
+        <HBox fx:id="contentRow" alignment="CENTER" VBox.vgrow="ALWAYS">
             <children>
-                <StackPane fx:id="heroStack" styleClass="hero-bg" HBox.hgrow="ALWAYS" prefWidth="640.0" minWidth="360.0" minHeight="0.0">
+                <StackPane fx:id="heroStack" minHeight="0.0" minWidth="360.0" prefWidth="640.0" styleClass="hero-bg" HBox.hgrow="ALWAYS">
                     <children>
                         <Region styleClass="auth-image-overlay" />
                         <VBox alignment="TOP_CENTER" spacing="14.0" StackPane.alignment="TOP_CENTER">
                             <padding>
-                                <Insets top="56.0" right="40.0" bottom="24.0" left="40.0" />
+                                <Insets bottom="24.0" left="40.0" right="40.0" top="56.0" />
                             </padding>
                             <children>
                                 <ImageView fx:id="brandLogo" fitHeight="120.0" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../resources/logo.png" />
+                                        <Image url="@../resources/logo_brand.png" />
                                     </image>
                                 </ImageView>
                                 <Label styleClass="auth-hero-title" text="%app.title" />
-                                <Region prefHeight="4.0" maxWidth="100.0" style="-fx-background-color: #AF3B6E; -fx-background-radius: 2;" />
-                                <Label styleClass="auth-hero-sub" text="%login.hero.subtitle" wrapText="true" textAlignment="CENTER" maxWidth="440.0" />
+                                <Region maxWidth="100.0" prefHeight="4.0" style="-fx-background-color: #AF3B6E; -fx-background-radius: 2;" />
+                                <Label maxWidth="440.0" styleClass="auth-hero-sub" text="%login.hero.subtitle" textAlignment="CENTER" wrapText="true" />
                             </children>
                         </VBox>
                     </children>
                 </StackPane>
 
-                <VBox fx:id="formSide" HBox.hgrow="ALWAYS" prefWidth="620.0" minWidth="420.0" alignment="CENTER" styleClass="auth-root">
+                <VBox fx:id="formSide" alignment="CENTER" minWidth="420.0" prefWidth="620.0" styleClass="auth-root" HBox.hgrow="ALWAYS">
                     <padding>
-                        <Insets top="20.0" right="44.0" bottom="20.0" left="44.0" />
+                        <Insets bottom="20.0" left="44.0" right="44.0" top="20.0" />
                     </padding>
                     <children>
-                        <VBox fx:id="formCard" styleClass="auth-form-card" spacing="14.0" maxWidth="500.0" alignment="TOP_CENTER">
+                        <VBox fx:id="formCard" alignment="TOP_CENTER" maxWidth="500.0" spacing="14.0" styleClass="auth-form-card">
                             <padding>
-                                <Insets top="28.0" right="40.0" bottom="28.0" left="40.0" />
+                                <Insets bottom="28.0" left="40.0" right="40.0" top="28.0" />
                             </padding>
                             <children>
                                 <HBox alignment="CENTER_RIGHT" spacing="8.0">
                                     <children>
                                         <Region HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="themeButton" styleClass="theme-toggle" onAction="#onToggleTheme">
+                                        <Button fx:id="themeButton" onAction="#onToggleTheme" styleClass="theme-toggle">
                                             <graphic>
                                                 <Region fx:id="themeIcon" styleClass="theme-icon" />
                                             </graphic>
@@ -65,13 +62,13 @@
                                     </children>
                                 </HBox>
 
-                                <StackPane styleClass="auth-lock-circle" maxWidth="-Infinity" maxHeight="-Infinity">
+                                <StackPane maxHeight="-Infinity" maxWidth="-Infinity" styleClass="auth-lock-circle">
                                     <children>
                                         <Region styleClass="auth-lock-icon" />
                                     </children>
                                 </StackPane>
 
-                                <VBox spacing="6.0" alignment="CENTER">
+                                <VBox alignment="CENTER" spacing="6.0">
                                     <children>
                                         <Label styleClass="auth-title" text="%login.title" />
                                         <Label styleClass="auth-subtitle" text="%login.subtitle" wrapText="true" />
@@ -81,7 +78,7 @@
                                 <VBox spacing="8.0">
                                     <children>
                                         <Label styleClass="form-label" text="%login.userPrompt" />
-                                        <TextField fx:id="userField" styleClass="form-input" promptText="%login.userPromptHint" />
+                                        <TextField fx:id="userField" promptText="%login.userPromptHint" styleClass="form-input" />
                                     </children>
                                 </VBox>
 
@@ -90,9 +87,9 @@
                                         <Label styleClass="form-label" text="%login.passwordPrompt" />
                                         <StackPane styleClass="pass-field-wrap">
                                             <children>
-                                                <PasswordField fx:id="passField" styleClass="form-input pass-input" promptText="%login.passwordPromptHint" onAction="#onLogin" maxWidth="Infinity" />
-                                                <TextField fx:id="passVisibleField" styleClass="form-input pass-input" promptText="%login.passwordPromptHint" onAction="#onLogin" maxWidth="Infinity" visible="false" managed="false" />
-                                                <Button fx:id="showPassButton" styleClass="pass-toggle" onAction="#onTogglePassVisible" StackPane.alignment="CENTER_RIGHT">
+                                                <PasswordField fx:id="passField" maxWidth="Infinity" onAction="#onLogin" promptText="%login.passwordPromptHint" styleClass="form-input pass-input" />
+                                                <TextField fx:id="passVisibleField" managed="false" maxWidth="Infinity" onAction="#onLogin" promptText="%login.passwordPromptHint" styleClass="form-input pass-input" visible="false" />
+                                                <Button fx:id="showPassButton" onAction="#onTogglePassVisible" styleClass="pass-toggle" StackPane.alignment="CENTER_RIGHT">
                                                     <graphic>
                                                         <Region fx:id="passToggleIcon" styleClass="pass-eye-icon" />
                                                     </graphic>
@@ -106,13 +103,13 @@
                                     <children>
                                         <CheckBox fx:id="rememberCheck" text="%login.remember" />
                                         <Region HBox.hgrow="ALWAYS" />
-                                        <Hyperlink styleClass="auth-link" text="%login.forgot" onAction="#onForgot" />
+                                        <Hyperlink onAction="#onForgot" styleClass="auth-link" text="%login.forgot" />
                                     </children>
                                 </HBox>
 
                                 <Label fx:id="errorLabel" styleClass="error-label" wrapText="true" />
 
-                                <Button styleClass="primary-button" text="%login.button" onAction="#onLogin" maxWidth="Infinity" defaultButton="true" />
+                                <Button defaultButton="true" maxWidth="Infinity" onAction="#onLogin" styleClass="primary-button" text="%login.button" />
 
                                 <HBox alignment="CENTER" spacing="8.0">
                                     <children>
@@ -124,8 +121,8 @@
 
                                 <HBox spacing="12.0">
                                     <children>
-                                        <Button styleClass="outline-button" text="%login.register" onAction="#onRegister" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
-                                        <Button styleClass="outline-button" text="%login.moreInfo" onAction="#onMoreInfo" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                                        <Button maxWidth="Infinity" onAction="#onRegister" styleClass="outline-button" text="%login.register" HBox.hgrow="ALWAYS" />
+                                        <Button maxWidth="Infinity" onAction="#onMoreInfo" styleClass="outline-button" text="%login.moreInfo" HBox.hgrow="ALWAYS" />
                                     </children>
                                 </HBox>
                             </children>
@@ -135,13 +132,13 @@
             </children>
         </HBox>
 
-        <HBox fx:id="featureBar" styleClass="feature-bar" spacing="28.0" alignment="CENTER_LEFT" minHeight="92.0" prefHeight="92.0">
+        <HBox fx:id="featureBar" alignment="CENTER_LEFT" minHeight="92.0" prefHeight="92.0" spacing="28.0" styleClass="feature-bar">
             <children>
-                <HBox spacing="12.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT" spacing="12.0" HBox.hgrow="ALWAYS">
                     <children>
                         <StackPane styleClass="feature-tile-icon-bg, feature-tile-bg-1">
                             <children>
-                                <Region styleClass="feature-tile-icon" style="-fx-shape: 'M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z';" />
+                                <Region style="-fx-shape: 'M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z';" styleClass="feature-tile-icon" />
                             </children>
                         </StackPane>
                         <VBox spacing="2.0">
@@ -152,11 +149,11 @@
                         </VBox>
                     </children>
                 </HBox>
-                <HBox spacing="12.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT" spacing="12.0" HBox.hgrow="ALWAYS">
                     <children>
                         <StackPane styleClass="feature-tile-icon-bg, feature-tile-bg-2">
                             <children>
-                                <Region styleClass="feature-tile-icon" style="-fx-shape: 'M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z';" />
+                                <Region style="-fx-shape: 'M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z';" styleClass="feature-tile-icon" />
                             </children>
                         </StackPane>
                         <VBox spacing="2.0">
@@ -167,11 +164,11 @@
                         </VBox>
                     </children>
                 </HBox>
-                <HBox spacing="12.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT" spacing="12.0" HBox.hgrow="ALWAYS">
                     <children>
                         <StackPane styleClass="feature-tile-icon-bg, feature-tile-bg-3">
                             <children>
-                                <Region styleClass="feature-tile-icon" style="-fx-shape: 'M14 6l-3.75 5 2.85 3.8L11.5 16c-1.86-2.48-5-7-5-7L2 21h20L14 6z';" />
+                                <Region style="-fx-shape: 'M14 6l-3.75 5 2.85 3.8L11.5 16c-1.86-2.48-5-7-5-7L2 21h20L14 6z';" styleClass="feature-tile-icon" />
                             </children>
                         </StackPane>
                         <VBox spacing="2.0">
@@ -182,11 +179,11 @@
                         </VBox>
                     </children>
                 </HBox>
-                <HBox spacing="12.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT" spacing="12.0" HBox.hgrow="ALWAYS">
                     <children>
                         <StackPane styleClass="feature-tile-icon-bg, feature-tile-bg-4">
                             <children>
-                                <Region styleClass="feature-tile-icon" style="-fx-shape: 'M19 3H5c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm-8.94 14L5.5 12.44l1.41-1.41 3.15 3.15 6.59-6.59L18.06 9 10.06 17z';" />
+                                <Region style="-fx-shape: 'M19 3H5c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm-8.94 14L5.5 12.44l1.41-1.41 3.15 3.15 6.59-6.59L18.06 9 10.06 17z';" styleClass="feature-tile-icon" />
                             </children>
                         </StackPane>
                         <VBox spacing="2.0">

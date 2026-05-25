@@ -66,7 +66,7 @@ public class LoginController implements Initializable {
 
     private void setupHeroBackground() {
         if (heroStack == null) return;
-        URL imgUrl = getClass().getResource("/resources/LoginCorredora.png");
+        URL imgUrl = getClass().getResource("/runninglasafor/resources/LoginCorredora.png");
         if (imgUrl == null) return;
         heroStack.setStyle(
                 "-fx-background-color: #120D31;"

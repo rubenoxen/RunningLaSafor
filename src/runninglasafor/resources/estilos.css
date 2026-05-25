@@ -852,7 +852,7 @@
 
 .hero-bg {
     -fx-background-color: #120D31;
-    -fx-background-image: url("../../resources/LoginCorredora.png");
+    -fx-background-image: url("/runninglasafor/resources/LoginCorredora.png");
     -fx-background-size: cover;
     -fx-background-position: center 35%;
     -fx-background-repeat: no-repeat;
