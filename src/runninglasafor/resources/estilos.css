@@ -292,23 +292,55 @@
 .color-picker {
     -fx-background-color: #FFFFFF;
     -fx-border-color: #E5E7EB;
+    -fx-border-width: 1;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
+    -fx-padding: 0;
 }
-.color-picker:focused { -fx-border-color: #AF3B6E; }
-.color-picker .label { -fx-text-fill: #120D31; }
-.color-picker .arrow-button { -fx-background-color: transparent; }
-.color-picker .arrow { -fx-background-color: #7A8B99; }
-.color-palette { -fx-background-color: #FFFFFF; }
-.color-palette .label { -fx-text-fill: #120D31; }
-.theme-dark .color-picker .label {
-    -fx-text-fill: #FCFAFA;
+.color-picker:focused { 
+    -fx-border-color: #AF3B6E; 
+}
+
+.color-picker > .label {
+    -fx-content-display: graphic-only;
+    -fx-padding: 4 6 4 10; 
+}
+
+.color-picker .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 4 8 4 4;
+}
+.color-picker .arrow {
+    -fx-background-color: #7A8B99;
+}
+
+.color-palette { 
+    -fx-background-color: #FFFFFF; 
+}
+.color-palette .label { 
+    -fx-text-fill: #120D31; 
+}
+
+/* === Modo Oscuro === */
+
+.theme-dark .color-picker {
+    -fx-background-color: #2A2449;
+    -fx-border-color: #3D3560;
+}
+.theme-dark .color-picker > .label {
+    -fx-content-display: graphic-only;
 }
 .theme-dark .color-picker .arrow-button {
-    -fx-background-color: #2A2449;
+    -fx-background-color: transparent;
 }
 .theme-dark .color-picker .arrow {
     -fx-background-color: #FCFAFA;
+}
+.theme-dark .color-palette {
+    -fx-background-color: #2A2449;
+}
+.theme-dark .color-palette .label {
+    -fx-text-fill: #FCFAFA;
 }
 
 /* ============================================ */

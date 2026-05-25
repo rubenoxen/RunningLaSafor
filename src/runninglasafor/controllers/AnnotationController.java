@@ -55,7 +55,7 @@ public class AnnotationController implements Initializable {
         });
         typeComboBox.getSelectionModel().selectFirst();
         
-        colorPicker.setValue(Color.RED);
+        colorPicker.setValue(Color.web("#E53935"));
         
         // cierres con flags para saber si el usuario guardo o cancelo
         bAccept.setOnAction(e -> {
