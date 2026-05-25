@@ -43,19 +43,23 @@
 
 .sidebar {
     -fx-background-color: #120D31;
-    -fx-padding: 20 0 16 0;
+    -fx-padding: 20 0 6 0;
     -fx-pref-width: 275;
     -fx-min-width: 275;
 }
 
 .sidebar-brand {
-    -fx-padding: 0 12 16 14;
+    -fx-padding: 0 12 10 16;
 }
 
 .sidebar-brand-label {
     -fx-text-fill: #FCFAFA;
     -fx-font-size: 18px;
     -fx-font-weight: bold;
+}
+
+.sidebar-nav {
+    -fx-padding: 42 0 0 0;
 }
 
 .sidebar-button {
@@ -102,6 +106,7 @@
 .sidebar-user {
     -fx-background-color: #0B0820;
     -fx-padding: 12 16 12 16;
+    -fx-cursor: hand;
 }
 
 .sidebar-user-name {

@@ -26,12 +26,6 @@
                         <Label styleClass="sidebar-brand-label" text="%app.title" />
                     </children>
                 </HBox>
-                <Button fx:id="navActivities" maxWidth="Infinity" onAction="#onShowActivities" styleClass="sidebar-button" text="%nav.home" />
-                <Button fx:id="navStats" maxWidth="Infinity" onAction="#onShowAccumulated" styleClass="sidebar-button" text="%nav.stats" />
-                <Button fx:id="navSessions" maxWidth="Infinity" onAction="#onShowHistory" styleClass="sidebar-button" text="%nav.sessions" />
-                <Button fx:id="navMaps" maxWidth="Infinity" onAction="#onShowMaps" styleClass="sidebar-button" text="%nav.maps" />                
-                <Region VBox.vgrow="ALWAYS" />               
-                <Button fx:id="navLogout" maxWidth="Infinity" onAction="#onLogout" styleClass="sidebar-button" text="%nav.logout" />
                 <HBox fx:id="sidebarUser" alignment="CENTER_LEFT" onMouseClicked="#onShowProfile" spacing="10.0" styleClass="sidebar-user">
                     <children>
                         <StackPane styleClass="sidebar-avatar">
@@ -50,13 +44,24 @@
                         <Insets bottom="10.0" left="14.0" right="14.0" top="10.0" />
                     </padding>
                 </HBox>
+                <VBox styleClass="sidebar-nav">
+                    <children>
+                        <Button fx:id="navActivities" maxWidth="Infinity" onAction="#onShowActivities" styleClass="sidebar-button" text="%nav.home" />
+                        <Button fx:id="navStats" maxWidth="Infinity" onAction="#onShowAccumulated" styleClass="sidebar-button" text="%nav.stats" />
+                        <Button fx:id="navSessions" maxWidth="Infinity" onAction="#onShowHistory" styleClass="sidebar-button" text="%nav.sessions" />
+                        <Button fx:id="navMaps" maxWidth="Infinity" onAction="#onShowMaps" styleClass="sidebar-button" text="%nav.maps" />
+                    </children>
+                </VBox>
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="navLogout" maxWidth="Infinity" onAction="#onLogout" styleClass="sidebar-button" text="%nav.logout" />
             </children>
         </VBox>
     </left>
     <bottom>
-        <HBox fx:id="footerBox" alignment="CENTER" spacing="10.0" styleClass="app-footer" BorderPane.alignment="CENTER">
+        <HBox fx:id="footerBox" alignment="CENTER_LEFT" spacing="10.0" styleClass="app-footer" BorderPane.alignment="CENTER">
             <children>
                 <Label fx:id="footerLabel" text="%app.footer" />
+                <Region HBox.hgrow="ALWAYS" />
                 <Button fx:id="footerThemeButton" onAction="#onToggleTheme" styleClass="theme-toggle">
                     <graphic>
                         <Region fx:id="footerThemeIcon" styleClass="theme-icon" />
